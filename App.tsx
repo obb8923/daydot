@@ -1,45 +1,21 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import 'react-native-gesture-handler';
+import React from 'react';
+import { StatusBar} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider} from 'react-native-safe-area-context';
+import {RootStack} from './src/shared/nav/Root';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
+export default function App() {
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
+      <GestureHandlerRootView style={{flex:1}}>
+        <SafeAreaProvider>
+                <NavigationContainer>
+                  <StatusBar barStyle="dark-content" translucent={true}/>
+                  <RootStack />
+                </NavigationContainer>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
   );
 }
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
-export default App;
