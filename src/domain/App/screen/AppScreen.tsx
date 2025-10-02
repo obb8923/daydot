@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet, Dimensions, ScrollView, Animated} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import ICON from '@assets/svg/ChevronRight.svg'
+import ICON from '@assets/svg/1.svg'
 
 const {width: screenWidth} = Dimensions.get('window');
 const ICON_SIZE = 30; 
