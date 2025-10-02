@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const FIRST_VISIT_KEY = 'readin:first_visit_completed';
-const LAST_REVIEW_REQUEST_KEY = 'readin:last_review_request_date';
+const FIRST_VISIT_KEY = 'daydot:first_visit_completed';
+const LAST_REVIEW_REQUEST_KEY = 'daydot:last_review_request_date';
 
 export const StorageService = {
   isFirstVisit: async (): Promise<boolean> => {

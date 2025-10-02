@@ -1,18 +1,29 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppStack } from "@nav/App";
 import { OnboardingStack } from "@nav/Onboarding";
-const Stack = createNativeStackNavigator<RootStackParamList>();
+import { useFirstVisitStore } from "@store/firstVisitStore";
+
 
 export type RootStackParamList = {
  AppStack:undefined,
  OnboardingStack:undefined,
 };
+
 export const RootStack = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="AppStack">
-      <Stack.Screen name="AppStack" component={AppStack} />
-      <Stack.Screen name="OnboardingStack" component={OnboardingStack} />
-    </Stack.Navigator>
-  );
+  const { isFirstVisit, isLoading, checkFirstVisit } = useFirstVisitStore();
+
+  useEffect(() => {
+    checkFirstVisit();
+  }, []);
+
+  if (isLoading) {
+    return null; // 또는 로딩 스피너 컴포넌트
+  }
+
+  // 첫 방문자인지에 따라 다른 화면을 렌더링
+  if (isFirstVisit) {
+    return <OnboardingStack />;
+  } else {
+    return <AppStack />;
+  }
 };
