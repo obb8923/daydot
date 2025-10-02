@@ -15,3 +15,6 @@ export const MAIL_ADDRESS = 'companyjeong25@gmail.com';
 //내 앱으로 바꿔야함
 // export const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.companyjeong.readin&hl=ko';
 // export const APP_STORE_URL = 'itms-apps://apps.apple.com/app/id6752389566';
+
+
+export const LifeExpectancy = 80;

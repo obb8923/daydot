@@ -1,8 +1,12 @@
 import {View, Text, StyleSheet, Dimensions, ScrollView, Animated} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import ICON from '@assets/svg/1.svg'
-
+import { Background } from '@component/Background';
+import { LifeExpectancy } from '@constant/normal';
+import {BottomNavigation} from '@domain/App/component/BottomNavigation';
 const {width: screenWidth} = Dimensions.get('window');
+import { BOTTOM_NAVIGATION_HEIGHT, PADDING_HORIZONTAL } from '@constant/layout';
+import {DEVICE_WIDTH} from '@constant/normal';
 const ICON_SIZE = 30; 
 const ICONS_PER_ROW = 10;
 const GRID_PADDING = 20;
@@ -69,7 +73,8 @@ export const AppScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <Background style={{width: '100%', height: '100%'}}>
+      <View style={{width: '100%', height: '100%',position:'relative'}}>
       <Text style={styles.title}>100개 아이콘 그리드</Text>
       <ScrollView 
         contentContainerStyle={styles.scrollContent}
@@ -79,16 +84,15 @@ export const AppScreen = () => {
           {icons.map((icon, index) => renderIconItem(icon, index))}
         </View>
       </ScrollView>
-    </View>
+      </View>
+      <View style={{position:'absolute',bottom:0,width: DEVICE_WIDTH-PADDING_HORIZONTAL, height: BOTTOM_NAVIGATION_HEIGHT,alignSelf:'center'}}>
+      <BottomNavigation />
+      </View>
+    </Background>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-    paddingTop: 50,
-  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
