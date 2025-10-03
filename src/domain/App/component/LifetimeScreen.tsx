@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {useBirthDateStore} from '@store/birthDateStore';
 import { Dot } from '@domain/App/component/Dot';
 import { Text } from '@component/Text';
+import { Colors } from '@constant/Colors';
 
 // 80살 상수
 const LIFE_EXPECTANCY = 80;
@@ -50,14 +51,16 @@ export const LifetimeScreen = () => {
 
   return (
     <View className="w-full h-full" style={{overflow: 'visible'}}>
-      <View className="w-full justify-center items-center my-4">
-        <Text text="일생 화면" type="title1" />
-        {birthDate && (
+      <View className="flex-row w-full justify-center items-end my-4">
           <Text 
-            text={`현재 ${currentAge}살 (80년 중)`}
-            type="body2"
+            text={`${LIFE_EXPECTANCY - currentAge}년 `}
+            type="title4"
           />
-        )}
+          <Text 
+          text={`남았습니다.`}
+          type="body3"
+          style={{color: Colors.gray700}}
+          />
       </View>
       <ScrollView 
         contentContainerStyle={{paddingBottom: 20}}

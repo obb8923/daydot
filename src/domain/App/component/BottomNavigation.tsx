@@ -4,6 +4,10 @@ import { LiquidGlassView } from '@component/LiquidGlassView'
 import { LiquidGlassContainerView } from '@callstack/liquid-glass'
 import { PADDING_HORIZONTAL ,BOTTOM_NAVIGATION_HEIGHT} from '@constant/layout'
 import { useColorStore } from '@store/colorStore'
+import HourGlassIcon from '@assets/svg/HourGlass.svg';
+import CalendarIcon from '@assets/svg/Calendar.svg';
+import SettingIcon from '@assets/svg/Setting.svg';
+
 type ScreenType = 'lifetime' | 'yearly';
 
 interface BottomNavigationProps {
@@ -31,7 +35,7 @@ export const BottomNavigation = ({ onScreenChange, currentScreen }: BottomNaviga
       padding:PADDING_HORIZONTAL/2,
       }}>
       <View style={{height:BOTTOM_NAVIGATION_HEIGHT-10,width:BOTTOM_NAVIGATION_HEIGHT-10,borderRadius:BOTTOM_NAVIGATION_HEIGHT/4,justifyContent:'center',alignItems:'center'}}>
-      <Text>Setting</Text>
+      <SettingIcon width={24} height={24} color={'white'}/>
       </View>
       </LiquidGlassView>
       {/* Setting */}
@@ -55,12 +59,7 @@ export const BottomNavigation = ({ onScreenChange, currentScreen }: BottomNaviga
         }}
         onPress={() => onScreenChange('yearly')}
       >
-        <Text style={{ 
-          color: currentScreen === 'yearly' ? selectedColors?.text : selectedColors?.text,
-          fontWeight: 'bold' 
-        }}>
-          Y
-        </Text>
+        <CalendarIcon width={22} height={24} color={'white'}/>
       </TouchableOpacity>
       
       {/* L 버튼 - 일생화면 */}
@@ -74,12 +73,7 @@ export const BottomNavigation = ({ onScreenChange, currentScreen }: BottomNaviga
         }}
         onPress={() => onScreenChange('lifetime')}
       >
-        <Text style={{ 
-          color: currentScreen === 'lifetime' ? 'white' : '#333',
-          fontWeight: 'bold' 
-        }}>
-          L
-        </Text>
+        <HourGlassIcon  width={17} height={23} color={'white'}/>
       </TouchableOpacity>
     </LiquidGlassView>
     </LiquidGlassContainerView>
