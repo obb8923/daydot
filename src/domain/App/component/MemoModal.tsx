@@ -22,7 +22,7 @@ export const MemoModal = ({
     return (
       <Modal visible={visible} animationType="slide" transparent>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
-          <View className="flex-1 justify-end bg-black/40 pb-4">
+          <View className="flex-1 justify-end bg-black/80 pb-4">
               <LiquidGlassView 
               style={{width: '100%', height: 'auto', borderRadius: 20}}
               >

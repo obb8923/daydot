@@ -1,8 +1,10 @@
 import { View, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect, memo } from 'react';
 import { DateMessage } from '@domain/App/component/DateMessage';
 import { useColorStore } from '@store/colorStore';
 import {Colors} from '@constant/Colors';
+import {todayMonth, todayDay} from '@constant/Date';
+import { useBirthDateStore } from '@store/birthDateStore';
 interface DotProps {
   item: {
     id: string | number;
@@ -11,18 +13,16 @@ interface DotProps {
     year?: number;
     key: string;
   };
-  todayMonth?: number;
-  todayDay?: number;
-  currentAge?: number;
   selectedDate?: { month: number; day: number } | null;
   selectedYear?: number | null;
   onPress: (month?: number, day?: number, year?: number) => void;
   type: 'yearly' | 'lifetime';
 }
 
-export const Dot = ({ item, todayMonth, todayDay, currentAge, selectedDate, selectedYear, onPress, type }: DotProps) => {
+export const Dot = memo(({ item, selectedDate, selectedYear, onPress, type }: DotProps) => {
   const selectedColors = useColorStore((state) => state.selectedColors);
-  
+  const { getCurrentAge } = useBirthDateStore();
+  const currentAge = getCurrentAge();
   let isPast, isCurrent, isSelected, backgroundColor;
   
   if (type === 'yearly') {
@@ -32,26 +32,23 @@ export const Dot = ({ item, todayMonth, todayDay, currentAge, selectedDate, sele
     isSelected = selectedDate?.month === item.month && selectedDate?.day === item.day;
   } else {
     // 일생 화면 로직
-    isPast = item.year! <= currentAge!;
+    isPast = item.year! <= currentAge;
     isCurrent = item.year === currentAge;
     isSelected = selectedYear === item.year;
+    console.log(selectedYear, item.year);
   }
-  
-  // 두 타입 모두 같은 색상 로직 사용
+
+  // 색상 로직 사용
   backgroundColor = isCurrent 
     ? selectedColors?.primary // 현재/오늘은 primary 색상
     : isPast 
       ? Colors.gray700 // 과거는 회색
       : selectedColors?.primary; // 미래는 primary 색상
   
-  const handlePress = () => {
-    onPress(item.month, item.day, item.year);
-  };
-  
   return (
     <View key={item.key} className="relative overflow-visible">
       <TouchableOpacity 
-        onPress={handlePress}
+        onPress={()=>{onPress(item.month, item.day, item.year);}}
         className="w-6 h-6 items-center justify-center"
       >
         <View 
@@ -71,9 +68,10 @@ export const Dot = ({ item, todayMonth, todayDay, currentAge, selectedDate, sele
         <DateMessage 
           month={item.month} 
           day={item.day} 
-          year={item.year} 
+          year={item.year}
+          visible={isSelected}
         />
       )}
     </View>
   );
-};
+});

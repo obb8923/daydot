@@ -18,3 +18,5 @@ export const MAIL_ADDRESS = 'companyjeong25@gmail.com';
 
 
 export const LifeExpectancy = 80;
+
+export const DATE_MESSAGE_DURATION = 2000; // 날짜 메시지 지속 시간 (밀리초) (5초)

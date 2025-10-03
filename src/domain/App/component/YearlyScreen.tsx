@@ -1,20 +1,22 @@
-import {View, ScrollView, Modal, TouchableOpacity, TextInput} from 'react-native';
-import React, {useState, useMemo, useEffect} from 'react';
+import {View, ScrollView } from 'react-native';
+import React, {useState, useMemo, useEffect, useRef } from 'react';
 import { Text } from '@component/Text';
 import { Dot } from '@domain/App/component/Dot';
 import { Colors } from '@/shared/constant/Colors';
-import { MemoButton } from '@domain/App/component/memoButton';
+import { MemoButton } from '@/domain/App/component/MemoButton';
 import { currentYear, todayMonth, todayDay, getDaysLeftInYear, daysInMonth } from '@constant/Date';
 import { StorageService } from '@service/storageService';
 import { MemoModal } from '@domain/App/component/MemoModal';
 
 export const YearlyScreen = () => {
   const daysLeftInYear = useMemo(() => getDaysLeftInYear(), []);
-  // 선택된 날짜 상태
-  const [selectedDate, setSelectedDate] = useState<{month: number; day: number} | null>(null);
+  // 선택된 날짜 상태 (기본값: 오늘)
+  const [selectedDate, setSelectedDate] = useState<{month: number; day: number} | null>({ month: todayMonth, day: todayDay });
   const [isMemoOpen, setIsMemoOpen] = useState(false);
   const [memoText, setMemoText] = useState('');
   const [isLoadingMemo, setIsLoadingMemo] = useState(false);
+  const [showDateMessage, setShowDateMessage] = useState(true);
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // 날짜별 점 데이터 생성
   const dots = [];
   for (let month = 1; month <= 12; month++) {
@@ -29,13 +31,11 @@ export const YearlyScreen = () => {
     }
   }
 
-  const handleDotPress = (month?: number, day?: number, year?: number) => {
-    if (selectedDate?.month === month && selectedDate?.day === day) {
-      setSelectedDate(null); // 같은 날짜를 다시 누르면 선택 해제
-    } else {
-      setSelectedDate({month: month!, day: day!});
-    }
+  const handleDotPress = (month?: number, day?: number) => {
+    setSelectedDate({month: month!, day: day!});
+    setShowDateMessage(true);
   };
+
 
   const openMemo = async () => {
     if (!selectedDate) {
@@ -95,9 +95,8 @@ export const YearlyScreen = () => {
             <Dot
               key={dot.key}
               item={dot}
-              todayMonth={todayMonth}
-              todayDay={todayDay}
               selectedDate={selectedDate}
+              selectedYear={null}
               onPress={handleDotPress}
               type="yearly"
             />

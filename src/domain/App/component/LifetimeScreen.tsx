@@ -9,7 +9,7 @@ import { Colors } from '@constant/Colors';
 const LIFE_EXPECTANCY = 80;
 
 export const LifetimeScreen = () => {
-  const { birthDate, loadBirthDate } = useBirthDateStore();
+  const { birthDate, loadBirthDate, getCurrentAge } = useBirthDateStore();
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
 
   // 생일 데이터 로드
@@ -24,30 +24,8 @@ export const LifetimeScreen = () => {
     key: `${index + 1}`,
   }));
 
-  // 현재 나이 계산
-  const getCurrentAge = () => {
-    if (!birthDate) return 0;
-    const today = new Date();
-    const birth = new Date(birthDate);
-    let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
-    
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-      age--;
-    }
-    
-    return age;
-  };
-
   const currentAge = getCurrentAge();
 
-  const handleYearPress = (month?: number, day?: number, year?: number) => {
-    if (selectedYear === year) {
-      setSelectedYear(null);
-    } else {
-      setSelectedYear(year!);
-    }
-  };
 
   return (
     <View className="w-full h-full" style={{overflow: 'visible'}}>
@@ -72,9 +50,9 @@ export const LifetimeScreen = () => {
             <Dot
               key={year.key}
               item={year}
-              currentAge={currentAge}
+              selectedDate={null}
               selectedYear={selectedYear}
-              onPress={handleYearPress}
+              onPress={(month, day, year) => setSelectedYear(year!)}
               type="lifetime"
             />
           ))}

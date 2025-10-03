@@ -14,6 +14,8 @@ interface BirthDateStore {
   clearBirthDate: () => Promise<void>;
   setIsLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
+  // 유틸리티
+  getCurrentAge: () => number;
 }
 
 export const useBirthDateStore = create<BirthDateStore>((set, get) => ({
@@ -94,5 +96,19 @@ export const useBirthDateStore = create<BirthDateStore>((set, get) => ({
   // 에러 상태 설정
   setError: (error: string | null) => {
     set({ error });
+  },
+  
+  // 현재 나이 계산
+  getCurrentAge: () => {
+    const { birthDate } = get();
+    if (!birthDate) return 0;
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    return age;
   },
 }));
