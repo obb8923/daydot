@@ -12,7 +12,12 @@ export const AppStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="AppScreen">
       <Stack.Screen name="AppScreen" component={AppScreen} />
-      <Stack.Screen name="SettingScreen" component={SettingScreen} />
+      <Stack.Screen 
+      name="SettingScreen" 
+      component={SettingScreen} 
+      options={() => ({
+        animation: 'slide_from_left',
+      })}/>
     </Stack.Navigator>
   );
 };

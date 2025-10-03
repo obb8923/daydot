@@ -10,6 +10,7 @@ import { PADDING_HORIZONTAL } from '@constant/layout';
 // 화면 타입 정의
 type ScreenType = 'lifetime' | 'yearly';
 
+
 export const AppScreen = () => {
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('yearly');
 
@@ -25,7 +26,10 @@ export const AppScreen = () => {
       {currentScreen === 'lifetime' ? <LifetimeScreen /> : <YearlyScreen />}
       
       <View className="absolute bottom-0 h-20 self-center" style={{width: DEVICE_WIDTH-PADDING_HORIZONTAL}}>
-        <BottomNavigation onScreenChange={handleScreenChange} currentScreen={currentScreen} />
+        <BottomNavigation 
+          onScreenChange={handleScreenChange} 
+          currentScreen={currentScreen}
+        />
       </View>
     </Background>
   );

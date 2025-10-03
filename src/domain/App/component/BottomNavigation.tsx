@@ -7,16 +7,22 @@ import { useColorStore } from '@store/colorStore'
 import HourGlassIcon from '@assets/svg/HourGlass.svg';
 import CalendarIcon from '@assets/svg/Calendar.svg';
 import SettingIcon from '@assets/svg/Setting.svg';
-
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '@nav/App';
+import { useNavigation } from '@react-navigation/native'
 type ScreenType = 'lifetime' | 'yearly';
 
 interface BottomNavigationProps {
   onScreenChange: (screen: ScreenType) => void;
   currentScreen: ScreenType;
 }
+type AppScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export const BottomNavigation = ({ onScreenChange, currentScreen }: BottomNavigationProps) => {
   const selectedColors = useColorStore((state) => state.selectedColors);
+  // 네비게이션 타입 정의
+const navigation = useNavigation<AppScreenNavigationProp>();
+
   return (
     <LiquidGlassContainerView style={{
       height:50, 
@@ -34,9 +40,11 @@ export const BottomNavigation = ({ onScreenChange, currentScreen }: BottomNaviga
       alignItems:'center',
       padding:PADDING_HORIZONTAL/2,
       }}>
-      <View style={{height:BOTTOM_NAVIGATION_HEIGHT-10,width:BOTTOM_NAVIGATION_HEIGHT-10,borderRadius:BOTTOM_NAVIGATION_HEIGHT/4,justifyContent:'center',alignItems:'center'}}>
+      <TouchableOpacity 
+      onPress={() => navigation.navigate('SettingScreen')}
+      style={{height:BOTTOM_NAVIGATION_HEIGHT-10,width:BOTTOM_NAVIGATION_HEIGHT-10,borderRadius:BOTTOM_NAVIGATION_HEIGHT/4,justifyContent:'center',alignItems:'center'}}>
       <SettingIcon width={24} height={24} color={'white'}/>
-      </View>
+      </TouchableOpacity>
       </LiquidGlassView>
       {/* Setting */}
       <LiquidGlassView style={{
