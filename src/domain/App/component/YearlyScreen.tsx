@@ -1,6 +1,6 @@
-import {View, Text, ScrollView} from 'react-native';
-import React from 'react';
-
+import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {DateMessage} from '@domain/App/component/DateMessage';
 export const YearlyScreen = () => {
   // 윤년 계산 함수
   const isLeapYear = (year: number) => {
@@ -15,6 +15,9 @@ export const YearlyScreen = () => {
 
   // 각 월의 일수 배열
   const daysInMonth = [31, isLeapYear(currentYear) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+  // 선택된 날짜 상태
+  const [selectedDate, setSelectedDate] = useState<{month: number; day: number} | null>(null);
 
   // 날짜별 점 데이터 생성
   const dots = [];
@@ -34,27 +37,43 @@ export const YearlyScreen = () => {
     // 오늘 이전 날짜인지 확인
     const isPastDate = item.month < todayMonth || (item.month === todayMonth && item.day < todayDay);
     const isToday = item.month === todayMonth && item.day === todayDay;
+    const isSelected = selectedDate?.month === item.month && selectedDate?.day === item.day;
+    
+    const handlePress = () => {
+      if (isSelected) {
+        setSelectedDate(null); // 같은 날짜를 다시 누르면 선택 해제
+      } else {
+        setSelectedDate({month: item.month, day: item.day});
+      }
+    };
     
     return (
-      <View 
-        key={item.key} 
-        className="w-5 h-5 items-center justify-center bg-white"
-      >
-        <View 
-          className={`w-3 h-3 rounded-full ${
-            isToday 
-              ? 'bg-green-500' // 오늘은 초록색
-              : isPastDate 
-                ? 'bg-gray-400' // 오늘 이전은 회색
-                : 'bg-blue-500' // 오늘 이후는 파란색
-          }`}
-        />
+      <View key={item.key} className="relative overflow-visible">
+        <TouchableOpacity 
+          onPress={handlePress}
+          className="w-5 h-5 items-center justify-center bg-white"
+        >
+          <View 
+            className={`w-3 h-3 rounded-full ${
+              isToday 
+                ? 'bg-green-500' // 오늘은 초록색
+                : isPastDate 
+                  ? 'bg-gray-400' // 오늘 이전은 회색
+                  : 'bg-blue-500' // 오늘 이후는 파란색
+            }`}
+          />
+        </TouchableOpacity>
+        
+        {isSelected && (
+          <DateMessage month={item.month} day={item.day} />
+        )}
+
       </View>
     );
   };
 
   return (
-    <View className="w-full h-full relative">
+    <View className="w-full h-full">
       <View className="w-full justify-center items-center my-4">
         <Text className="text-2xl font-bold">뭔가 들어갈예정</Text>
       </View>
