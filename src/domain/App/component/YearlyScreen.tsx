@@ -73,15 +73,16 @@ export const YearlyScreen = () => {
   };
 
   return (
-    <View className="w-full h-full">
+    <View className="w-full h-full" style={{overflow: 'visible'}}>
       <View className="w-full justify-center items-center my-4">
         <Text className="text-2xl font-bold">뭔가 들어갈예정</Text>
       </View>
       <ScrollView 
         contentContainerStyle={{paddingBottom: 20}}
         showsVerticalScrollIndicator={false}
+        style={{overflow: 'visible'}}
       >
-        <View className="flex-row flex-wrap justify-center gap-2">
+        <View className="flex-row flex-wrap justify-center gap-2" style={{overflow: 'visible'}}>
           {dots.map((dot, index) => renderDotItem(dot, index))}
         </View>
       </ScrollView>
