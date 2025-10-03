@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, ScrollView, Animated} from 'react-native';
+import {View, Text, ScrollView, Animated} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import ICON from '@assets/svg/1.svg'
 import { Background } from '@component/Background';
@@ -62,9 +62,10 @@ export const AppScreen = () => {
       return (
         <Animated.View 
           key={item.id} 
+          className="items-center mb-2.5 py-2.5 bg-white rounded-lg"
           style={[
-            styles.iconItem,
             {
+              width: (DEVICE_WIDTH - GRID_PADDING * 2 - ITEM_SPACING * (ICONS_PER_ROW - 1)) / ICONS_PER_ROW,
               opacity: animatedValues[index],
               transform: [
                 {
@@ -83,13 +84,13 @@ export const AppScreen = () => {
     };
 
     return (
-      <View style={{width: '100%', height: '100%', position:'relative'}}>
-        <Text style={styles.title}>일생 화면</Text>
+      <View className="w-full h-full relative">
+        <Text className="text-2xl font-bold text-center mb-5 text-gray-800">일생 화면</Text>
         <ScrollView 
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={{paddingBottom: 20}}
           showsVerticalScrollIndicator={true}
         >
-          <View style={styles.grid}>
+          <View className="flex-row flex-wrap justify-between px-0">
             {icons.map((icon, index) => renderIconItem(icon, index))}
           </View>
         </ScrollView>
@@ -135,8 +136,8 @@ export const AppScreen = () => {
       return (
         <Animated.View 
           key={item.id} 
+          className="w-5 h-5 items-center justify-center bg-white"
           style={[
-            styles.dotItem,
             {
               opacity: animatedValues[index],
               transform: [
@@ -150,20 +151,29 @@ export const AppScreen = () => {
             },
           ]}
         >
-          <View style={styles.dot} />
+          <View className="w-3 h-3 rounded-full bg-blue-500" style={{
+            shadowColor: '#007AFF',
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.3,
+            shadowRadius: 2,
+            elevation: 2,
+          }} />
         </Animated.View>
       );
     };
 
     return (
-      <View style={{width: '100%', height: '100%', position:'relative'}}>
-        <Text style={styles.title}>일년 화면</Text>
-        <Text style={styles.subtitle}>365일의 점들</Text>
+      <View className="w-full h-full relative">
+        <Text className="text-2xl font-bold text-center mb-5 text-gray-800">일년 화면</Text>
+        <Text className="text-base text-center mt-2.5 text-gray-600">365일의 점들</Text>
         <ScrollView 
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={{paddingBottom: 20}}
           showsVerticalScrollIndicator={true}
         >
-          <View style={styles.dotsGrid}>
+          <View className="flex-row flex-wrap justify-center gap-2.5">
             {dots.map((dot, index) => renderDotItem(dot, index))}
           </View>
         </ScrollView>
@@ -172,74 +182,15 @@ export const AppScreen = () => {
   };
 
   return (
-    <Background style={{width: '100%', height: '100%',paddingHorizontal:PADDING_HORIZONTAL}}>
+    <Background style={{width: '100%', height: '100%', paddingHorizontal:PADDING_HORIZONTAL}}>
       {/* 현재 화면에 따라 다른 컴포넌트 렌더링 */}
       {currentScreen === 'lifetime' ? <LifetimeScreen /> : <YearlyScreen />}
       
-      <View style={{position:'absolute',bottom:0,width: DEVICE_WIDTH-PADDING_HORIZONTAL, height: BOTTOM_NAVIGATION_HEIGHT,alignSelf:'center'}}>
+      <View className="absolute bottom-0 h-20 self-center" style={{width: DEVICE_WIDTH-PADDING_HORIZONTAL}}>
         <BottomNavigation onScreenChange={handleScreenChange} currentScreen={currentScreen} />
       </View>
     </Background>
   );
 };
 
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-    color: '#333',
-  },
-  subtitle: {
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 10,
-    color: '#666',
-  },
-  scrollContent: {
-    paddingBottom: 20,
-  },
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 0,
-  },
-  dotsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: ITEM_SPACING,
-  },
-  dotItem: {
-    width: 20,
-    height: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-  },
-  dot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#007AFF',
-    shadowColor: '#007AFF',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  iconItem: {
-    width: (DEVICE_WIDTH - GRID_PADDING * 2 - ITEM_SPACING * (ICONS_PER_ROW - 1)) / ICONS_PER_ROW,
-    alignItems: 'center',
-    marginBottom: ITEM_SPACING,
-    paddingVertical: 10,
-    backgroundColor: 'white',
-    borderRadius: 8,
-  },
-});
 
