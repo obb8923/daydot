@@ -1,6 +1,7 @@
 import { View, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useColorStore } from "@store/colorStore"
+import { Colors } from "@constant/Colors"
 type BackgroundProps = {
   children: React.ReactNode;
   style?: ViewStyle | ViewStyle[];
@@ -12,7 +13,7 @@ export const Background = ({children,isStatusBarGap=true,isBottomGap=true,...pro
   const selectedColors = useColorStore((state) => state.selectedColors);
   
   // 기본 색상 설정
-  const backgroundColor = selectedColors?.background || '#D0D8C3'; // Colors.b1 기본값
+  const backgroundColor = selectedColors?.background || Colors.b0;
   
   return (
     <View 

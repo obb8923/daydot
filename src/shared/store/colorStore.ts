@@ -31,8 +31,8 @@ const defaultColors: SelectedColors = {
 };
 
 export const useColorStore = create<ColorStore>((set, get) => ({
-  // 초기 상태
-  selectedColors: null,
+  // 초기 상태 - 기본 색상으로 시작하여 깜빡임 방지
+  selectedColors: defaultColors,
   isLoading: false,
   error: null,
   isInitialized: false,
@@ -50,21 +50,27 @@ export const useColorStore = create<ColorStore>((set, get) => ({
       set({ isLoading: true, error: null });
       const savedColors = await StorageService.getSelectedColors();
       
-      // 저장된 색상이 없으면 기본 색상 사용
-      const colors = savedColors || defaultColors;
-      
-      set({ 
-        selectedColors: colors, 
-        isLoading: false, 
-        isInitialized: true 
-      });
+      // 저장된 색상이 있으면 해당 색상 사용, 없으면 현재 기본 색상 유지
+      if (savedColors) {
+        set({ 
+          selectedColors: savedColors, 
+          isLoading: false, 
+          isInitialized: true 
+        });
+      } else {
+        // 저장된 색상이 없으면 기본 색상 유지 (이미 초기화됨)
+        set({ 
+          isLoading: false, 
+          isInitialized: true 
+        });
+      }
     } catch (error) {
       console.error('선택된 색상 로드 중 오류:', error);
       set({ 
         error: error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
         isLoading: false,
-        isInitialized: true,
-        selectedColors: defaultColors // 오류 시 기본 색상 사용
+        isInitialized: true
+        // 오류 시에도 기본 색상 유지 (이미 초기화됨)
       });
     }
   },
