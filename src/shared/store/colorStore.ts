@@ -25,9 +25,9 @@ interface ColorStore {
 
 // 기본 색상 설정
 const defaultColors: SelectedColors = {
-  primary: Colors.p2,
-  background: Colors.b2,
-  text: Colors.black,
+  primary: Colors.p0,
+  background: Colors.b0,
+  text: Colors.t0,
 };
 
 export const useColorStore = create<ColorStore>((set, get) => ({

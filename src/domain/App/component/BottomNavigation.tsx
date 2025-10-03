@@ -3,7 +3,7 @@ import React from 'react'
 import { LiquidGlassView } from '@component/LiquidGlassView'
 import { LiquidGlassContainerView } from '@callstack/liquid-glass'
 import { PADDING_HORIZONTAL ,BOTTOM_NAVIGATION_HEIGHT} from '@constant/layout'
-
+import { useColorStore } from '@store/colorStore'
 type ScreenType = 'lifetime' | 'yearly';
 
 interface BottomNavigationProps {
@@ -12,6 +12,7 @@ interface BottomNavigationProps {
 }
 
 export const BottomNavigation = ({ onScreenChange, currentScreen }: BottomNavigationProps) => {
+  const selectedColors = useColorStore((state) => state.selectedColors);
   return (
     <LiquidGlassContainerView style={{
       height:50, 
@@ -51,12 +52,11 @@ export const BottomNavigation = ({ onScreenChange, currentScreen }: BottomNaviga
           borderRadius:BOTTOM_NAVIGATION_HEIGHT/4,
           justifyContent:'center',
           alignItems:'center',
-          backgroundColor: currentScreen === 'yearly' ? '#007AFF' : 'transparent',
         }}
         onPress={() => onScreenChange('yearly')}
       >
         <Text style={{ 
-          color: currentScreen === 'yearly' ? 'white' : '#333',
+          color: currentScreen === 'yearly' ? selectedColors?.text : selectedColors?.text,
           fontWeight: 'bold' 
         }}>
           Y
@@ -71,7 +71,6 @@ export const BottomNavigation = ({ onScreenChange, currentScreen }: BottomNaviga
           borderRadius:BOTTOM_NAVIGATION_HEIGHT/4,
           justifyContent:'center',
           alignItems:'center',
-          backgroundColor: currentScreen === 'lifetime' ? '#007AFF' : 'transparent',
         }}
         onPress={() => onScreenChange('lifetime')}
       >
