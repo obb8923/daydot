@@ -87,7 +87,7 @@ export const Text = ({text, type='body2', ...props}: TextProps) => {
     <RNText 
       {...props}
       className={props.className}
-      style={[getTypographyStyle(type), props.style, {color: selectedColors?.text}]}
+      style={[getTypographyStyle(type), {color: selectedColors?.text},props.style]}
       numberOfLines={props.numberOfLines}>
       {text}
     </RNText>

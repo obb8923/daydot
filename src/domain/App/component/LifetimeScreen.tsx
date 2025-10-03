@@ -64,7 +64,7 @@ export const LifetimeScreen = () => {
         showsVerticalScrollIndicator={false}
         style={{overflow: 'visible'}}
       >
-        <View className="flex-row flex-wrap justify-center gap-2" style={{overflow: 'visible'}}>
+        <View className="flex-row flex-wrap justify-center" style={{overflow: 'visible'}}>
           {years.map((year) => (
             <Dot
               key={year.key}
