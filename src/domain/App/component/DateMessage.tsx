@@ -1,13 +1,18 @@
 import {Text} from 'react-native';
 import React from 'react';
-import {LiquidGlassView} from '@callstack/liquid-glass';
+import {LiquidGlassView} from '@component/LiquidGlassView';
 
 interface DateMessageProps {
-  month: number;
-  day: number;
+  month?: number;
+  day?: number;
+  year?: number;
+  text?: string;
 }
 
-export const DateMessage = ({month, day}: DateMessageProps) => {
+export const DateMessage = ({month, day, year, text}: DateMessageProps) => {
+  // 텍스트가 직접 제공되면 그것을 사용, 아니면 날짜/연도 조합
+  const messageText = text || (year ? `${year}살` : `${month}월 ${day}일`);
+
   return (
     <LiquidGlassView 
       style={{
@@ -21,7 +26,7 @@ export const DateMessage = ({month, day}: DateMessageProps) => {
       }}
     >
       <Text className="text-black font-medium" style={{textAlign: 'center'}}>
-        {month}월 {day}일
+        {messageText}
       </Text>
     </LiquidGlassView>
   );

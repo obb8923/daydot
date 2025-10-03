@@ -13,6 +13,16 @@ export const YearlyScreen = () => {
   const todayMonth = today.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1
   const todayDay = today.getDate();
 
+  // 이번 년도 남은 일수 계산
+  const getDaysLeftInYear = () => {
+    const endOfYear = new Date(currentYear, 11, 31); // 12월 31일
+    const timeDiff = endOfYear.getTime() - today.getTime();
+    const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    return daysLeft;
+  };
+
+  const daysLeftInYear = getDaysLeftInYear();
+
   // 각 월의 일수 배열
   const daysInMonth = [31, isLeapYear(currentYear) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
@@ -51,7 +61,7 @@ export const YearlyScreen = () => {
       <View key={item.key} className="relative overflow-visible">
         <TouchableOpacity 
           onPress={handlePress}
-          className="w-5 h-5 items-center justify-center bg-white"
+          className="w-5 h-5 items-center justify-center"
         >
           <View 
             className={`w-3 h-3 rounded-full ${
@@ -75,14 +85,25 @@ export const YearlyScreen = () => {
   return (
     <View className="w-full h-full" style={{overflow: 'visible'}}>
       <View className="w-full justify-center items-center my-4">
-        <Text className="text-2xl font-bold">뭔가 들어갈예정</Text>
+        <Text className="text-2xl font-bold mb-2">
+          {currentYear}년이 {daysLeftInYear}일 남았습니다.
+        </Text>
+        {selectedDate ? (
+          <Text className="text-lg text-gray-600">
+            선택된 날짜: {selectedDate.month}월 {selectedDate.day}일{selectedDate.month === todayMonth && selectedDate.day === todayDay ? ' (오늘)' : ''}
+          </Text>
+        ) : (
+          <Text className="text-lg text-gray-600">
+            선택된 날짜: {todayMonth}월 {todayDay}일 (오늘)
+          </Text>
+        )}
       </View>
       <ScrollView 
-        contentContainerStyle={{paddingBottom: 20}}
+        contentContainerStyle={{paddingBottom: 100}}
         showsVerticalScrollIndicator={false}
         style={{overflow: 'visible'}}
       >
-        <View className="flex-row flex-wrap justify-center gap-2" style={{overflow: 'visible'}}>
+        <View className="flex-row flex-wrap justify-center gap-1" style={{overflow: 'visible'}}>
           {dots.map((dot, index) => renderDotItem(dot, index))}
         </View>
       </ScrollView>

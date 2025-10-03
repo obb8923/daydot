@@ -1,82 +1,99 @@
-import {View, Text, ScrollView, Animated} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import ICON from '@assets/svg/1.svg'
-import { LifeExpectancy ,DEVICE_WIDTH} from '@constant/normal';
+import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {useBirthDateStore} from '@store/birthDateStore';
+import {DateMessage} from '@domain/App/component/DateMessage';
 
-const ICON_SIZE = 30; 
-const ICONS_PER_ROW = 10;
-const GRID_PADDING = 10;
-const ITEM_SPACING = 10;
+// 80살 상수
+const LIFE_EXPECTANCY = 80;
 
 export const LifetimeScreen = () => {
-  // 100개의 아이콘 데이터 생성
-  const icons = Array.from({length: 100}, (_, index) => ({
+  const { birthDate, loadBirthDate } = useBirthDateStore();
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
+
+  // 생일 데이터 로드
+  useEffect(() => {
+    loadBirthDate();
+  }, [loadBirthDate]);
+
+  // 80개의 연도 데이터 생성 (1년부터 80년까지)
+  const years = Array.from({length: LIFE_EXPECTANCY}, (_, index) => ({
     id: index + 1,
-    name: `Icon ${index + 1}`,
+    year: index + 1,
+    key: `${index + 1}`,
   }));
 
-  // 각 아이콘의 애니메이션 값들을 저장할 배열
-  const animatedValues = useRef(
-    icons.map(() => new Animated.Value(0))
-  ).current;
+  // 현재 나이 계산
+  const getCurrentAge = () => {
+    if (!birthDate) return 0;
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    
+    return age;
+  };
 
-  const [visibleIcons, setVisibleIcons] = useState<number[]>([]);
+  const currentAge = getCurrentAge();
 
-  useEffect(() => {
-    // 아이콘들을 순차적으로 나타나게 하는 함수
-    const animateIconsSequentially = () => {
-      icons.forEach((icon, index) => {
-        setTimeout(() => {
-          setVisibleIcons(prev => [...prev, icon.id]);
-          
-          Animated.timing(animatedValues[index], {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true,
-          }).start();
-        }, index * 50); // 각 아이콘마다 50ms씩 지연
-      });
+  const renderYearItem = (item: {id: number; year: number; key: string}, index: number) => {
+    const isPastYear = item.year <= currentAge;
+    const isCurrentYear = item.year === currentAge;
+    const isSelected = selectedYear === item.year;
+    
+    const handlePress = () => {
+      if (isSelected) {
+        setSelectedYear(null);
+      } else {
+        setSelectedYear(item.year);
+      }
     };
-
-    animateIconsSequentially();
-  }, []);
-
-  const renderIconItem = (item: {id: number; name: string}, index: number) => {
-    const isVisible = visibleIcons.includes(item.id);
     
     return (
-      <Animated.View 
-        key={item.id} 
-        className="items-center mb-2.5 py-2.5 bg-white rounded-lg"
-        style={[
-          {
-            width: (DEVICE_WIDTH - GRID_PADDING * 2 - ITEM_SPACING * (ICONS_PER_ROW - 1)) / ICONS_PER_ROW,
-            opacity: animatedValues[index],
-            transform: [
-              {
-                scale: animatedValues[index].interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0.5, 1],
-                }),
-              },
-            ],
-          },
-        ]}
-      >
-        <ICON width={ICON_SIZE} height={ICON_SIZE} />
-      </Animated.View>
+      <View key={item.key} className="relative overflow-visible">
+        <TouchableOpacity 
+          onPress={handlePress}
+          className="w-5 h-5 items-center justify-center bg-white"
+        >
+          <View 
+            className={`w-3 h-3 rounded-full ${
+              isCurrentYear 
+                ? 'bg-green-500' // 현재 나이는 초록색
+                : isPastYear 
+                  ? 'bg-gray-400' // 지나간 나이는 회색
+                  : 'bg-blue-500' // 미래 나이는 파란색
+            }`}
+          />
+        </TouchableOpacity>
+        
+        {/* 선택된 연도 메시지 */}
+        {isSelected && (
+          <DateMessage year={item.year} />
+        )}
+      </View>
     );
   };
 
   return (
-    <View className="w-full h-full relative">
-      <Text className="text-2xl font-bold text-center mb-5 text-gray-800">일생 화면</Text>
+    <View className="w-full h-full" style={{overflow: 'visible'}}>
+      <View className="w-full justify-center items-center my-4">
+        <Text className="text-2xl font-bold">일생 화면</Text>
+        {birthDate && (
+          <Text className="text-base text-center mt-2 text-gray-600">
+            현재 {currentAge}살 (80년 중)
+          </Text>
+        )}
+      </View>
       <ScrollView 
         contentContainerStyle={{paddingBottom: 20}}
-        showsVerticalScrollIndicator={true}
+        showsVerticalScrollIndicator={false}
+        style={{overflow: 'visible'}}
       >
-        <View className="flex-row flex-wrap justify-between px-0">
-          {icons.map((icon, index) => renderIconItem(icon, index))}
+        <View className="flex-row flex-wrap justify-center gap-2" style={{overflow: 'visible'}}>
+          {years.map((year, index) => renderYearItem(year, index))}
         </View>
       </ScrollView>
     </View>

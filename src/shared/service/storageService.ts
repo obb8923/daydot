@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const FIRST_VISIT_KEY = 'daydot:first_visit_completed';
 const LAST_REVIEW_REQUEST_KEY = 'daydot:last_review_request_date';
 const BIRTH_DATE_KEY = 'daydot:birth_date';
+const SELECTED_COLORS_KEY = 'daydot:selected_colors';
 
 export const StorageService = {
   isFirstVisit: async (): Promise<boolean> => {
@@ -98,6 +99,35 @@ export const StorageService = {
       await AsyncStorage.removeItem(BIRTH_DATE_KEY);
     } catch (error) {
       console.error('생년월일 제거 오류:', error);
+      throw error;
+    }
+  },
+
+  // 색상 관련 함수들
+  getSelectedColors: async (): Promise<{ primary: string; background: string; text: string } | null> => {
+    try {
+      const value = await AsyncStorage.getItem(SELECTED_COLORS_KEY);
+      return value ? JSON.parse(value) : null;
+    } catch (error) {
+      console.error('선택된 색상 읽기 오류:', error);
+      return null;
+    }
+  },
+
+  setSelectedColors: async (colors: { primary: string; background: string; text: string }): Promise<void> => {
+    try {
+      await AsyncStorage.setItem(SELECTED_COLORS_KEY, JSON.stringify(colors));
+    } catch (error) {
+      console.error('선택된 색상 저장 오류:', error);
+      throw error;
+    }
+  },
+
+  removeSelectedColors: async (): Promise<void> => {
+    try {
+      await AsyncStorage.removeItem(SELECTED_COLORS_KEY);
+    } catch (error) {
+      console.error('선택된 색상 제거 오류:', error);
       throw error;
     }
   },
