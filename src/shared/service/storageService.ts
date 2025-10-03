@@ -4,6 +4,7 @@ const FIRST_VISIT_KEY = 'daydot:first_visit_completed';
 const LAST_REVIEW_REQUEST_KEY = 'daydot:last_review_request_date';
 const BIRTH_DATE_KEY = 'daydot:birth_date';
 const SELECTED_COLORS_KEY = 'daydot:selected_colors';
+const MEMO_PREFIX_KEY = 'daydot:memo:'; // daydot:memo:MMDD
 
 export const StorageService = {
   isFirstVisit: async (): Promise<boolean> => {
@@ -128,6 +129,44 @@ export const StorageService = {
       await AsyncStorage.removeItem(SELECTED_COLORS_KEY);
     } catch (error) {
       console.error('선택된 색상 제거 오류:', error);
+      throw error;
+    }
+  },
+  
+  // 메모 관련 함수들 (월/일 기준 키: MMDD)
+  getMemoByMonthDay: async (month: number, day: number): Promise<string | null> => {
+    try {
+      const key = `${MEMO_PREFIX_KEY}${month.toString().padStart(2, '0')}${day
+        .toString()
+        .padStart(2, '0')}`;
+      const value = await AsyncStorage.getItem(key);
+      return value ?? null;
+    } catch (error) {
+      console.error('메모 읽기 오류:', error);
+      return null;
+    }
+  },
+
+  setMemoByMonthDay: async (month: number, day: number, text: string): Promise<void> => {
+    try {
+      const key = `${MEMO_PREFIX_KEY}${month.toString().padStart(2, '0')}${day
+        .toString()
+        .padStart(2, '0')}`;
+      await AsyncStorage.setItem(key, text);
+    } catch (error) {
+      console.error('메모 저장 오류:', error);
+      throw error;
+    }
+  },
+
+  removeMemoByMonthDay: async (month: number, day: number): Promise<void> => {
+    try {
+      const key = `${MEMO_PREFIX_KEY}${month.toString().padStart(2, '0')}${day
+        .toString()
+        .padStart(2, '0')}`;
+      await AsyncStorage.removeItem(key);
+    } catch (error) {
+      console.error('메모 제거 오류:', error);
       throw error;
     }
   },
