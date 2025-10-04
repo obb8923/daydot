@@ -1,5 +1,5 @@
 import {View, ScrollView} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {useBirthDateStore} from '@store/birthDateStore';
 import { Dot } from '@domain/App/component/Dot';
 import { Text } from '@component/Text';
@@ -11,7 +11,9 @@ const LIFE_EXPECTANCY = 80;
 export const LifetimeScreen = () => {
   const { birthDate, loadBirthDate, getCurrentAge } = useBirthDateStore();
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
-
+  const quote = useMemo(() => {
+    return Quotes[Math.floor(Math.random() * Quotes.length)];
+  }, []);
   // 생일 데이터 로드
   useEffect(() => {
     loadBirthDate();
@@ -58,7 +60,7 @@ export const LifetimeScreen = () => {
           ))}
         </View>
         <View className="w-full justify-center items-center">
-        <Text text={"\""+Quotes[Math.floor(Math.random() * Quotes.length)]+"\""} type="body3" className="mt-16" style={{color: Colors.gray200}}/>
+        <Text text={"\""+quote+"\""} type="body3" className="mt-16" style={{color: Colors.gray200}}/>
         </View>
       </ScrollView>
     </View>

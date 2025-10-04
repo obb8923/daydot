@@ -31,6 +31,8 @@ export const MemoModal = ({
                 placeholder={`${date?.month}월 ${date?.day}일의 메모를 입력하세요`}
                 placeholderTextColor={Colors.gray200}
                 multiline
+                autoFocus={true}
+                maxLength={300}
                 value={text}
                 onChangeText={onChangeText}
                 style={{ color: 'white',borderRadius: 20 }}
