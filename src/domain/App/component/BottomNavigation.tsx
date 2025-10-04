@@ -31,7 +31,8 @@ const navigation = useNavigation<AppScreenNavigationProp>();
       justifyContent:'space-between',
       alignItems:'center',
       }}>
-    {/* Y,L */}
+              {/* Setting */}
+
     <LiquidGlassView style={{
       height:BOTTOM_NAVIGATION_HEIGHT,
       width:BOTTOM_NAVIGATION_HEIGHT,
@@ -46,7 +47,7 @@ const navigation = useNavigation<AppScreenNavigationProp>();
       <SettingIcon width={24} height={24} color={'white'}/>
       </TouchableOpacity>
       </LiquidGlassView>
-      {/* Setting */}
+      {/* Y,L */}
       <LiquidGlassView style={{
       height:'100%',
       borderRadius:20,

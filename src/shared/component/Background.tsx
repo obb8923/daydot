@@ -18,6 +18,7 @@ export const Background = ({children,isStatusBarGap=true,isBottomGap=true,...pro
   return (
     <View 
     style={{
+      flex:1,
       paddingTop: isStatusBarGap ? insets.top : 0,
       paddingBottom: (isBottomGap ? insets.bottom : 0),
       backgroundColor: backgroundColor,
