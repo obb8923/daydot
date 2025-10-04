@@ -4,7 +4,7 @@ import {useBirthDateStore} from '@store/birthDateStore';
 import { Dot } from '@domain/App/component/Dot';
 import { Text } from '@component/Text';
 import { Colors } from '@constant/Colors';
-
+import { Quotes } from '@constant/Quotes';
 // 80살 상수
 const LIFE_EXPECTANCY = 80;
 
@@ -56,6 +56,9 @@ export const LifetimeScreen = () => {
               type="lifetime"
             />
           ))}
+        </View>
+        <View className="w-full justify-center items-center">
+        <Text text={"\""+Quotes[Math.floor(Math.random() * Quotes.length)]+"\""} type="body3" className="mt-16" style={{color: Colors.gray200}}/>
         </View>
       </ScrollView>
     </View>
