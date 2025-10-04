@@ -77,13 +77,13 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.daydot"
+    namespace "com.jeong.daydot"
     defaultConfig {
-        applicationId "com.daydot"
+        applicationId "com.jeong.daydot"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "0.0.1"
     }
     signingConfigs {
         debug {
@@ -91,6 +91,12 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+        release {
+            storeFile file(System.getenv("DAYDOT_RELEASE_STORE_FILE") ?: (project.findProperty("DAYDOT_RELEASE_STORE_FILE") ?: "daydot-release.keystore"))
+            storePassword System.getenv("DAYDOT_RELEASE_STORE_PASSWORD") ?: (project.findProperty("DAYDOT_RELEASE_STORE_PASSWORD") ?: "")
+            keyAlias System.getenv("DAYDOT_RELEASE_KEY_ALIAS") ?: (project.findProperty("DAYDOT_RELEASE_KEY_ALIAS") ?: "daydot")
+            keyPassword System.getenv("DAYDOT_RELEASE_KEY_PASSWORD") ?: (project.findProperty("DAYDOT_RELEASE_KEY_PASSWORD") ?: "")
         }
     }
     buildTypes {
@@ -100,7 +106,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
