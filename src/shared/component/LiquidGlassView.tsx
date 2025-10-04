@@ -44,7 +44,7 @@ export const LiquidGlassView = ({children,style,effect='clear',tintColor=undefin
             </LiquidGlassViewFromPackage>
         ) : (
             <Animated.View 
-            className="bg-gray400/60"
+            className="bg-gray400/60 border border-1 border-gray200"
             style={[style, animatedStyle]}>
                 {children}
             </Animated.View>

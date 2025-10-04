@@ -7,7 +7,7 @@ import type { RootStackParamList } from '@nav/App';
 import { LiquidGlassView } from '@/shared/component/LiquidGlassView';
 import { BUTTON_HEIGHT, PADDING_HORIZONTAL } from '@/shared/constant/layout';
 import ChevronLeftIcon from '@assets/svg/ChevronLeft.svg';
-
+import { LiquidGlassButton } from '@/shared/component/LiquidGlassButton';
 type SettingScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export const SettingScreen = () => {
@@ -19,13 +19,11 @@ export const SettingScreen = () => {
       <View className="flex-1 justify-center items-center p-5">
         {/* Back Button section */}
         <View className="w-full flex-row" style={{height:BUTTON_HEIGHT}}>
+        <LiquidGlassButton onPress={() => navigation.goBack()} style={{width:BUTTON_HEIGHT,height:BUTTON_HEIGHT,justifyContent:'center', alignItems:'center'}}>
+          <ChevronLeftIcon width={10} height={15} color={'white'}/>
+        </LiquidGlassButton>
         <LiquidGlassView style={{
-          height:BUTTON_HEIGHT,
-            width:BUTTON_HEIGHT,
-          borderRadius:20,
-          justifyContent:'center',
-          alignItems:'center',
-          padding:PADDING_HORIZONTAL/2,
+         
           }}>
           <TouchableOpacity 
           onPress={() => navigation.goBack()}

@@ -1,9 +1,12 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { OnboardingStackParamList } from '@nav/Onboarding';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
+import {Background} from '@component/Background';
+import {Text} from '@component/Text';
+import { LiquidGlassButton } from '@/shared/component/LiquidGlassButton';
+import {PADDING_HORIZONTAL} from '@/shared/constant/layout';
 type OnBoarding1ScreenProps = NativeStackNavigationProp<OnboardingStackParamList, 'Onboarding1'>;
 export const OnBoarding1Screen = () => {
   const navigation = useNavigation<OnBoarding1ScreenProps>();
@@ -13,13 +16,14 @@ export const OnBoarding1Screen = () => {
   };
 
   return (
-    <View className="flex-1 justify-center items-center p-5">
-      <Text className="text-2xl font-bold mb-5">OnBoarding1</Text>
-      <Text className="text-base text-center mb-10 text-gray-600">첫 번째 온보딩 화면입니다.</Text>
-      <TouchableOpacity className="bg-blue-500 px-8 py-4 rounded-lg" onPress={handleNext}>
-        <Text className="text-white text-base font-bold">다음</Text>
-      </TouchableOpacity>
+    <Background>
+    <View className="flex-1 justify-between items-center py-12" style={{paddingHorizontal:PADDING_HORIZONTAL}}>
+     <Text text={`당신의 일생은\n수많은 하루의 조각으로\n완성됩니다.`} type="title1" className="mt-40 text-center"/>
+      <LiquidGlassButton onPress={handleNext}>
+        <Text text="다음" type="body3"/>
+      </LiquidGlassButton>
     </View>
+    </Background>
   )
 }
 
