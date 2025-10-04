@@ -5,18 +5,23 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@nav/App';
 import { LiquidGlassView } from '@/shared/component/LiquidGlassView';
-import { BOTTOM_NAVIGATION_HEIGHT, PADDING_HORIZONTAL } from '@/shared/constant/layout';
+import { BUTTON_HEIGHT, PADDING_HORIZONTAL } from '@/shared/constant/layout';
 import ChevronLeftIcon from '@assets/svg/ChevronLeft.svg';
+
 type SettingScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 export const SettingScreen = () => {
+
   const navigation = useNavigation<SettingScreenNavigationProp>();
+
   return (
     <Background>
       <View className="flex-1 justify-center items-center p-5">
-        <View className="w-full flex-row">
+        {/* Back Button section */}
+        <View className="w-full flex-row" style={{height:BUTTON_HEIGHT}}>
         <LiquidGlassView style={{
-          height:BOTTOM_NAVIGATION_HEIGHT,
-          width:BOTTOM_NAVIGATION_HEIGHT,
+          height:BUTTON_HEIGHT,
+            width:BUTTON_HEIGHT,
           borderRadius:20,
           justifyContent:'center',
           alignItems:'center',
@@ -24,10 +29,14 @@ export const SettingScreen = () => {
           }}>
           <TouchableOpacity 
           onPress={() => navigation.goBack()}
-          style={{height:BOTTOM_NAVIGATION_HEIGHT-10,width:BOTTOM_NAVIGATION_HEIGHT-10,borderRadius:BOTTOM_NAVIGATION_HEIGHT/4,justifyContent:'center',alignItems:'center'}}>
+          style={{height:BUTTON_HEIGHT-10,width:BUTTON_HEIGHT-10,borderRadius:BUTTON_HEIGHT/4,justifyContent:'center',alignItems:'center'}}>
           <ChevronLeftIcon width={10} height={15} color={'white'}/>
           </TouchableOpacity>
       </LiquidGlassView>
+        </View>
+        {/* Setting List section */}
+        <View className="w-full flex-1">
+          <Text>Setting List</Text>
         </View>
       </View>
     </Background>

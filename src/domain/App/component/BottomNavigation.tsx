@@ -28,12 +28,12 @@ const navigation = useNavigation<AppScreenNavigationProp>();
       height:50, 
       width:'100%',
       flexDirection:'row',
-      justifyContent:'space-between',
+      justifyContent:'center',
       alignItems:'center',
       }}>
-              {/* Setting */}
-
-    <LiquidGlassView style={{
+    
+    {/* Setting */}
+    {/* <LiquidGlassView style={{
       height:BOTTOM_NAVIGATION_HEIGHT,
       width:BOTTOM_NAVIGATION_HEIGHT,
       borderRadius:20,
@@ -46,7 +46,7 @@ const navigation = useNavigation<AppScreenNavigationProp>();
       style={{height:BOTTOM_NAVIGATION_HEIGHT-10,width:BOTTOM_NAVIGATION_HEIGHT-10,borderRadius:BOTTOM_NAVIGATION_HEIGHT/4,justifyContent:'center',alignItems:'center'}}>
       <SettingIcon width={24} height={24} color={'white'}/>
       </TouchableOpacity>
-      </LiquidGlassView>
+      </LiquidGlassView> */}
       {/* Y,L */}
       <LiquidGlassView style={{
       height:'100%',
