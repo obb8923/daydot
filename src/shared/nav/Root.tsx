@@ -4,7 +4,7 @@ import { OnboardingStack } from "@nav/Onboarding";
 import { useFirstVisitStore } from "@store/firstVisitStore";
 import { useBirthDateStore } from "@store/birthDateStore";
 import { useLoadSelectedColors } from "@store/colorStore";
-
+import { SpinnerScreen } from "@/shared/component/SpinnerScreen";
 
 export type RootStackParamList = {
  AppStack:undefined,
@@ -30,9 +30,8 @@ export const RootStack = () => {
   }, []);
 
   if (isLoading) {
-    return null; // 또는 로딩 스피너 컴포넌트
+    return <SpinnerScreen />; // 또는 로딩 스피너 컴포넌트
   }
-
   // 첫 방문자인지에 따라 다른 화면을 렌더링
   if (isFirstVisit) {
     return <OnboardingStack />;

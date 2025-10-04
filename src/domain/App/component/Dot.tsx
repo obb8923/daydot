@@ -58,7 +58,7 @@ export const Dot = memo(({ item, selectedDate, selectedYear, onPress, type }: Do
             shadowOffset: { width: 1, height: 1 },
             shadowOpacity: 0.2,
             shadowRadius: 3.84,
-            elevation: 5,
+            elevation: 3,
           }}
           
         />

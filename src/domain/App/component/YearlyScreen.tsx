@@ -83,14 +83,13 @@ export const YearlyScreen = () => {
         style={{color: Colors.gray700}}
         />
         </View>
-        <MemoButton onPress={openMemo} date={selectedDate || {month: todayMonth, day: todayDay}}/>
       </View>
       <ScrollView 
         contentContainerStyle={{paddingBottom: 100}}
         showsVerticalScrollIndicator={false}
         style={{overflow: 'visible'}}
       >
-        <View className="flex-row flex-wrap justify-center" style={{overflow: 'visible'}}>
+        <View className="flex-row flex-wrap justify-center mb-8" style={{overflow: 'visible'}}>
           {dots.map((dot) => (
             <Dot
               key={dot.key}
@@ -102,6 +101,7 @@ export const YearlyScreen = () => {
             />
           ))}
         </View>
+        <MemoButton onPress={openMemo} date={selectedDate || {month: todayMonth, day: todayDay}}/>
       </ScrollView>
       <MemoModal
         visible={isMemoOpen}
