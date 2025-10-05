@@ -13,29 +13,25 @@ interface DotProps {
     year?: number;
     key: string;
   };
-  selectedDate?: { month: number; day: number } | null;
-  selectedYear?: number | null;
   onPress: (month?: number, day?: number, year?: number) => void;
   type: 'yearly' | 'lifetime';
+  isSelected?: boolean; // 외부에서 선택 여부를 직접 전달하는 최적화용
 }
 
-export const Dot = memo(({ item, selectedDate, selectedYear, onPress, type }: DotProps) => {
+export const Dot = memo(({ item, onPress, type, isSelected }: DotProps) => {
   const selectedColors = useColorStore((state) => state.selectedColors);
   const { getCurrentAge } = useBirthDateStore();
   const currentAge = getCurrentAge();
-  let isPast, isCurrent, isSelected, backgroundColor;
+  let isPast, isCurrent, backgroundColor;
   
   if (type === 'yearly') {
     // 연간 화면 로직
     isPast = item.month! < todayMonth! || (item.month === todayMonth && item.day! < todayDay!);
     isCurrent = item.month === todayMonth && item.day === todayDay;
-    isSelected = selectedDate?.month === item.month && selectedDate?.day === item.day;
   } else {
     // 일생 화면 로직
     isPast = item.year! <= currentAge;
     isCurrent = item.year === currentAge;
-    isSelected = selectedYear === item.year;
-    console.log(selectedYear, item.year);
   }
 
   // 색상 로직 사용

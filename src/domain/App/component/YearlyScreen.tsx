@@ -14,7 +14,6 @@ export const YearlyScreen = () => {
   const [selectedDate, setSelectedDate] = useState<{month: number; day: number} | null>({ month: todayMonth, day: todayDay });
   const [isMemoOpen, setIsMemoOpen] = useState(false);
   const [memoText, setMemoText] = useState('');
-  const [isLoadingMemo, setIsLoadingMemo] = useState(false);
   
 
 
@@ -29,12 +28,10 @@ export const YearlyScreen = () => {
     }
     const target = selectedDate ?? { month: todayMonth, day: todayDay };
     try {
-      setIsLoadingMemo(true);
       const existing = await StorageService.getMemoByMonthDay(target.month, target.day);
       setMemoText(existing ?? '');
       setIsMemoOpen(true);
     } finally {
-      setIsLoadingMemo(false);
     }
   };
 
@@ -76,16 +73,18 @@ export const YearlyScreen = () => {
         style={{overflow: 'visible'}}
       >
         <View className="flex-row flex-wrap justify-center mb-8" style={{overflow: 'visible'}}>
-          {dots.map((dot) => (
+          {dots.map((dot) => {
+            const isSelected = selectedDate?.month === dot.month && selectedDate?.day === dot.day;
+            return(
             <Dot
               key={dot.key}
               item={dot}
-              selectedDate={selectedDate}
-              selectedYear={null}
               onPress={handleDotPress}
               type="yearly"
+              isSelected={isSelected}
             />
-          ))}
+          )}
+          )}
         </View>
         <MemoButton 
         onPress={openMemo} 

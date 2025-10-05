@@ -18,7 +18,7 @@ export const MAIL_ADDRESS = 'companyjeong25@gmail.com';
 // export const APP_STORE_URL = 'itms-apps://apps.apple.com/app/id6752389566';
 
 
-export const LifeExpectancy = 80;
+export const LIFE_EXPECTANCY = 80;
 
 export const DATE_MESSAGE_DURATION = 2000; // 날짜 메시지 지속 시간 (밀리초) (5초)
 
@@ -36,3 +36,10 @@ export const DATE_MESSAGE_DURATION = 2000; // 날짜 메시지 지속 시간 (�
       });
     }
   }
+
+    // 80개의 연도 데이터 생성 (1년부터 80년까지)
+    export const years = Array.from({length: LIFE_EXPECTANCY}, (_, index) => ({
+      id: index + 1,
+      year: index + 1,
+      key: `${index + 1}`,
+    }));

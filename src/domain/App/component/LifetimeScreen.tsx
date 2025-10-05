@@ -1,12 +1,11 @@
 import {View, ScrollView} from 'react-native';
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect, useMemo, useCallback} from 'react';
 import {useBirthDateStore} from '@store/birthDateStore';
 import { Dot } from '@domain/App/component/Dot';
 import { Text } from '@component/Text';
 import { Colors } from '@constant/Colors';
 import { Quotes } from '@constant/Quotes';
-// 80살 상수
-const LIFE_EXPECTANCY = 80;
+import { LIFE_EXPECTANCY, years } from '@constant/normal';
 
 export const LifetimeScreen = () => {
   const { birthDate, loadBirthDate, getCurrentAge } = useBirthDateStore();
@@ -19,14 +18,12 @@ export const LifetimeScreen = () => {
     loadBirthDate();
   }, [loadBirthDate]);
 
-  // 80개의 연도 데이터 생성 (1년부터 80년까지)
-  const years = Array.from({length: LIFE_EXPECTANCY}, (_, index) => ({
-    id: index + 1,
-    year: index + 1,
-    key: `${index + 1}`,
-  }));
 
   const currentAge = getCurrentAge();
+
+  const handleDotPress = useCallback((year?: number) => {
+    setSelectedYear(year!);
+  }, []);
 
 
   return (
@@ -48,16 +45,18 @@ export const LifetimeScreen = () => {
         style={{overflow: 'visible'}}
       >
         <View className="flex-row flex-wrap justify-center" style={{overflow: 'visible'}}>
-          {years.map((year) => (
+          {years.map((year) => {
+            const isSelected = selectedYear === year.year;
+            return(
             <Dot
               key={year.key}
               item={year}
-              selectedDate={null}
-              selectedYear={selectedYear}
-              onPress={(month, day, year) => setSelectedYear(year!)}
+              onPress={handleDotPress}
               type="lifetime"
+              isSelected={isSelected}
             />
-          ))}
+          )}
+          )}
         </View>
         <View className="w-full justify-center items-center">
         <Text text={"\""+quote+"\""} type="body3" className="mt-16 text-center" style={{color: Colors.gray200}}/>
