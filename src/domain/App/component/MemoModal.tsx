@@ -3,6 +3,7 @@ import React from 'react';
 import { Text } from '@component/Text';
 import {LiquidGlassView} from '@component/LiquidGlassView';
 import { Colors } from '@/shared/constant/Colors';
+import { DEVICE_HEIGHT } from '@constant/normal';
 // 메모 모달 UI
 export const MemoModal = ({
     date,
@@ -24,7 +25,7 @@ export const MemoModal = ({
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
           <View className="flex-1 justify-end bg-black/80 pb-4">
               <LiquidGlassView 
-              style={{width: '100%', height: 'auto', borderRadius: 20}}
+              style={{width: '100%', height: DEVICE_HEIGHT * 0.3, borderRadius: 20}}
               >
               <TextInput
                 className="w-full h-auto p-4 rounded-2xl"
