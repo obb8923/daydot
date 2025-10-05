@@ -1,5 +1,5 @@
 import {View, ScrollView } from 'react-native';
-import React, {useState, useMemo, useEffect, useRef } from 'react';
+import React, {useState, useMemo, useCallback } from 'react';
 import { Text } from '@component/Text';
 import { Dot } from '@domain/App/component/Dot';
 import { Colors } from '@/shared/constant/Colors';
@@ -7,7 +7,7 @@ import { MemoButton } from '@/domain/App/component/MemoButton';
 import { currentYear, todayMonth, todayDay, getDaysLeftInYear, daysInMonth } from '@constant/Date';
 import { StorageService } from '@service/storageService';
 import { MemoModal } from '@domain/App/component/MemoModal';
-
+import {dots} from '@constant/normal';
 export const YearlyScreen = () => {
   const daysLeftInYear = useMemo(() => getDaysLeftInYear(), []);
   // 선택된 날짜 상태 (기본값: 오늘)
@@ -15,26 +15,12 @@ export const YearlyScreen = () => {
   const [isMemoOpen, setIsMemoOpen] = useState(false);
   const [memoText, setMemoText] = useState('');
   const [isLoadingMemo, setIsLoadingMemo] = useState(false);
-  const [showDateMessage, setShowDateMessage] = useState(true);
-  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // 날짜별 점 데이터 생성
-  const dots = [];
-  for (let month = 1; month <= 12; month++) {
-    for (let day = 1; day <= daysInMonth[month - 1]; day++) {
-      const key = `${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
-      dots.push({
-        id: key,
-        month,
-        day,
-        key,
-      });
-    }
-  }
+  
 
-  const handleDotPress = (month?: number, day?: number) => {
+
+  const handleDotPress = useCallback((month?: number, day?: number) => {
     setSelectedDate({month: month!, day: day!});
-    setShowDateMessage(true);
-  };
+  }, []);
 
 
   const openMemo = async () => {
@@ -101,7 +87,9 @@ export const YearlyScreen = () => {
             />
           ))}
         </View>
-        <MemoButton onPress={openMemo} date={selectedDate || {month: todayMonth, day: todayDay}}/>
+        <MemoButton 
+        onPress={openMemo} 
+        date={selectedDate ?? {month: todayMonth, day: todayDay}}/>
       </ScrollView>
       <MemoModal
         visible={isMemoOpen}

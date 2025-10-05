@@ -1,4 +1,5 @@
 import { Dimensions } from "react-native";
+import { daysInMonth } from "@constant/Date";
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,3 +21,18 @@ export const MAIL_ADDRESS = 'companyjeong25@gmail.com';
 export const LifeExpectancy = 80;
 
 export const DATE_MESSAGE_DURATION = 2000; // 날짜 메시지 지속 시간 (밀리초) (5초)
+
+  // 날짜별 점 데이터 생성
+  export const dots: {id: string, month: number, day: number, key: string}[] = [];
+
+  for (let month = 1; month <= 12; month++) {
+    for (let day = 1; day <= daysInMonth[month - 1]; day++) {
+      const key = `${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
+      dots.push({
+        id: key,
+        month,
+        day,
+        key,
+      });
+    }
+  }
