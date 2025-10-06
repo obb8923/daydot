@@ -1,6 +1,5 @@
-import { View, TouchableOpacity, Platform, Modal } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import DateTimePicker from '@react-native-community/datetimepicker'
 import { useFirstVisitStore } from '@store/firstVisitStore'
 import { useBirthDateStore } from '@store/birthDateStore'
 import {Background} from '@component/Background';
@@ -8,6 +7,8 @@ import {Text} from '@component/Text';
 import { LiquidGlassButton } from '@/shared/component/LiquidGlassButton';
 import {PADDING_HORIZONTAL} from '@/shared/constant/layout';
 import {LiquidGlassView} from '@component/LiquidGlassView';
+import { DatePicker } from '@/shared/component/DatePicker';
+import {BUTTON_HEIGHT,BUTTON_PADDING} from '@/shared/constant/layout';
 export const OnBoarding2Screen = () => {
   const { setFirstVisitCompleted } = useFirstVisitStore();
   const { setBirthDate } = useBirthDateStore();
@@ -15,21 +16,19 @@ export const OnBoarding2Screen = () => {
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
 
-  const handleDateChange = (event: any, selectedDate?: Date) => {
-    // 안드로이드에서는 picker를 닫고, iOS에서는 모달을 유지
-    if (Platform.OS === 'android') {
-      setShowPicker(false);
-    }
-    if (selectedDate) {
-      setDate(selectedDate);
+  const handleDateChange = (newDate: Date) => {
+    setDate(newDate);
+  };
+
+  const handleDateConfirm = async (confirmedDate: Date) => {
+    try {
+      await setBirthDate(confirmedDate);
+    } catch (error) {
+      console.error('생년월일 저장 중 오류:', error);
     }
   };
 
-  const handleModalClose = () => {
-    setShowPicker(false);
-  };
-
-  const handleConfirmDate = () => {
+  const handleDatePickerClose = () => {
     setShowPicker(false);
   };
 
@@ -65,49 +64,17 @@ export const OnBoarding2Screen = () => {
       </TouchableOpacity>
       </LiquidGlassView>
       </View>
-      {showPicker && Platform.OS === 'android' && (
-        <DateTimePicker
-          value={date}
-          mode="date"
-          display="spinner"
-          onChange={handleDateChange}
-          maximumDate={new Date()}
-          minimumDate={new Date(1900, 0, 1)}
-        />
-      )}
-      
-      {showPicker && Platform.OS === 'ios' && (
-        <Modal
-          visible={showPicker}
-          transparent={true}
-          animationType="slide"
-          onRequestClose={handleModalClose}
-        >
-          <View className="flex-1 justify-end bg-black/50">
-            {/* modal content */}
-            <View className="bg-white rounded-t-3xl p-6">
-              {/* modal header buttons */}
-              <View className="flex-row justify-end items-center mb-4">
-                <TouchableOpacity onPress={handleConfirmDate}>
-                  <Text text="확인" type="body2" style={{color:"#3B82F6"}}/>
-                </TouchableOpacity>
-              </View>
-              {/* date picker */}
-              <DateTimePicker
-                value={date}
-                mode="date"
-                display="spinner"
-                onChange={handleDateChange}
-                maximumDate={new Date()}
-                minimumDate={new Date(1900, 0, 1)}
-                style={{ height: 200 }}
-              />
-            </View>
-          </View>
-        </Modal>
-      )}
+      <DatePicker
+        value={date}
+        onChange={handleDateChange}
+        onConfirm={handleDateConfirm}
+        onClose={handleDatePickerClose}
+        maximumDate={new Date()}
+        minimumDate={new Date(1900, 0, 1)}
+        visible={showPicker}
+      />
       {/* button */}
-      <LiquidGlassButton onPress={handleComplete} style={{width:'auto',justifyContent:'center', alignItems:'center'}}>
+      <LiquidGlassButton onPress={handleComplete} style={{paddingHorizontal:BUTTON_PADDING,height:BUTTON_HEIGHT,width:'auto',justifyContent:'center', alignItems:'center'}}>
         <Text text="시작하기" type="body3"/>
       </LiquidGlassButton>
     </View>

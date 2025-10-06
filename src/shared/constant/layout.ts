@@ -4,3 +4,4 @@ export const PADDING_HORIZONTAL = 32;
 
 
 export const BUTTON_HEIGHT = 50;
+export const BUTTON_PADDING = BOTTOM_NAVIGATION_HEIGHT/2;
