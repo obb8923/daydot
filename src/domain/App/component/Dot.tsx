@@ -34,7 +34,6 @@ const panGesture = Gesture.Pan()
   .onUpdate((e) => {
     const now = Date.now();
     if (now - lastRun.value > 250) {
-      console.log(now, lastRun.value);
       lastRun.value = now;
       runOnJS(soft)();
     }
