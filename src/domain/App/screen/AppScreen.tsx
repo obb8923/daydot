@@ -23,7 +23,7 @@ export const AppScreen = () => {
       {/* 현재 화면에 따라 다른 컴포넌트 렌더링 */}
       {currentScreen === 'lifetime' ? <LifetimeScreen /> : <YearlyScreen />}
       
-      <View className="absolute bottom-0 h-20 self-center" style={{width: DEVICE_WIDTH-PADDING_HORIZONTAL}}>
+      <View className="absolute bottom-0 w-full self-center">
         <BottomNavigation 
           onScreenChange={handleScreenChange} 
           currentScreen={currentScreen}

@@ -10,8 +10,9 @@ type LiquidGlassViewProps = {
   tintColor?: string;
   interactive?: boolean;
   colorScheme?: 'light' | 'dark' | 'system';
+  onPress?: () => void;
 }
-export const LiquidGlassView = ({children,style,effect='clear',tintColor=undefined,interactive=false,colorScheme='system'}: LiquidGlassViewProps) => {
+export const LiquidGlassView = ({children,style,effect='clear',tintColor=undefined,interactive=false,colorScheme='system',onPress}: LiquidGlassViewProps) => {
   const opacity = useSharedValue(effect === 'none' ? 0 : 1);
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export const LiquidGlassView = ({children,style,effect='clear',tintColor=undefin
             effect={effect}
             tintColor={tintColor}
             colorScheme={colorScheme}
+            onTouchEnd={onPress}
             >
                 {children}
             </LiquidGlassViewFromPackage>

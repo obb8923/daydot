@@ -11,7 +11,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@nav/App';
 import { useNavigation } from '@react-navigation/native'
 import { ScreenType } from '@constant/normal';
-
+import {LiquidGlassButton} from '@component/LiquidGlassButton';
 interface BottomNavigationProps {
   onScreenChange: (screen: ScreenType) => void;
   currentScreen: ScreenType;
@@ -25,14 +25,14 @@ const navigation = useNavigation<AppScreenNavigationProp>();
 
   return (
     <LiquidGlassContainerView style={{
-      height:50, 
+      height:BOTTOM_NAVIGATION_HEIGHT, 
       width:'100%',
       flexDirection:'row',
-      justifyContent:'center',
+      justifyContent:'space-between',
       alignItems:'center',
       }}>
     
-    {/* Setting */}
+    {/* Setting Button */}
     {/* <LiquidGlassView style={{
       height:BOTTOM_NAVIGATION_HEIGHT,
       width:BOTTOM_NAVIGATION_HEIGHT,
@@ -40,14 +40,15 @@ const navigation = useNavigation<AppScreenNavigationProp>();
       justifyContent:'center',
       alignItems:'center',
       padding:PADDING_HORIZONTAL/2,
-      }}>
-      <TouchableOpacity 
-      onPress={() => navigation.navigate('SettingScreen')}
-      style={{height:BOTTOM_NAVIGATION_HEIGHT-10,width:BOTTOM_NAVIGATION_HEIGHT-10,borderRadius:BOTTOM_NAVIGATION_HEIGHT/4,justifyContent:'center',alignItems:'center'}}>
-      <SettingIcon width={24} height={24} color={'white'}/>
-      </TouchableOpacity>
-      </LiquidGlassView> */}
-      {/* Y,L */}
+      }}></LiquidGlassView> */}
+      <LiquidGlassButton
+       style={{
+        width:BOTTOM_NAVIGATION_HEIGHT,height:BOTTOM_NAVIGATION_HEIGHT,justifyContent:'center', alignItems:'center'}}
+        onPress={() => navigation.navigate('SettingScreen')}
+      >
+        <SettingIcon width={24} height={24} color={'white'}/>
+      </LiquidGlassButton>
+      {/* Y,L Button */}
       <LiquidGlassView style={{
       height:'100%',
       borderRadius:20,
@@ -56,7 +57,9 @@ const navigation = useNavigation<AppScreenNavigationProp>();
       padding:PADDING_HORIZONTAL/2,
       flexDirection:'row',
       gap:PADDING_HORIZONTAL/2,
-      }}>
+      }}
+      interactive={true}
+      >
       {/* Y 버튼 - 일년화면 */}
       <TouchableOpacity 
         style={{
