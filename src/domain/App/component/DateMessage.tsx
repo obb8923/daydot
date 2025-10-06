@@ -11,7 +11,7 @@ interface DateMessageProps {
 }
 
 export const DateMessage = memo(({ month, day, year, visible}: DateMessageProps) => {
-  const messageText = year ? `${year}살` : `${month}월 ${day}일`;
+  const messageText = year ? `${year}년` : `${month}월 ${day}일`;
   const [effect, setEffect] = useState<'none' | 'clear'>('none');
   const opacity = useSharedValue(0);
 

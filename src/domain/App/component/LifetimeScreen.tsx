@@ -1,15 +1,16 @@
 import {View, ScrollView} from 'react-native';
-import React, {useState, useEffect, useMemo, useCallback} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {useBirthDateStore} from '@store/birthDateStore';
+import { useSelectedDateStore } from '@store/selectedDateStore';
 import { Dot } from '@domain/App/component/Dot';
 import { Text } from '@component/Text';
 import { Colors } from '@constant/Colors';
 import { Quotes } from '@constant/Quotes';
-import { LIFE_EXPECTANCY, years } from '@constant/normal';
+import { LIFE_EXPECTANCY, generateYearsFromBirthDate } from '@constant/normal';
 
 export const LifetimeScreen = () => {
   const { birthDate, loadBirthDate, getCurrentAge } = useBirthDateStore();
-  const [selectedYear, setSelectedYear] = useState<number | null>(null);
+  const selectedDate = useSelectedDateStore((state) => state.selectedDate);
   const quote = useMemo(() => {
     return Quotes[Math.floor(Math.random() * Quotes.length)];
   }, []);
@@ -18,13 +19,12 @@ export const LifetimeScreen = () => {
     loadBirthDate();
   }, [loadBirthDate]);
 
-
   const currentAge = getCurrentAge();
 
-  const handleDotPress = useCallback((year?: number) => {
-    setSelectedYear(year!);
-  }, []);
-
+  // birthDate를 기반으로 연도 배열 생성 (birthDate 년도부터 80개)
+  const years = useMemo(() => {
+    return generateYearsFromBirthDate(birthDate);
+  }, [birthDate]);
 
   return (
     <View className="w-full h-full" style={{overflow: 'visible'}}>
@@ -46,12 +46,11 @@ export const LifetimeScreen = () => {
       >
         <View className="flex-row flex-wrap justify-center" style={{overflow: 'visible'}}>
           {years.map((year) => {
-            const isSelected = selectedYear === year.year;
+            const isSelected = selectedDate && selectedDate.getFullYear() === year.year;
             return(
             <Dot
               key={year.key}
               item={year}
-              onPress={handleDotPress}
               type="lifetime"
               isSelected={isSelected}
             />

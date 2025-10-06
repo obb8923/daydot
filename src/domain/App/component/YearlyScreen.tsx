@@ -9,21 +9,22 @@ import { StorageService } from '@service/storageService';
 import { MemoModal } from '@domain/App/component/MemoModal';
 import {dots} from '@constant/normal';
 import { HapticService } from '@service/hapticService';
+import { useSelectedDateStore } from '@store/selectedDateStore';
 
 export const YearlyScreen = () => {
   const daysLeftInYear = useMemo(() => getDaysLeftInYear(), []);
-  // 선택된 날짜 상태 (기본값: 오늘)
-  const [selectedDate, setSelectedDate] = useState<{month: number; day: number} | null>({ month: todayMonth, day: todayDay });
+  // 선택된 날짜 상태 (store에서 가져오기)
+  const selectedDate = useSelectedDateStore((state) => state.selectedDate);
+  const setSelectedDate = useSelectedDateStore((state) => state.setSelectedDate); 
   const [isMemoOpen, setIsMemoOpen] = useState(false);
   const [memoText, setMemoText] = useState('');
 
   const openMemo = async () => {
-    if (!selectedDate) {
-      setSelectedDate({ month: todayMonth, day: todayDay });
-    }
-    const target = selectedDate ?? { month: todayMonth, day: todayDay };
+    const target = selectedDate ?? new Date();
+    const month = target.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1
+    const day = target.getDate();
     try {
-      const existing = await StorageService.getMemoByMonthDay(target.month, target.day);
+      const existing = await StorageService.getMemoByMonthDay(month, day);
       setMemoText(existing ?? '');
       setIsMemoOpen(true);
     } finally {
@@ -31,22 +32,22 @@ export const YearlyScreen = () => {
   };
 
   const saveMemo = async () => {
-    const target = selectedDate ?? { month: todayMonth, day: todayDay };
+    const target = selectedDate ?? new Date();
+    const month = target.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1
+    const day = target.getDate();
     if (!memoText.trim()) {
       // 빈 문자열이면 삭제 처리
-      await StorageService.removeMemoByMonthDay(target.month, target.day);
+      await StorageService.removeMemoByMonthDay(month, day);
       HapticService.soft(); // 부드러운 햅틱으로 삭제 완료 표시
       setIsMemoOpen(false);
       return;
     }
-    await StorageService.setMemoByMonthDay(target.month, target.day, memoText);
+    await StorageService.setMemoByMonthDay(month, day, memoText);
     HapticService.soft(); // 부드러운 햅틱으로 저장 완료 표시
     setIsMemoOpen(false);
   };
 
-  const handleDotPress = useCallback((month?: number, day?: number, year?: number) => {
-    setSelectedDate({ month: month ?? todayMonth, day: day ?? todayDay });
-  }, []);
+
 
   return (
     <View className="w-full h-full" style={{overflow: 'visible'}}>
@@ -75,20 +76,24 @@ export const YearlyScreen = () => {
       >
         <View className="flex-row flex-wrap justify-center mb-8" style={{overflow: 'visible'}}>
           {dots.map((dot) => {
-            const isSelected = selectedDate?.month === dot.month && selectedDate?.day === dot.day;
+            const isSelected = selectedDate && 
+              selectedDate.getMonth() + 1 === dot.month && 
+              selectedDate.getDate() === dot.day;
             return (
             <Dot
               key={dot.key}
               item={dot}
               type="yearly"
-              onPress={handleDotPress}
               isSelected={isSelected}
             />
           )})}
         </View>
         <MemoButton 
         onPress={openMemo} 
-        date={selectedDate ?? {month: todayMonth, day: todayDay}}/>
+        date={selectedDate ? {
+          month: selectedDate.getMonth() + 1,
+          day: selectedDate.getDate()
+        } : {month: todayMonth, day: todayDay}}/>
       </ScrollView>
       <MemoModal
         visible={isMemoOpen}
@@ -96,7 +101,10 @@ export const YearlyScreen = () => {
         text={memoText}
         onChangeText={setMemoText}
         onSave={saveMemo}
-        date={selectedDate}
+        date={selectedDate ? {
+          month: selectedDate.getMonth() + 1,
+          day: selectedDate.getDate()
+        } : {month: todayMonth, day: todayDay}}
       />
     </View>
   );

@@ -37,11 +37,15 @@ export const DATE_MESSAGE_DURATION = 2000; // 날짜 메시지 지속 시간 (�
     }
   }
 
-    // 80개의 연도 데이터 생성 (1년부터 80년까지)
-    export const years = Array.from({length: LIFE_EXPECTANCY}, (_, index) => ({
-      id: index + 1,
-      year: index + 1,
-      key: `${index + 1}`,
-    }));
+// birthDate를 기반으로 연도 배열 생성하는 함수
+export const generateYearsFromBirthDate = (birthDate: Date | null) => {
+  if (!birthDate) return [];
+  const birthYear = birthDate.getFullYear();
+  return Array.from({length: LIFE_EXPECTANCY}, (_, index) => ({
+    id: birthYear + index,
+    year: birthYear + index,
+    key: `${birthYear + index}`,
+  }));
+};
 
 export type ScreenType = 'yearly' | 'lifetime';

@@ -3,8 +3,9 @@ import React, { memo, useState } from 'react';
 import { DateMessage } from '@domain/App/component/DateMessage';
 import { useColorStore } from '@store/colorStore';
 import {Colors} from '@constant/Colors';
-import {todayMonth, todayDay} from '@constant/Date';
+import {todayMonth, todayDay, currentYear} from '@constant/Date';
 import { useBirthDateStore } from '@store/birthDateStore';
+import { useSelectedDateStore } from '@store/selectedDateStore';
 import { HapticService } from '@service/hapticService';
 import { ScreenType } from '@constant/normal';
 
@@ -16,15 +17,14 @@ interface DotProps {
     year?: number;
     key: string;
   };
-  onPress: (month?: number, day?: number, year?: number) => void;
   type: ScreenType;
   isSelected?: boolean; // 외부에서 선택 여부를 직접 전달하는 최적화용
 }
 
-export const Dot = memo(({ item, type, onPress, isSelected }: DotProps) => {
+export const Dot = memo(({ item, type, isSelected }: DotProps) => {
   const selectedColors = useColorStore((state) => state.selectedColors);
-  const { getCurrentAge } = useBirthDateStore();
-  const currentAge = getCurrentAge();
+  const setSelectedDate = useSelectedDateStore((state) => state.setSelectedDate);
+  const selectedDate = useSelectedDateStore((state) => state.selectedDate);
 
   let isPast, isCurrent, backgroundColor;
   
@@ -33,9 +33,10 @@ export const Dot = memo(({ item, type, onPress, isSelected }: DotProps) => {
     isPast = item.month! < todayMonth! || (item.month === todayMonth && item.day! < todayDay!);
     isCurrent = item.month === todayMonth && item.day === todayDay;
   } else {
-    // 일생 화면 로직
-    isPast = item.year! <= currentAge;
-    isCurrent = item.year === currentAge;
+    // 일생 화면 로직 - selectedDate의 연도와 비교
+    const currentYear = selectedDate ? selectedDate.getFullYear() : new Date().getFullYear();
+    isPast = item.year! < currentYear;
+    isCurrent = item.year === currentYear;
   }
 
   // 색상 로직 사용
@@ -50,7 +51,14 @@ export const Dot = memo(({ item, type, onPress, isSelected }: DotProps) => {
       <TouchableOpacity 
         onPress={()=>{
           HapticService.light(); // 햅틱 피드백 추가
-          onPress(item.month, item.day, item.year);
+          
+          // selectedDateStore 업데이트
+          const targetMonth = item.month ?? todayMonth;
+          const targetDay = item.day ?? todayDay;
+          const targetYear = item.year ?? currentYear;
+          const newDate = new Date(targetYear, targetMonth - 1, targetDay); // month는 0부터 시작하므로 -1
+          setSelectedDate(newDate);
+          
         }}
         className="w-6 h-6 items-center justify-center"
       >
