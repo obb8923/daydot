@@ -9,6 +9,7 @@ import { Gesture,GestureDetector } from 'react-native-gesture-handler';
 import { useSharedValue, useDerivedValue, runOnJS } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
 import { HapticService } from '@service/hapticService';
+import { ScreenType } from '@constant/normal';
 interface DotProps {
   item: {
     id: string | number;
@@ -18,7 +19,7 @@ interface DotProps {
     key: string;
   };
   // onPress: (month?: number, day?: number, year?: number) => void;
-  type: 'yearly' | 'lifetime';
+  type: ScreenType;
   // isSelected?: boolean; // 외부에서 선택 여부를 직접 전달하는 최적화용
 }
 

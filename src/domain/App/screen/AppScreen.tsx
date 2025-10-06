@@ -6,9 +6,7 @@ import {BottomNavigation} from '@domain/App/component/BottomNavigation';
 import {LifetimeScreen} from '@domain/App/component/LifetimeScreen';
 import {YearlyScreen} from '@domain/App/component/YearlyScreen';
 import { PADDING_HORIZONTAL } from '@constant/layout';
-
-// 화면 타입 정의
-type ScreenType = 'lifetime' | 'yearly';
+import { ScreenType } from '@constant/normal';
 
 
 export const AppScreen = () => {
