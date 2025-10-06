@@ -1,5 +1,5 @@
-import {View, ScrollView } from 'react-native';
-import React, {useState, useMemo, useCallback } from 'react';
+import { View } from 'react-native';
+import React, { useState, useMemo } from 'react';
 import { Text } from '@component/Text';
 import { Dot } from '@domain/App/component/Dot';
 import { Colors } from '@/shared/constant/Colors';
@@ -9,17 +9,18 @@ import { StorageService } from '@service/storageService';
 import { MemoModal } from '@domain/App/component/MemoModal';
 import {dots} from '@constant/normal';
 import { HapticService } from '@service/hapticService';
-import { useSelectedYear, useSelectedMonth, useSelectedDay } from '@store/selectedDateStore';
-
+import { useSelectedMonth, useSelectedDay } from '@store/selectedDateStore';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { runOnJS } from 'react-native-reanimated';
+import { useHaptic } from '@/shared/hooks/useHaptic';
 export const YearlyScreen = () => {
   const daysLeftInYear = useMemo(() => getDaysLeftInYear(), []);
   // 선택된 날짜 상태 (store에서 가져오기)
-  const selectedYear = useSelectedYear();
   const selectedMonth = useSelectedMonth();
   const selectedDay = useSelectedDay();
   const [isMemoOpen, setIsMemoOpen] = useState(false);
   const [memoText, setMemoText] = useState('');
-
+  const { soft ,rigid } = useHaptic();
   const openMemo = async () => {
     const month = selectedMonth ?? todayMonth;
     const day = selectedDay ?? todayDay;
@@ -47,11 +48,23 @@ export const YearlyScreen = () => {
   };
 
 
+    const panGesture = Gesture.Pan()
+    .onBegin((e) => {
+      console.log('onBegin', e);
+      runOnJS(rigid)();
 
+    })
+    .onUpdate((e) => {
+      // console.log('onUpdate', e);
+    }).onEnd(() => {
+      console.log('onEnd');
+      runOnJS(soft)();
+    });
   return (
     <View className="w-full h-full" style={{overflow: 'visible'}}>
-      <View className="w-full justify-center items-center my-4">
-        <View className="flex-row w-full justify-center items-end mb-2">
+
+      {/* 남은 일 수 */}
+      <View className="flex-row w-full justify-center items-end my-8">
         <Text
         text={`${currentYear}년이 `}
         type="body3"
@@ -67,12 +80,8 @@ export const YearlyScreen = () => {
         style={{color: Colors.gray700}}
         />
         </View>
-      </View>
-      <ScrollView 
-        contentContainerStyle={{paddingBottom: 100}}
-        showsVerticalScrollIndicator={false}
-        style={{overflow: 'visible'}}
-      >
+      {/* dot 그리드 */}
+      <GestureDetector gesture={panGesture}>
         <View className="flex-row flex-wrap justify-center mb-8" style={{overflow: 'visible'}}>
           {dots.map((dot) => {
             const isSelected = selectedMonth === dot.month && selectedDay === dot.day;
@@ -86,13 +95,15 @@ export const YearlyScreen = () => {
             />
           )})}
         </View>
+        </GestureDetector>
+        {/* 메모 버튼 */}
         <MemoButton 
         onPress={openMemo} 
         date={{
           month: selectedMonth ?? todayMonth,
           day: selectedDay ?? todayDay
         }}/>
-      </ScrollView>
+        {/* 메모 모달 */}
       <MemoModal
         visible={isMemoOpen}
         onClose={() => setIsMemoOpen(false)}
