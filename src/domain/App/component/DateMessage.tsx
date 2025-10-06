@@ -31,7 +31,7 @@ export const DateMessage = memo(({ month, day, year, visible}: DateMessageProps)
           runOnJS(setEffect)('none');
         });
       }, DATE_MESSAGE_DURATION);
-
+      
       return () => {
         clearTimeout(timeoutId);
       };

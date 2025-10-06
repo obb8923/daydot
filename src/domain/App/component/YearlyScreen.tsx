@@ -4,23 +4,18 @@ import { Text } from '@component/Text';
 import { Dot } from '@domain/App/component/Dot';
 import { Colors } from '@/shared/constant/Colors';
 import { MemoButton } from '@/domain/App/component/MemoButton';
-import { currentYear, todayMonth, todayDay, getDaysLeftInYear, daysInMonth } from '@constant/Date';
+import { currentYear, todayMonth, todayDay, getDaysLeftInYear} from '@constant/Date';
 import { StorageService } from '@service/storageService';
 import { MemoModal } from '@domain/App/component/MemoModal';
 import {dots} from '@constant/normal';
+import { HapticService } from '@service/hapticService';
+
 export const YearlyScreen = () => {
   const daysLeftInYear = useMemo(() => getDaysLeftInYear(), []);
   // 선택된 날짜 상태 (기본값: 오늘)
   const [selectedDate, setSelectedDate] = useState<{month: number; day: number} | null>({ month: todayMonth, day: todayDay });
   const [isMemoOpen, setIsMemoOpen] = useState(false);
   const [memoText, setMemoText] = useState('');
-  
-
-
-  const handleDotPress = useCallback((month?: number, day?: number) => {
-    setSelectedDate({month: month!, day: day!});
-  }, []);
-
 
   const openMemo = async () => {
     if (!selectedDate) {
@@ -40,12 +35,18 @@ export const YearlyScreen = () => {
     if (!memoText.trim()) {
       // 빈 문자열이면 삭제 처리
       await StorageService.removeMemoByMonthDay(target.month, target.day);
+      HapticService.soft(); // 부드러운 햅틱으로 삭제 완료 표시
       setIsMemoOpen(false);
       return;
     }
     await StorageService.setMemoByMonthDay(target.month, target.day, memoText);
+    HapticService.soft(); // 부드러운 햅틱으로 저장 완료 표시
     setIsMemoOpen(false);
   };
+
+  const handleDotPress = useCallback((month?: number, day?: number, year?: number) => {
+    setSelectedDate({ month: month ?? todayMonth, day: day ?? todayDay });
+  }, []);
 
   return (
     <View className="w-full h-full" style={{overflow: 'visible'}}>
@@ -75,16 +76,15 @@ export const YearlyScreen = () => {
         <View className="flex-row flex-wrap justify-center mb-8" style={{overflow: 'visible'}}>
           {dots.map((dot) => {
             const isSelected = selectedDate?.month === dot.month && selectedDate?.day === dot.day;
-            return(
+            return (
             <Dot
               key={dot.key}
               item={dot}
-              onPress={handleDotPress}
               type="yearly"
+              onPress={handleDotPress}
               isSelected={isSelected}
             />
-          )}
-          )}
+          )})}
         </View>
         <MemoButton 
         onPress={openMemo} 

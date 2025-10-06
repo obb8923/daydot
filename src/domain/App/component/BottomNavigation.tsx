@@ -10,7 +10,7 @@ import SettingIcon from '@assets/svg/Setting.svg';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@nav/App';
 import { useNavigation } from '@react-navigation/native'
-type ScreenType = 'lifetime' | 'yearly';
+import { ScreenType } from '@constant/normal';
 
 interface BottomNavigationProps {
   onScreenChange: (screen: ScreenType) => void;

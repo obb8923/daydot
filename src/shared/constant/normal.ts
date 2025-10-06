@@ -43,3 +43,5 @@ export const DATE_MESSAGE_DURATION = 2000; // 날짜 메시지 지속 시간 (�
       year: index + 1,
       key: `${index + 1}`,
     }));
+
+export type ScreenType = 'yearly' | 'lifetime';

@@ -1,5 +1,5 @@
 import './global.css';
-import 'react-native-gesture-handler';
+import 'react-native-gesture-handler'; //라이브러리 초기화
 import React from 'react';
 import { StatusBar} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';

@@ -1,11 +1,13 @@
-import { View, TouchableOpacity } from 'react-native';
-import React, { useEffect, memo } from 'react';
+import { View,TouchableOpacity } from 'react-native';
+import React, { memo, useState } from 'react';
 import { DateMessage } from '@domain/App/component/DateMessage';
 import { useColorStore } from '@store/colorStore';
 import {Colors} from '@constant/Colors';
 import {todayMonth, todayDay} from '@constant/Date';
 import { useBirthDateStore } from '@store/birthDateStore';
 import { HapticService } from '@service/hapticService';
+import { ScreenType } from '@constant/normal';
+
 interface DotProps {
   item: {
     id: string | number;
@@ -15,14 +17,15 @@ interface DotProps {
     key: string;
   };
   onPress: (month?: number, day?: number, year?: number) => void;
-  type: 'yearly' | 'lifetime';
+  type: ScreenType;
   isSelected?: boolean; // 외부에서 선택 여부를 직접 전달하는 최적화용
 }
 
-export const Dot = memo(({ item, onPress, type, isSelected }: DotProps) => {
+export const Dot = memo(({ item, type, onPress, isSelected }: DotProps) => {
   const selectedColors = useColorStore((state) => state.selectedColors);
   const { getCurrentAge } = useBirthDateStore();
   const currentAge = getCurrentAge();
+
   let isPast, isCurrent, backgroundColor;
   
   if (type === 'yearly') {
