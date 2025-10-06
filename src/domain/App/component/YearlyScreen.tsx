@@ -10,8 +10,6 @@ import { MemoModal } from '@domain/App/component/MemoModal';
 import {dots} from '@constant/normal';
 import { HapticService } from '@service/hapticService';
 import { useSelectedMonth, useSelectedDay } from '@store/selectedDateStore';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { runOnJS } from 'react-native-reanimated';
 import { useHaptic } from '@/shared/hooks/useHaptic';
 export const YearlyScreen = () => {
   const daysLeftInYear = useMemo(() => getDaysLeftInYear(), []);
@@ -48,18 +46,6 @@ export const YearlyScreen = () => {
   };
 
 
-    const panGesture = Gesture.Pan()
-    .onBegin((e) => {
-      console.log('onBegin', e);
-      runOnJS(rigid)();
-
-    })
-    .onUpdate((e) => {
-      // console.log('onUpdate', e);
-    }).onEnd(() => {
-      console.log('onEnd');
-      runOnJS(soft)();
-    });
   return (
     <View className="w-full h-full" style={{overflow: 'visible'}}>
 
@@ -81,7 +67,6 @@ export const YearlyScreen = () => {
         />
         </View>
       {/* dot 그리드 */}
-      <GestureDetector gesture={panGesture}>
         <View className="flex-row flex-wrap justify-center mb-8" style={{overflow: 'visible'}}>
           {dots.map((dot) => {
             const isSelected = selectedMonth === dot.month && selectedDay === dot.day;
@@ -95,7 +80,6 @@ export const YearlyScreen = () => {
             />
           )})}
         </View>
-        </GestureDetector>
         {/* 메모 버튼 */}
         <MemoButton 
         onPress={openMemo} 

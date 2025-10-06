@@ -5,6 +5,9 @@ import { useColorStore } from '@store/colorStore';
 import {Colors} from '@constant/Colors';
 import { useSelectedDateStore } from '@store/selectedDateStore';
 import { useHaptic } from '@/shared/hooks/useHaptic';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { runOnJS, useSharedValue } from 'react-native-reanimated';
+
 interface DotProps {
   item: {
     id: string | number;
@@ -21,8 +24,22 @@ export const Dot = memo(({ item, isSelected, isPast }: DotProps) => {
   const selectedColors = useColorStore((state) => state.selectedColors);
   const setSelectedDate = useSelectedDateStore((state) => state.setSelectedDate);
   const [showDateMessage, setShowDateMessage] = useState(false);
-  const { light } = useHaptic();
-  
+  const { light, soft } = useHaptic();
+  const lastRun = useSharedValue(0);
+
+const panGesture = Gesture.Pan()
+  .onBegin((e) => {
+    runOnJS(soft)();
+  })
+  .onUpdate((e) => {
+    const now = Date.now();
+    if (now - lastRun.value > 250) {
+      console.log(now, lastRun.value);
+      lastRun.value = now;
+      runOnJS(soft)();
+    }
+  });
+
   const handlePress = () => {
     light(); // 햅틱 피드백 추가
     setSelectedDate(item.year, item.month, item.day);
@@ -30,7 +47,7 @@ export const Dot = memo(({ item, isSelected, isPast }: DotProps) => {
   }
 
   return (
-
+    <GestureDetector gesture={panGesture}>
     <View key={item.key} className="relative overflow-visible">
       <TouchableOpacity 
         onPress={handlePress}
@@ -55,5 +72,6 @@ export const Dot = memo(({ item, isSelected, isPast }: DotProps) => {
         />
       )}
     </View>
+    </GestureDetector>
   );
 });
