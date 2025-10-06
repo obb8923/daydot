@@ -1,7 +1,7 @@
 import {View, ScrollView} from 'react-native';
 import React, {useEffect, useMemo} from 'react';
 import {useBirthDateStore} from '@store/birthDateStore';
-import { useSelectedDateStore } from '@store/selectedDateStore';
+import { useSelectedYear } from '@store/selectedDateStore';
 import { Dot } from '@domain/App/component/Dot';
 import { Text } from '@component/Text';
 import { Colors } from '@constant/Colors';
@@ -10,7 +10,7 @@ import { LIFE_EXPECTANCY, generateYearsFromBirthDate } from '@constant/normal';
 
 export const LifetimeScreen = () => {
   const { birthDate, loadBirthDate, getCurrentAge } = useBirthDateStore();
-  const selectedDate = useSelectedDateStore((state) => state.selectedDate);
+  const selectedYear = useSelectedYear();
   const quote = useMemo(() => {
     return Quotes[Math.floor(Math.random() * Quotes.length)];
   }, []);
@@ -46,13 +46,15 @@ export const LifetimeScreen = () => {
       >
         <View className="flex-row flex-wrap justify-center" style={{overflow: 'visible'}}>
           {years.map((year) => {
-            const isSelected = selectedDate && selectedDate.getFullYear() === year.year;
+            const isSelected = selectedYear === year.year;
+            const currentYear = new Date().getFullYear();
+            const isPast = year.year < currentYear;
             return(
             <Dot
               key={year.key}
               item={year}
-              type="lifetime"
               isSelected={isSelected}
+              isPast={isPast}
             />
           )}
           )}

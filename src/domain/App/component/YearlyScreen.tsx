@@ -9,20 +9,20 @@ import { StorageService } from '@service/storageService';
 import { MemoModal } from '@domain/App/component/MemoModal';
 import {dots} from '@constant/normal';
 import { HapticService } from '@service/hapticService';
-import { useSelectedDateStore } from '@store/selectedDateStore';
+import { useSelectedYear, useSelectedMonth, useSelectedDay } from '@store/selectedDateStore';
 
 export const YearlyScreen = () => {
   const daysLeftInYear = useMemo(() => getDaysLeftInYear(), []);
   // 선택된 날짜 상태 (store에서 가져오기)
-  const selectedDate = useSelectedDateStore((state) => state.selectedDate);
-  const setSelectedDate = useSelectedDateStore((state) => state.setSelectedDate); 
+  const selectedYear = useSelectedYear();
+  const selectedMonth = useSelectedMonth();
+  const selectedDay = useSelectedDay();
   const [isMemoOpen, setIsMemoOpen] = useState(false);
   const [memoText, setMemoText] = useState('');
 
   const openMemo = async () => {
-    const target = selectedDate ?? new Date();
-    const month = target.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1
-    const day = target.getDate();
+    const month = selectedMonth ?? todayMonth;
+    const day = selectedDay ?? todayDay;
     try {
       const existing = await StorageService.getMemoByMonthDay(month, day);
       setMemoText(existing ?? '');
@@ -32,9 +32,8 @@ export const YearlyScreen = () => {
   };
 
   const saveMemo = async () => {
-    const target = selectedDate ?? new Date();
-    const month = target.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1
-    const day = target.getDate();
+    const month = selectedMonth ?? todayMonth;
+    const day = selectedDay ?? todayDay;
     if (!memoText.trim()) {
       // 빈 문자열이면 삭제 처리
       await StorageService.removeMemoByMonthDay(month, day);
@@ -76,24 +75,23 @@ export const YearlyScreen = () => {
       >
         <View className="flex-row flex-wrap justify-center mb-8" style={{overflow: 'visible'}}>
           {dots.map((dot) => {
-            const isSelected = selectedDate && 
-              selectedDate.getMonth() + 1 === dot.month && 
-              selectedDate.getDate() === dot.day;
+            const isSelected = selectedMonth === dot.month && selectedDay === dot.day;
+            const isPast = dot.month < todayMonth || (dot.month === todayMonth && dot.day < todayDay);
             return (
             <Dot
               key={dot.key}
               item={dot}
-              type="yearly"
               isSelected={isSelected}
+              isPast={isPast}
             />
           )})}
         </View>
         <MemoButton 
         onPress={openMemo} 
-        date={selectedDate ? {
-          month: selectedDate.getMonth() + 1,
-          day: selectedDate.getDate()
-        } : {month: todayMonth, day: todayDay}}/>
+        date={{
+          month: selectedMonth ?? todayMonth,
+          day: selectedDay ?? todayDay
+        }}/>
       </ScrollView>
       <MemoModal
         visible={isMemoOpen}
@@ -101,10 +99,10 @@ export const YearlyScreen = () => {
         text={memoText}
         onChangeText={setMemoText}
         onSave={saveMemo}
-        date={selectedDate ? {
-          month: selectedDate.getMonth() + 1,
-          day: selectedDate.getDate()
-        } : {month: todayMonth, day: todayDay}}
+        date={{
+          month: selectedMonth ?? todayMonth,
+          day: selectedDay ?? todayDay
+        }}
       />
     </View>
   );

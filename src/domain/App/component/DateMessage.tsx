@@ -3,15 +3,22 @@ import { LiquidGlassView } from '@component/LiquidGlassView';
 import { Text } from '@component/Text';
 import Animated, { useSharedValue, withTiming, useAnimatedStyle, Easing, runOnJS } from 'react-native-reanimated';
 import { DATE_MESSAGE_DURATION } from '@/shared/constant/normal';
+import { useSelectedYear, useSelectedMonth, useSelectedDay } from '@store/selectedDateStore';
 interface DateMessageProps {
-  month?: number;
-  day?: number;
-  year?: number;
   visible: boolean; // 부모에서 표시 여부 제어
 }
 
-export const DateMessage = memo(({ month, day, year, visible}: DateMessageProps) => {
-  const messageText = year ? `${year}년` : `${month}월 ${day}일`;
+export const DateMessage = memo(({ visible}: DateMessageProps) => {
+  const selectedYear = useSelectedYear();
+  const selectedMonth = useSelectedMonth();
+  const selectedDay = useSelectedDay();
+  
+  // 표시 규칙
+  // - year가 undefined: "MM월 DD일"만 표시
+  // - year가 정의됨: "YYYY년"만 표시
+  const messageText = selectedYear === undefined
+    ? (selectedMonth && selectedDay ? `${selectedMonth}월 ${selectedDay}일` : '')
+    : `${selectedYear}년`;
   const [effect, setEffect] = useState<'none' | 'clear'>('none');
   const opacity = useSharedValue(0);
 
