@@ -4,6 +4,7 @@ import { Text } from '@component/Text';
 import {LiquidGlassView} from '@component/LiquidGlassView';
 import { Colors } from '@/shared/constant/Colors';
 import { DEVICE_HEIGHT } from '@constant/normal';
+import {PADDING_HORIZONTAL} from '@constant/layout';
 // 메모 모달 UI
 export const MemoModal = ({
     date,
@@ -23,7 +24,7 @@ export const MemoModal = ({
     return (
       <Modal visible={visible} animationType="slide" transparent>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
-          <View className="flex-1 justify-end bg-black/80 pb-4">
+          <View className="flex-1 items-center justify-end bg-black/80 pb-4" style={{paddingHorizontal: PADDING_HORIZONTAL/2}}>
               <LiquidGlassView 
               style={{width: '100%', height: DEVICE_HEIGHT * 0.3, borderRadius: 20}}
               >
@@ -39,7 +40,7 @@ export const MemoModal = ({
                 style={{ color: 'white',borderRadius: 20 }}
               />
             </LiquidGlassView>
-            <View className="flex-row justify-end mt-3 mr-4 gap-4">
+            <View className="w-full flex-row justify-end mt-3 gap-4">
                 <LiquidGlassView style={{ height: 'auto', borderRadius: 20}}>
                 <TouchableOpacity onPress={onClose} className="px-4 py-2">
                   <Text text="닫기" type="body3" />
