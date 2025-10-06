@@ -13,7 +13,7 @@ import { useSelectedMonth, useSelectedDay, useSetSelectedDate } from '@store/sel
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { runOnJS, useSharedValue } from 'react-native-reanimated';
 import { useHaptic } from '@/shared/hooks/useHaptic';
-
+import { RemainingDaysHeader } from '@domain/App/component/RemainingDaysHeader';
 export const YearlyScreen = () => {
   const daysLeftInYear = useMemo(() => getDaysLeftInYear(), []);
   // 선택된 날짜 상태 (store에서 가져오기)
@@ -65,26 +65,20 @@ export const YearlyScreen = () => {
   }, []);
 
   const hitTestOnJS = (x: number, y: number) => {
-    // 여유 패딩 허용
-    const hitPadding = 8;
-    let hitKey: string | null = null;
-    const entries = Array.from(dotLayoutsRef.current.entries());
-    console.log('dotLayouts size', entries.length);
-    for (const [key, info] of entries) {
-      if (info.absoluteX == null || info.absoluteY == null) continue;
-      const baseX = info.absoluteX;
-      const baseY = info.absoluteY;
-      const withinX = x >= (baseX - hitPadding) && x <= (baseX + (info.width ?? 0) + hitPadding);
-      const withinY = y >= (baseY - hitPadding) && y <= (baseY + (info.height ?? 0) + hitPadding);
-      // 디버그 로그
-      // console.log('withinX', withinX, 'withinY', withinY, 'baseX', baseX, 'baseY', baseY, 'info', info);
-      if (withinX && withinY) { hitKey = key; break; }
+    let hitKey: string | null = null; // hit 저장
+    const entries = Array.from(dotLayoutsRef.current.entries()); // dots
+    for (const [key, info] of entries) { // dot 정보 순회
+      if (info.absoluteX == null || info.absoluteY == null || info.width == null || info.height == null) continue; // dot 정보가 없으면 스킵
+      const baseX = info.absoluteX; // dot 절대 좌표
+      const baseY = info.absoluteY; // dot 절대 좌표
+      const withinX = x >= baseX && x <= (baseX + (info.width)); // x 좌표 범위 확인
+      const withinY = y >= baseY && y <= (baseY + (info.height)); // y 좌표 범위 확인
+      if (withinX && withinY) { hitKey = key; break; } // 범위 내에 있으면 저장 후 종료
     }
     if (hitKey) {
-      const info = dotLayoutsRef.current.get(hitKey);
-      console.log('hit info', info);
-      if (info && info.month && info.day) {
-        setSelectedDate(undefined, info.month, info.day);
+      const info = dotLayoutsRef.current.get(hitKey); // dot 정보 가져오기
+      if (info && info.month && info.day) { // dot 정보가 있으면 선택
+        setSelectedDate(undefined, info.month, info.day); // 선택된 날짜에 값 저장하기
       }
     }
   };
@@ -97,10 +91,11 @@ export const YearlyScreen = () => {
     const now = Date.now();
     if (now - lastRun.value > 250) {
       lastRun.value = now;
-      // 절대 좌표 우선, JS로 히트 테스트 위임
+      // 햅틱
+      runOnJS(soft)();
+      // 날짜 저장 로직
       const x = (e as any).absoluteX;
       const y = (e as any).absoluteY;
-      console.log('pointer', { x, y });
       runOnJS(hitTestOnJS)(x, y);
     }
   });
@@ -110,22 +105,7 @@ export const YearlyScreen = () => {
     <View className="w-full h-full" style={{overflow: 'visible'}}>
 
       {/* 남은 일 수 */}
-      <View className="flex-row w-full justify-center items-end my-8">
-        <Text
-        text={`${currentYear}년이 `}
-        type="body3"
-        style={{color: Colors.gray700}}
-        />
-        <Text
-        text={`${daysLeftInYear}일`}
-        type="title4"
-        />
-        <Text
-        text={` 남았습니다.`}
-        type="body3"  
-        style={{color: Colors.gray700}}
-        />
-        </View>
+      <RemainingDaysHeader value={daysLeftInYear} />
       {/* dot 그리드 */}
       <GestureDetector gesture={panGesture}>
 
