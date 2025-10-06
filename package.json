@@ -1,6 +1,6 @@
 {
   "name": "daydot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -21,6 +21,7 @@
     "react": "19.1.0",
     "react-native": "0.81.4",
     "react-native-gesture-handler": "^2.28.0",
+    "react-native-haptic-feedback": "^2.3.3",
     "react-native-in-app-review": "^4.4.2",
     "react-native-reanimated": "^4.1.2",
     "react-native-safe-area-context": "^5.5.2",

@@ -8,9 +8,10 @@ interface DateMessageProps {
   day?: number;
   year?: number;
   visible: boolean; // 부모에서 표시 여부 제어
+  setShowDateMessage: (visible: boolean) => void;
 }
 
-export const DateMessage = memo(({ month, day, year, visible}: DateMessageProps) => {
+export const DateMessage = memo(({ month, day, year, visible, setShowDateMessage}: DateMessageProps) => {
   const messageText = year ? `${year}살` : `${month}월 ${day}일`;
   const [effect, setEffect] = useState<'none' | 'clear'>('none');
   const opacity = useSharedValue(0);
@@ -29,9 +30,10 @@ export const DateMessage = memo(({ month, day, year, visible}: DateMessageProps)
       const timeoutId = setTimeout(() => {
         opacity.value = withTiming(0, { duration: 250, easing: Easing.in(Easing.cubic) }, () => {
           runOnJS(setEffect)('none');
+          runOnJS(setShowDateMessage)(false);
         });
       }, DATE_MESSAGE_DURATION);
-
+      
       return () => {
         clearTimeout(timeoutId);
       };
