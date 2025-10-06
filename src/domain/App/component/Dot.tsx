@@ -5,6 +5,7 @@ import { useColorStore } from '@store/colorStore';
 import {Colors} from '@constant/Colors';
 import {todayMonth, todayDay} from '@constant/Date';
 import { useBirthDateStore } from '@store/birthDateStore';
+import { HapticService } from '@service/hapticService';
 interface DotProps {
   item: {
     id: string | number;
@@ -44,7 +45,10 @@ export const Dot = memo(({ item, onPress, type, isSelected }: DotProps) => {
   return (
     <View key={item.key} className="relative overflow-visible">
       <TouchableOpacity 
-        onPress={()=>{onPress(item.month, item.day, item.year);}}
+        onPress={()=>{
+          HapticService.light(); // 햅틱 피드백 추가
+          onPress(item.month, item.day, item.year);
+        }}
         className="w-6 h-6 items-center justify-center"
       >
         <View 
