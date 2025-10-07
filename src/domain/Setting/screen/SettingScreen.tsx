@@ -86,23 +86,7 @@ export const SettingScreen = () => {
    
 
           {/* 정보 그룹 */}
-          <SettingGroup>
-            {/* <SettingItem
-              title="앱 정보"
-              subtitle="버전 1.0.0"
-              icon={<FileIcon width={20} height={20} color="white" />}
-             
-              onPress={() => console.log('앱 정보 클릭')}
-            />
-            
-            <SettingItem
-              title="개발자 정보"
-              subtitle="DayDot Team"
-              icon={<SettingIcon width={20} height={20} color="white" />}
-             
-              onPress={() => console.log('개발자 정보 클릭')}
-            /> */}
-            
+          {/* <SettingGroup>
             <SettingItem
               title="이용약관"
               subtitle="서비스 이용약관"
@@ -120,7 +104,7 @@ export const SettingScreen = () => {
                 setShowTermsAndPrivacyPolicyModal(true);
               }}
             />
-          </SettingGroup>
+          </SettingGroup> */}
         </ScrollView>
       </View>
 
