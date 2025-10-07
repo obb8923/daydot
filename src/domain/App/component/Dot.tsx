@@ -38,7 +38,6 @@ export const Dot = memo(({ item, isSelected, isPast, onLayout }: DotProps) => {
     requestAnimationFrame(() => {
       viewRef.current?.measureInWindow?.((pageX, pageY, w, h) => {
         onLayout?.({ width: w, height: h, absoluteX: pageX, absoluteY: pageY });
-        console.log('measureInWindow', { width: w, height: h, absoluteX: pageX, absoluteY: pageY });
       });
     });
   };
