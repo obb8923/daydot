@@ -1,4 +1,4 @@
-import { View, ActivityIndicator } from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
 import {Background} from '@component/Background';
 import { useColorStore } from '../store/colorStore';
@@ -11,7 +11,6 @@ export const SpinnerScreen = () => {
     </Background>
   );
 };
-
 const Spinner = () => {
     const selectedColors = useColorStore((state) => state.selectedColors);
 
@@ -25,7 +24,6 @@ const Spinner = () => {
             shadowRadius: 3.84,
             elevation: 3,
           }}
-          
     />
   );
 };
