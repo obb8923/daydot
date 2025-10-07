@@ -1,0 +1,18 @@
+{
+  "app": {
+    "title": "데이닷",
+    "ok": "확인",
+    "cancel": "취소"
+  },
+  "setting": {
+    "changeBirthday": "생년월일 변경",
+    "contact": "문의하기",
+    "suggest": "건의하기",
+    "language": "언어",
+    "selectLanguage": "언어 선택"
+  },
+  "language": {
+    "ko": "한국어",
+    "en": "English"
+  }
+}

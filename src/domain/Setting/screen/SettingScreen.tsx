@@ -14,14 +14,20 @@ import { useBirthDateStore } from '@store/birthDateStore';
 import { DatePicker } from '@component/DatePicker';
 import { MAIL_ADDRESS } from '@constant/normal';
 import { TermsAndPrivacyPolicyModal } from '@domain/Setting/component/TermsAndPrivacyPolicyModal';
+import { LanguageSwitcher } from '@domain/Setting/component/LanguageSwitcher';
+import { useLanguageStore } from '@store/languageStore';
+import { useTranslation } from 'react-i18next';
 type SettingScreenNavigationProp = NativeStackNavigationProp<SettingStackParamList>;
 
 export const SettingScreen = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation<SettingScreenNavigationProp>();
   const { birthDate, setBirthDate } = useBirthDateStore();
+  const { language } = useLanguageStore();
   
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTermsAndPrivacyPolicyModal, setShowTermsAndPrivacyPolicyModal] = useState(false);
+  const [showLanguageSwitcher, setShowLanguageSwitcher] = useState(false);
   const [modalType, setModalType] = useState<'privacy' | 'terms'>('terms');
 
   const handleDateConfirm = async (confirmedDate: Date) => {
@@ -41,6 +47,10 @@ export const SettingScreen = () => {
     return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
   };
 
+  const getLanguageName = (code: string) => {
+    return code === 'ko' ? '한국어' : 'English';
+  };
+
   return (
     <Background>
       <View className="flex-1 p-5">
@@ -58,7 +68,7 @@ export const SettingScreen = () => {
           {/* 생년월일 변경 그룹 */}
           <SettingGroup>
             <SettingItem
-              title="생년월일 변경"
+              title={t('setting.changeBirthday')}
               subtitle={formatDate(birthDate??new Date())}
               onPress={() => setShowDatePicker(true)}
             />
@@ -68,13 +78,19 @@ export const SettingScreen = () => {
           {/* 앱 설정 그룹 */}
           <SettingGroup>
             <SettingItem
-              title="문의하기"
+              title={t('setting.language')}
+              subtitle={getLanguageName(language)}
+              onPress={() => setShowLanguageSwitcher(true)}
+            />
+            <DividingLine />
+            <SettingItem
+              title={t('setting.contact')}
               subtitle="이메일로 문의하기"              
               onPress={() => Alert.alert('이메일로 문의하기',`이메일 주소:\n${MAIL_ADDRESS}\n감사합니다!`)}
             />
             <DividingLine />
             <SettingItem
-              title="건의하기"
+              title={t('setting.suggest')}
               subtitle="건의사항 및 의견 보내기"              
               onPress={() => navigation.navigate('Webview')}
             />
@@ -121,6 +137,10 @@ export const SettingScreen = () => {
         type={modalType}
         visible={showTermsAndPrivacyPolicyModal}
         onClose={() => setShowTermsAndPrivacyPolicyModal(false)}
+      />
+      <LanguageSwitcher
+        visible={showLanguageSwitcher}
+        onClose={() => setShowLanguageSwitcher(false)}
       />
     </Background>
   )

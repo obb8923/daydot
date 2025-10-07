@@ -2482,6 +2482,34 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
+  - RNLocalize (3.5.2):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
   - RNReactNativeHapticFeedback (2.3.3):
     - boost
     - DoubleConversion
@@ -2889,6 +2917,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNLocalize (from `../node_modules/react-native-localize`)
   - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -3057,6 +3086,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNLocalize:
+    :path: "../node_modules/react-native-localize"
   RNReactNativeHapticFeedback:
     :path: "../node_modules/react-native-haptic-feedback"
   RNReanimated:
@@ -3148,6 +3179,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 302f2fac014fd450046c120567ca364632da682b
   RNDateTimePicker: 4f5b43e012e41be05a1ee7b8ee162dfc0dfd5503
   RNGestureHandler: 4f7cc97a71d4fe0fcba38c94acdd969f5f17c91c
+  RNLocalize: 490382985a088a8ef3c310d3d90148cc42abf20a
   RNReactNativeHapticFeedback: 63aa39dbd6ef56e9de688210c5761d4007927a7e
   RNReanimated: b8b86b99a4bb938cacac1213724cb4c8edb6c614
   RNScreens: 74985ca8e102294a60cec7513fa84c936fa0b20b

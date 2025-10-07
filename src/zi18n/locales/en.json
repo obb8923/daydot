@@ -1,0 +1,18 @@
+{
+  "app": {
+    "title": "Daydot",
+    "ok": "OK",
+    "cancel": "Cancel"
+  },
+  "setting": {
+    "changeBirthday": "Change birth date",
+    "contact": "Contact us",
+    "suggest": "Send feedback",
+    "language": "Language",
+    "selectLanguage": "Select language"
+  },
+  "language": {
+    "ko": "한국어",
+    "en": "English"
+  }
+}
