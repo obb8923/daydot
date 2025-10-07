@@ -8,11 +8,8 @@ import {Background} from '@component/Background';
 import {Colors} from '@constant/Colors';
 import { GOOGLE_FORM_URL } from '@constant/normal';
 import { SettingStackParamList } from '@nav/Setting';
-import { BUTTON_HEIGHT } from '@constant/layout';
-import ChevronLeftIcon from '@assets/svg/ChevronLeft.svg';
+
 type SettingScreenNavigationProp = NativeStackNavigationProp<SettingStackParamList>;
-
-
 
 export const WebviewScreen = () => {
   const navigation = useNavigation<SettingScreenNavigationProp>();

@@ -13,7 +13,7 @@ import { DividingLine } from '@domain/Setting/component/DividingLine';
 import { useBirthDateStore } from '@store/birthDateStore';
 import { DatePicker } from '@component/DatePicker';
 import { MAIL_ADDRESS } from '@constant/normal';
-
+import { TermsAndPrivacyPolicyModal } from '@domain/Setting/component/TermsAndPrivacyPolicyModal';
 type SettingScreenNavigationProp = NativeStackNavigationProp<SettingStackParamList>;
 
 export const SettingScreen = () => {
@@ -21,7 +21,8 @@ export const SettingScreen = () => {
   const { birthDate, setBirthDate } = useBirthDateStore();
   
   const [showDatePicker, setShowDatePicker] = useState(false);
-
+  const [showTermsAndPrivacyPolicyModal, setShowTermsAndPrivacyPolicyModal] = useState(false);
+  const [modalType, setModalType] = useState<'privacy' | 'terms'>('terms');
 
   const handleDateConfirm = async (confirmedDate: Date) => {
     try {
@@ -105,13 +106,19 @@ export const SettingScreen = () => {
             <SettingItem
               title="이용약관"
               subtitle="서비스 이용약관"
-              onPress={() => console.log('이용약관 클릭')}
+              onPress={() => {
+                setModalType('terms');
+                setShowTermsAndPrivacyPolicyModal(true);
+              }}
             />
             <DividingLine />
             <SettingItem
               title="개인정보처리방침"
               subtitle="개인정보 보호정책"             
-              onPress={() => console.log('개인정보처리방침 클릭')}
+              onPress={() => {
+                setModalType('privacy');
+                setShowTermsAndPrivacyPolicyModal(true);
+              }}
             />
           </SettingGroup>
         </ScrollView>
@@ -125,6 +132,11 @@ export const SettingScreen = () => {
         maximumDate={new Date()}
         minimumDate={new Date(1900, 0, 1)}
         visible={showDatePicker}
+      />
+      <TermsAndPrivacyPolicyModal
+        type={modalType}
+        visible={showTermsAndPrivacyPolicyModal}
+        onClose={() => setShowTermsAndPrivacyPolicyModal(false)}
       />
     </Background>
   )

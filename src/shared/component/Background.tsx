@@ -1,7 +1,8 @@
 import { View, ViewStyle } from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useColorStore } from "@store/colorStore"
 import { Colors } from "@constant/Colors"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
+
 type BackgroundProps = {
   children: React.ReactNode;
   style?: ViewStyle | ViewStyle[];
@@ -9,8 +10,8 @@ type BackgroundProps = {
   isBottomGap?: boolean;
 }
 export const Background = ({children,isStatusBarGap=true,isBottomGap=true,...props}: BackgroundProps) => {
-  const insets = useSafeAreaInsets();
   const selectedColors = useColorStore((state) => state.selectedColors);
+  const insets = useSafeAreaInsets();
   
   // 기본 색상 설정
   const backgroundColor = selectedColors?.background || Colors.b0;
