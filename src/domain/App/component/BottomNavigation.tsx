@@ -44,7 +44,7 @@ const navigation = useNavigation<AppScreenNavigationProp>();
       <LiquidGlassButton
        style={{
         width:BOTTOM_NAVIGATION_HEIGHT,height:BOTTOM_NAVIGATION_HEIGHT,justifyContent:'center', alignItems:'center'}}
-        onPress={() => navigation.navigate('SettingScreen')}
+        onPress={() => navigation.navigate('SettingStack')}
       >
         <SettingIcon width={24} height={24} color={'white'}/>
       </LiquidGlassButton>
