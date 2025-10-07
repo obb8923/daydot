@@ -20,9 +20,7 @@ export default function App() {
         <SafeAreaProvider>
                 <NavigationContainer>
                   <StatusBar barStyle="light-content" translucent={true}/>
-                  {
-                    !isInitialized ? <SpinnerScreen /> : <RootStack />
-                  }
+                  { !isInitialized ? <SpinnerScreen /> : <RootStack /> }
                 </NavigationContainer>
       </SafeAreaProvider>
     </GestureHandlerRootView>
