@@ -5,13 +5,14 @@ import Animated, { useSharedValue, withTiming, useAnimatedStyle, Easing, runOnJS
 import { DATE_MESSAGE_DURATION } from '@/shared/constant/normal';
 import { useSelectedYear, useSelectedMonth, useSelectedDay } from '@store/selectedDateStore';
 import { useTranslation } from 'react-i18next';
-
+import { useMonthName } from '@/shared/hooks/useMonthName';
 interface DateMessageProps {
   visible: boolean; // 부모에서 표시 여부 제어
 }
 
 export const DateMessage = memo(({ visible}: DateMessageProps) => {
   const { t } = useTranslation();
+  const getMonthName = useMonthName();
   const selectedYear = useSelectedYear();
   const selectedMonth = useSelectedMonth();
   const selectedDay = useSelectedDay();
@@ -20,7 +21,7 @@ export const DateMessage = memo(({ visible}: DateMessageProps) => {
   // - year가 undefined: "MM월 DD일"만 표시
   // - year가 정의됨: "YYYY년"만 표시
   const messageText = selectedYear === undefined
-    ? (selectedMonth && selectedDay ? t('dateFormat.monthDay', { month: selectedMonth, day: selectedDay }) : '')
+    ? (selectedMonth && selectedDay ? t('dateFormat.monthDay', { monthName: selectedMonth ? getMonthName(selectedMonth) : '', month: selectedMonth, day: selectedDay }) : '')
     : t('dateFormat.year', { year: selectedYear });
   const [effect, setEffect] = useState<'none' | 'clear'>('none');
   const opacity = useSharedValue(0);

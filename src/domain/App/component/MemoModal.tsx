@@ -6,7 +6,7 @@ import { Colors } from '@/shared/constant/Colors';
 import { DEVICE_HEIGHT } from '@constant/normal';
 import {PADDING_HORIZONTAL} from '@constant/layout';
 import { useTranslation } from 'react-i18next';
-
+import { useMonthName } from '@/shared/hooks/useMonthName';
 // 메모 모달 UI
 export const MemoModal = ({
     date,
@@ -24,7 +24,7 @@ export const MemoModal = ({
     onSave: () => void;
   }) => {
     const { t } = useTranslation();
-    
+    const getMonthName = useMonthName();
     return (
       <Modal visible={visible} animationType="slide" transparent>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
@@ -34,7 +34,7 @@ export const MemoModal = ({
               >
               <TextInput
                 className="w-full h-auto p-4 rounded-2xl"
-                placeholder={t('yearlyScreen.memoPlaceholder', { month: date?.month, day: date?.day })}
+                placeholder={t('yearlyScreen.memoPlaceholder', { monthName: date?.month ? getMonthName(date.month) : '', month: date?.month, day: date?.day })}
                 placeholderTextColor={Colors.gray200}
                 multiline
                 autoFocus={true}

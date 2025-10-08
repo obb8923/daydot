@@ -4,27 +4,20 @@ import Animated, { LinearTransition } from 'react-native-reanimated';
 import { Text } from '@component/Text';
 import {LiquidGlassView} from '@component/LiquidGlassView';
 import {todayMonth, todayDay} from '@constant/Date';
-import FileIcon from '@assets/svg/File.svg';
+// import FileIcon from '@assets/svg/File.svg';
 import { useTranslation } from 'react-i18next';
-
+import { useMonthName } from '@/shared/hooks/useMonthName';
 interface MemoButtonProps {
   onPress: () => void;
   date: {month: number, day: number} | null;
 }
 
 export const MemoButton = ({ onPress, date }: MemoButtonProps) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const getMonthName = useMonthName();
   const isToday = date?.month === todayMonth && date?.day === todayDay;
   
-  // Get month name in current language
-  const getMonthName = (month: number) => {
-    if (i18n.language === 'en') {
-      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'];
-      return monthNames[month - 1];
-    }
-    return month; // For Korean, keep the number
-  };
+
   
   const buttonText = isToday 
     ? t('yearlyScreen.memoButtonToday')

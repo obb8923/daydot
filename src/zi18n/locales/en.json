@@ -20,7 +20,7 @@
     "remainingDaysCount": "{{days}} days",
     "remainingDaysSuffix": " left in {{year}}.",
     "today": "Today",
-    "memoPlaceholder": "Enter memo for {{month}}/{{day}}",
+    "memoPlaceholder": "Enter note for {{monthName}} {{day}}",
     "memoButtonToday": "Today's note",
     "memoButton": "Your note for {{monthName}} {{day}}"
   },
@@ -30,8 +30,8 @@
     "remainingYearsSuffix": "remaining."
   },
   "dateFormat": {
-    "yearMonthDay": "{{month}}/{{day}}/{{year}}",
-    "monthDay": "{{month}}/{{day}}",
+    "yearMonthDay": "{{monthName}} {{day}}, {{year}}",
+    "monthDay": "{{monthName}} {{day}}",
     "year": "{{year}}"
   },
   "setting": {

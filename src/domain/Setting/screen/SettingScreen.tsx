@@ -17,6 +17,7 @@ import { TermsAndPrivacyPolicyModal } from '@domain/Setting/component/TermsAndPr
 import { LanguageSwitcher } from '@domain/Setting/component/LanguageSwitcher';
 import { useLanguageStore } from '@store/languageStore';
 import { useTranslation } from 'react-i18next';
+import { useMonthName } from '@/shared/hooks/useMonthName';
 type SettingScreenNavigationProp = NativeStackNavigationProp<SettingStackParamList>;
 
 export const SettingScreen = () => {
@@ -29,7 +30,7 @@ export const SettingScreen = () => {
   const [showTermsAndPrivacyPolicyModal, setShowTermsAndPrivacyPolicyModal] = useState(false);
   const [showLanguageSwitcher, setShowLanguageSwitcher] = useState(false);
   const [modalType, setModalType] = useState<'privacy' | 'terms'>('terms');
-
+const getMonthName = useMonthName();
   const handleDateConfirm = async (confirmedDate: Date) => {
     try {
       await setBirthDate(confirmedDate);
@@ -47,7 +48,8 @@ export const SettingScreen = () => {
     return t('dateFormat.yearMonthDay', { 
       year: date.getFullYear(), 
       month: date.getMonth() + 1, 
-      day: date.getDate() 
+      day: date.getDate(),
+      monthName: getMonthName(date.getMonth() + 1)
     });
   };
 
