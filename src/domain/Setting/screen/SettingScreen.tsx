@@ -59,9 +59,9 @@ const getMonthName = useMonthName();
 
   return (
     <Background>
-      <View className="flex-1 p-5">
+      <View className="flex-1 p-4">
         {/* Back Button section */}
-        <View className="w-full flex-row mb-6" style={{height:BUTTON_HEIGHT}}>
+        <View className="absolute top-4 left-4 flex-row mb-6" style={{height:BUTTON_HEIGHT,zIndex:100}}>
           <LiquidGlassButton 
             onPress={() => navigation.goBack()} 
             style={{width:BUTTON_HEIGHT,height:BUTTON_HEIGHT,justifyContent:'center', alignItems:'center'}}>
@@ -70,7 +70,11 @@ const getMonthName = useMonthName();
         </View>
 
         {/* Setting List section */}
-        <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        <ScrollView 
+        className="flex-1" 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingTop:BUTTON_HEIGHT + 16}}
+        >
           {/* 생년월일 변경 그룹 */}
           <SettingGroup>
             <SettingItem
