@@ -5,15 +5,17 @@ import { useSelectedYear } from '@store/selectedDateStore';
 import { Dot } from '@domain/App/component/Dot';
 import { Text } from '@component/Text';
 import { Colors } from '@constant/Colors';
-import { Quotes } from '@constant/Quotes';
 import { LIFE_EXPECTANCY, generateYearsFromBirthDate } from '@constant/normal';
+import { useTranslation } from 'react-i18next';
 
 export const LifetimeScreen = () => {
+  const { t } = useTranslation();
   const { birthDate, loadBirthDate, getCurrentAge } = useBirthDateStore();
   const selectedYear = useSelectedYear();
   const quote = useMemo(() => {
-    return Quotes[Math.floor(Math.random() * Quotes.length)];
-  }, []);
+    const quotes = t('quotes', { returnObjects: true }) as string[];
+    return quotes[Math.floor(Math.random() * quotes.length)];
+  }, [t]);
   // 생일 데이터 로드
   useEffect(() => {
     loadBirthDate();
@@ -30,11 +32,11 @@ export const LifetimeScreen = () => {
     <View className="w-full h-full" style={{overflow: 'visible'}}>
       <View className="flex-row w-full justify-center items-end my-4">
           <Text 
-            text={`${LIFE_EXPECTANCY - currentAge}년 `}
+            text={t('lifetimeScreen.remainingYearsCount', { years: LIFE_EXPECTANCY - currentAge })}
             type="title4"
           />
           <Text 
-          text={`남았습니다.`}
+          text={t('lifetimeScreen.remainingYearsSuffix')}
           type="body3"
           style={{color: Colors.gray700}}
           />

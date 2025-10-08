@@ -2,17 +2,63 @@
   "app": {
     "title": "Daydot",
     "ok": "OK",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "close": "Close",
+    "save": "Save",
+    "next": "Next",
+    "start": "Start",
+    "back": "Back"
+  },
+  "onboarding": {
+    "welcome": "Your lifetime is\ncompleted by\ncountless pieces of days.",
+    "birthDatePrompt": "Please record the moment\nyou began your life's journey.",
+    "birthDate": "Birth Date"
+  },
+  "yearlyScreen": {
+    "remainingDays": "{{days}} days left in {{year}}.",
+    "remainingDaysPrefix": "",
+    "remainingDaysCount": "{{days}} days",
+    "remainingDaysSuffix": " left in {{year}}.",
+    "today": "Today",
+    "memoPlaceholder": "Enter memo for {{month}}/{{day}}",
+    "memoButtonToday": "Today's note",
+    "memoButton": "Your note for {{monthName}} {{day}}"
+  },
+  "lifetimeScreen": {
+    "remainingYears": "{{years}} years remaining.",
+    "remainingYearsCount": "{{years}} years ",
+    "remainingYearsSuffix": "remaining."
+  },
+  "dateFormat": {
+    "yearMonthDay": "{{month}}/{{day}}/{{year}}",
+    "monthDay": "{{month}}/{{day}}",
+    "year": "{{year}}"
   },
   "setting": {
     "changeBirthday": "Change birth date",
     "contact": "Contact us",
+    "contactSubtitle": "Contact via email",
+    "contactAlert": "Email address:\n{{email}}\nThank you!",
     "suggest": "Send feedback",
+    "suggestSubtitle": "Send suggestions and feedback",
     "language": "Language",
-    "selectLanguage": "Select language"
+    "selectLanguage": "Select language",
+    "terms": "Terms of Service",
+    "termsSubtitle": "Service terms of use",
+    "privacy": "Privacy Policy",
+    "privacySubtitle": "Privacy protection policy"
   },
   "language": {
     "ko": "한국어",
     "en": "English"
-  }
+  },
+  "quotes": [
+    "The time you wasted today is the tomorrow that someone who died yesterday desperately wanted.",
+    "Dost thou love life? Then do not squander time, for that's the stuff life is made of.",
+    "Time waits for no one.",
+    "Never put off till tomorrow what you can do today.",
+    "The busiest people have the most time.",
+    "We waste our precious time holding onto sorrows that we'll forget in a year anyway. Life is too short to be timid.",
+    "Choosing time is saving time."
+  ]
 }

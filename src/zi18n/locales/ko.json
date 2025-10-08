@@ -1,18 +1,64 @@
 {
   "app": {
-    "title": "데이닷",
+    "title": "Daydot",
     "ok": "확인",
-    "cancel": "취소"
+    "cancel": "취소",
+    "close": "닫기",
+    "save": "저장",
+    "next": "다음",
+    "start": "시작하기",
+    "back": "뒤로가기"
+  },
+  "onboarding": {
+    "welcome": "당신의 일생은\n수많은 하루의 조각으로\n완성됩니다.",
+    "birthDatePrompt": "인생의 여정을 시작한 순간을\n기록해 주세요.",
+    "birthDate": "생년월일"
+  },
+  "yearlyScreen": {
+    "remainingDays": "{{year}}년이 {{days}}일 남았습니다.",
+    "remainingDaysPrefix": "{{year}}년이 ",
+    "remainingDaysCount": "{{days}}일",
+    "remainingDaysSuffix": " 남았습니다.",
+    "today": "오늘",
+    "memoPlaceholder": "{{month}}월 {{day}}일의 메모를 입력하세요",
+    "memoButtonToday": "오늘의 기록",
+    "memoButton": "{{month}}월 {{day}}일의 기록"
+  },
+  "lifetimeScreen": {
+    "remainingYears": "{{years}}년 남았습니다.",
+    "remainingYearsCount": "{{years}}년 ",
+    "remainingYearsSuffix": "남았습니다."
+  },
+  "dateFormat": {
+    "yearMonthDay": "{{year}}년 {{month}}월 {{day}}일",
+    "monthDay": "{{month}}월 {{day}}일",
+    "year": "{{year}}년"
   },
   "setting": {
     "changeBirthday": "생년월일 변경",
     "contact": "문의하기",
+    "contactSubtitle": "이메일로 문의하기",
+    "contactAlert": "이메일 주소:\n{{email}}\n감사합니다!",
     "suggest": "건의하기",
+    "suggestSubtitle": "건의사항 및 의견 보내기",
     "language": "언어",
-    "selectLanguage": "언어 선택"
+    "selectLanguage": "언어 선택",
+    "terms": "이용약관",
+    "termsSubtitle": "서비스 이용약관",
+    "privacy": "개인정보처리방침",
+    "privacySubtitle": "개인정보 보호정책"
   },
   "language": {
     "ko": "한국어",
     "en": "English"
-  }
+  },
+  "quotes": [
+    "오늘 내가 헛되이 보낸 시간은 어제 죽어간 이들이 그토록 바라던 내일이다.",
+    "그대는 인생을 사랑하는가? 그렇다면 시간을 낭비하지 말라. 왜냐하면 시간은 인생을 구성한 재료니까.",
+    "시간은 우리를 기다려주지 않는다.",
+    "오늘 할 수 있는 일을 내일로 미루지 마라.",
+    "가장 바쁜 사람이 가장 많은 시간을 갖는다.",
+    "우리는 일 년 후면 다 잊어버릴 슬픔을 간직하느라고 무엇과도 바꿀 수 없는 소중한 시간을 버리고 있다. 소심하게 굴기에 인생은 너무나 짧다.",
+    "시간을 선택하는 것은 시간을 절약하는 것이다."
+  ]
 }

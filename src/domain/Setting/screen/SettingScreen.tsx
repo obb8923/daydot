@@ -44,11 +44,15 @@ export const SettingScreen = () => {
   };
 
   const formatDate = (date: Date) => {
-    return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
+    return t('dateFormat.yearMonthDay', { 
+      year: date.getFullYear(), 
+      month: date.getMonth() + 1, 
+      day: date.getDate() 
+    });
   };
 
   const getLanguageName = (code: string) => {
-    return code === 'ko' ? '한국어' : 'English';
+    return t(`language.${code}`);
   };
 
   return (
@@ -85,13 +89,13 @@ export const SettingScreen = () => {
             <DividingLine />
             <SettingItem
               title={t('setting.contact')}
-              subtitle="이메일로 문의하기"              
-              onPress={() => Alert.alert('이메일로 문의하기',`이메일 주소:\n${MAIL_ADDRESS}\n감사합니다!`)}
+              subtitle={t('setting.contactSubtitle')}              
+              onPress={() => Alert.alert(t('setting.contact'), t('setting.contactAlert', { email: MAIL_ADDRESS }))}
             />
             <DividingLine />
             <SettingItem
               title={t('setting.suggest')}
-              subtitle="건의사항 및 의견 보내기"              
+              subtitle={t('setting.suggestSubtitle')}              
               onPress={() => navigation.navigate('Webview')}
             />
            

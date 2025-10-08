@@ -5,6 +5,8 @@ import {LiquidGlassView} from '@component/LiquidGlassView';
 import { Colors } from '@/shared/constant/Colors';
 import { DEVICE_HEIGHT } from '@constant/normal';
 import {PADDING_HORIZONTAL} from '@constant/layout';
+import { useTranslation } from 'react-i18next';
+
 // 메모 모달 UI
 export const MemoModal = ({
     date,
@@ -21,6 +23,8 @@ export const MemoModal = ({
     onChangeText: (t: string) => void;
     onSave: () => void;
   }) => {
+    const { t } = useTranslation();
+    
     return (
       <Modal visible={visible} animationType="slide" transparent>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
@@ -30,7 +34,7 @@ export const MemoModal = ({
               >
               <TextInput
                 className="w-full h-auto p-4 rounded-2xl"
-                placeholder={`${date?.month}월 ${date?.day}일의 메모를 입력하세요`}
+                placeholder={t('yearlyScreen.memoPlaceholder', { month: date?.month, day: date?.day })}
                 placeholderTextColor={Colors.gray200}
                 multiline
                 autoFocus={true}
@@ -43,12 +47,12 @@ export const MemoModal = ({
             <View className="w-full flex-row justify-end mt-3 gap-4">
                 <LiquidGlassView style={{ height: 'auto', borderRadius: 20}}>
                 <TouchableOpacity onPress={onClose} className="px-4 py-2">
-                  <Text text="닫기" type="body3" />
+                  <Text text={t('app.close')} type="body3" />
                 </TouchableOpacity>
                 </LiquidGlassView>
                 <LiquidGlassView style={{ height: 'auto', borderRadius: 20}}>
                 <TouchableOpacity onPress={onSave} className="px-4 py-2">
-                  <Text text="저장" type="body3" />
+                  <Text text={t('app.save')} type="body3" />
                 </TouchableOpacity>
                 </LiquidGlassView>
               </View>

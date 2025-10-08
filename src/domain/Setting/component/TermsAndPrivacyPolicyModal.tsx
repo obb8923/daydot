@@ -7,10 +7,12 @@ import { useColorStore } from '@store/colorStore'
 import { BUTTON_HEIGHT} from '@constant/layout'
 import { DEVICE_HEIGHT } from '@constant/normal'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useTranslation } from 'react-i18next'
 
 export const TermsAndPrivacyPolicyModal = ({type, visible, onClose}:{type:'privacy' | 'terms', visible:boolean, onClose:() => void}) => {
+  const { t } = useTranslation()
   const text = type === 'privacy' ? privacyPolicy : termsOfService
-  const title = type === 'privacy' ? '개인정보처리방침' : '이용약관'
+  const title = type === 'privacy' ? t('setting.privacy') : t('setting.terms')
   const { selectedColors } = useColorStore()
   const insets = useSafeAreaInsets()
   return (
@@ -32,7 +34,7 @@ export const TermsAndPrivacyPolicyModal = ({type, visible, onClose}:{type:'priva
             <Text text={text} type='body1' />
           </ScrollView>
           <LiquidGlassButton onPress={onClose} style={{height: BUTTON_HEIGHT}}>
-            <Text text="닫기" type='body1' style={{color: 'white'}} />
+            <Text text={t('app.close')} type='body1' style={{color: 'white'}} />
           </LiquidGlassButton>
         </View>
       </View>

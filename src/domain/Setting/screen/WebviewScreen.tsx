@@ -6,14 +6,15 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {Background} from '@component/Background';
 import {Colors} from '@constant/Colors';
-import { GOOGLE_FORM_URL } from '@constant/normal';
+import { GOOGLE_FORM_URL_KO, GOOGLE_FORM_URL_EN } from '@constant/normal';
 import { SettingStackParamList } from '@nav/Setting';
+import {useTranslation} from 'react-i18next';
 
 type SettingScreenNavigationProp = NativeStackNavigationProp<SettingStackParamList>;
 
 export const WebviewScreen = () => {
   const navigation = useNavigation<SettingScreenNavigationProp>();
-  
+  const { t, i18n } = useTranslation();
   return (
     <Background style={{backgroundColor:'#d9d9d9'}}>
       <View className='w-full h-14 justify-center items-start px-6 py-2'>
@@ -21,12 +22,12 @@ export const WebviewScreen = () => {
       onPress={() => navigation.goBack()} 
       className='w-20 h-full justify-center items-center bg-[#000000] rounded'
       >
-        <Text className='text-white'>뒤로가기</Text>
+        <Text className='text-white'>{t('app.back')}</Text>
       </TouchableOpacity>
       </View>
       {/* WebView */}
       <WebView
-        source={{ uri: GOOGLE_FORM_URL }}
+        source={{ uri: i18n.language === 'ko' ? GOOGLE_FORM_URL_KO : GOOGLE_FORM_URL_EN }}
         className="flex-1"
         startInLoadingState={true}
         renderLoading={() => (
