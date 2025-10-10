@@ -43,6 +43,8 @@
     "suggestSubtitle": "Send suggestions and feedback",
     "language": "Language",
     "selectLanguage": "Select language",
+    "theme": "Theme",
+    "selectTheme": "Select theme",
     "terms": "Terms of Service",
     "termsSubtitle": "Service terms of use",
     "privacy": "Privacy Policy",
@@ -51,6 +53,17 @@
   "language": {
     "ko": "한국어",
     "en": "English"
+  },
+  "theme": {
+    "0": "Dark",
+    "1": "Forest",
+    "2": "Sunset",
+    "3": "Olive",
+    "4": "Ocean",
+    "5": "Red Orange",
+    "6": "Brown",
+    "7": "Mocha",
+    "8": "Terracotta"
   },
   "quotes": [
     "The time you wasted today is the tomorrow that someone who died yesterday desperately wanted.",

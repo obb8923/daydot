@@ -13,11 +13,14 @@ import { DividingLine } from '@domain/Setting/component/DividingLine';
 import { useBirthDateStore } from '@store/birthDateStore';
 import { DatePicker } from '@component/DatePicker';
 import { MAIL_ADDRESS } from '@constant/normal';
-import { TermsAndPrivacyPolicyModal } from '@domain/Setting/component/TermsAndPrivacyPolicyModal';
-import { LanguageSwitcher } from '@domain/Setting/component/LanguageSwitcher';
+import { TermsAndPrivacyPolicyModal } from '@/domain/Setting/component/Modal/TermsAndPrivacyPolicyModal';
+import { LanguageSwitcher } from '@/domain/Setting/component/Modal/LanguageSwitcher';
+import { ThemeSwitcher } from '@/domain/Setting/component/Modal/ThemeSwitcher';
 import { useLanguageStore } from '@store/languageStore';
+import { useColorStore } from '@store/colorStore';
 import { useTranslation } from 'react-i18next';
 import { useMonthName } from '@/shared/hooks/useMonthName';
+import { Colors } from '@constant/Colors';
 type SettingScreenNavigationProp = NativeStackNavigationProp<SettingStackParamList>;
 
 export const SettingScreen = () => {
@@ -25,12 +28,14 @@ export const SettingScreen = () => {
   const navigation = useNavigation<SettingScreenNavigationProp>();
   const { birthDate, setBirthDate } = useBirthDateStore();
   const { language } = useLanguageStore();
+  const { selectedColors } = useColorStore();
   
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTermsAndPrivacyPolicyModal, setShowTermsAndPrivacyPolicyModal] = useState(false);
   const [showLanguageSwitcher, setShowLanguageSwitcher] = useState(false);
+  const [showThemeSwitcher, setShowThemeSwitcher] = useState(false);
   const [modalType, setModalType] = useState<'privacy' | 'terms'>('terms');
-const getMonthName = useMonthName();
+  const getMonthName = useMonthName();
   const handleDateConfirm = async (confirmedDate: Date) => {
     try {
       await setBirthDate(confirmedDate);
@@ -57,6 +62,29 @@ const getMonthName = useMonthName();
     return t(`language.${code}`);
   };
 
+  const getThemeName = () => {
+    const themes = [
+      { primary: Colors.p0, background: Colors.b0, text: Colors.t0, id: '0' },
+      { primary: Colors.p1, background: Colors.b1, text: Colors.t1, id: '1' },
+      { primary: Colors.p2, background: Colors.b2, text: Colors.t2, id: '2' },
+      { primary: Colors.p3, background: Colors.b3, text: Colors.t3, id: '3' },
+      { primary: Colors.p4, background: Colors.b4, text: Colors.t4, id: '4' },
+      { primary: Colors.p5, background: Colors.b5, text: Colors.t5, id: '5' },
+      { primary: Colors.p6, background: Colors.b6, text: Colors.t6, id: '6' },
+      { primary: Colors.p7, background: Colors.b7, text: Colors.t7, id: '7' },
+      { primary: Colors.p8, background: Colors.b8, text: Colors.t8, id: '8' },
+    ];
+    
+    const currentTheme = themes.find(
+      theme => 
+        theme.primary === selectedColors?.primary &&
+        theme.background === selectedColors?.background &&
+        theme.text === selectedColors?.text
+    );
+    
+    return currentTheme ? t(`theme.${currentTheme.id}`) : t('theme.0');
+  };
+
   return (
     <Background>
       <View className="flex-1 p-4">
@@ -75,24 +103,29 @@ const getMonthName = useMonthName();
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingTop:BUTTON_HEIGHT + 16}}
         >
-          {/* 생년월일 변경 그룹 */}
+          {/* 앱 정보 변경 - 생년월일 ,테마,언어 */}
           <SettingGroup>
             <SettingItem
               title={t('setting.changeBirthday')}
               subtitle={formatDate(birthDate??new Date())}
               onPress={() => setShowDatePicker(true)}
             />
-            {/* <DividingLine /> */}
-           
-          </SettingGroup>
-          {/* 앱 설정 그룹 */}
-          <SettingGroup>
+            <DividingLine />
             <SettingItem
               title={t('setting.language')}
               subtitle={getLanguageName(language)}
               onPress={() => setShowLanguageSwitcher(true)}
             />
             <DividingLine />
+            <SettingItem
+              title={t('setting.theme')}
+              subtitle={getThemeName()}
+              onPress={() => setShowThemeSwitcher(true)}
+            />
+          </SettingGroup>
+          {/* 앱 설정 그룹 */}
+          <SettingGroup>
+            
             <SettingItem
               title={t('setting.contact')}
               subtitle={t('setting.contactSubtitle')}              
@@ -143,14 +176,18 @@ const getMonthName = useMonthName();
         minimumDate={new Date(1900, 0, 1)}
         visible={showDatePicker}
       />
-      <TermsAndPrivacyPolicyModal
+      {/* <TermsAndPrivacyPolicyModal
         type={modalType}
         visible={showTermsAndPrivacyPolicyModal}
         onClose={() => setShowTermsAndPrivacyPolicyModal(false)}
-      />
+      /> */}
       <LanguageSwitcher
         visible={showLanguageSwitcher}
         onClose={() => setShowLanguageSwitcher(false)}
+      />
+      <ThemeSwitcher
+        visible={showThemeSwitcher}
+        onClose={() => setShowThemeSwitcher(false)}
       />
     </Background>
   )
