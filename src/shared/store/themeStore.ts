@@ -1,48 +1,28 @@
 import { create } from 'zustand';
 import { StorageService } from '@service/storageService';
-import { Colors } from '@constant/Colors';
-
-// 테마 타입 정의
-export interface SelectedTheme {
-  themeName: string;
-  primary: string;
-  background: string;
-  text: string;
-}
 
 interface ThemeStore {
   // 상태
-  selectedTheme: SelectedTheme | null;
+  themeIndex: number;
   isLoading: boolean;
   error: string | null;
   isInitialized: boolean;
   
   // 액션들
-  loadSelectedTheme: () => Promise<void>;
-  setSelectedTheme: (theme: SelectedTheme) => Promise<void>;
-  clearSelectedTheme: () => Promise<void>;
-  resetToDefaultTheme: () => Promise<void>;
+  loadThemeIndex: () => Promise<void>;
+  setThemeIndex: (index: number) => Promise<void>;
   setIsLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
 }
 
-// 기본 테마 설정
-const defaultTheme: SelectedTheme = {
-  themeName: '0',
-  primary: Colors.p0,
-  background: Colors.b0,
-  text: Colors.t0,
-};
-
 export const useThemeStore = create<ThemeStore>((set, get) => ({
-  // 초기 상태 - 기본 테마로 시작하여 깜빡임 방지
-  selectedTheme: defaultTheme,
+  themeIndex: 0,
   isLoading: false,
   error: null,
   isInitialized: false,
   
-  // 선택된 테마 로드 (앱 시작 시 한 번만 호출)
-  loadSelectedTheme: async () => {
+  // 선택된 테마 인덱스 로드 (앱 시작 시 한 번만 호출)
+  loadThemeIndex: async () => {
     const { isInitialized } = get();
     
     // 이미 초기화되었다면 다시 로드하지 않음
@@ -54,15 +34,15 @@ export const useThemeStore = create<ThemeStore>((set, get) => ({
       set({ isLoading: true, error: null });
       const savedTheme = await StorageService.getSelectedColors();
       
-      // 저장된 테마가 있으면 해당 테마 사용, 없으면 현재 기본 테마 유지
-      if (savedTheme) {
+      // 저장된 테마가 있으면 해당 테마 인덱스 사용
+      if (savedTheme && typeof savedTheme.themeIndex === 'number') {
         set({ 
-          selectedTheme: savedTheme, 
+          themeIndex: savedTheme.themeIndex, 
           isLoading: false, 
           isInitialized: true 
         });
       } else {
-        // 저장된 테마가 없으면 기본 테마 유지 (이미 초기화됨)
+        // 저장된 테마가 없으면 기본 테마(0) 유지 
         set({ 
           isLoading: false, 
           isInitialized: true 
@@ -74,18 +54,18 @@ export const useThemeStore = create<ThemeStore>((set, get) => ({
         error: error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
         isLoading: false,
         isInitialized: true
-        // 오류 시에도 기본 테마 유지 (이미 초기화됨)
       });
     }
   },
   
-  // 선택된 테마 설정
-  setSelectedTheme: async (theme: SelectedTheme) => {
+  // 선택된 테마 인덱스 설정
+  setThemeIndex: async (index: number) => {
     try {
       set({ isLoading: true, error: null });
-      await StorageService.setSelectedColors(theme);
+      // 저장 형식은 기존과 호환되도록 유지
+      await StorageService.setSelectedColors({ themeIndex: index });
       set({ 
-        selectedTheme: theme, 
+        themeIndex: index, 
         isLoading: false 
       });
     } catch (error) {
@@ -95,29 +75,6 @@ export const useThemeStore = create<ThemeStore>((set, get) => ({
         isLoading: false 
       });
     }
-  },
-  
-  // 선택된 테마 삭제 (기본 테마로 복원)
-  clearSelectedTheme: async () => {
-    try {
-      set({ isLoading: true, error: null });
-      await StorageService.removeSelectedColors();
-      set({ 
-        selectedTheme: defaultTheme, 
-        isLoading: false 
-      });
-    } catch (error) {
-      console.error('선택된 테마 삭제 중 오류:', error);
-      set({ 
-        error: error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
-        isLoading: false 
-      });
-    }
-  },
-  
-  // 기본 테마로 리셋
-  resetToDefaultTheme: async () => {
-    await get().clearSelectedTheme();
   },
   
   // 로딩 상태 설정
@@ -132,9 +89,6 @@ export const useThemeStore = create<ThemeStore>((set, get) => ({
 }));
 
 // 편의 함수들
-export const useSelectedTheme = () => useThemeStore(state => state.selectedTheme);
-export const useLoadSelectedTheme = () => useThemeStore(state => state.loadSelectedTheme);
-export const useSetSelectedTheme = () => useThemeStore(state => state.setSelectedTheme);
-export const useClearSelectedTheme = () => useThemeStore(state => state.clearSelectedTheme);
-export const useResetToDefaultTheme = () => useThemeStore(state => state.resetToDefaultTheme);
-
+export const useThemeIndex = () => useThemeStore(state => state.themeIndex);
+export const useLoadThemeIndex = () => useThemeStore(state => state.loadThemeIndex);
+export const useSetThemeIndex = () => useThemeStore(state => state.setThemeIndex);

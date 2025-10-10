@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.theme-0 {
+    --color-primary: #fafafa;
+    --color-background: #0f0f0f;
+    --color-text: #fafafa;
+  }
+  
+  .theme-1 {
+    --color-primary: #014421;
+    --color-background: #D0D8C3;
+    --color-text: #212121;
+  }

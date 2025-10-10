@@ -3,8 +3,7 @@ import React from 'react';
 import { Text } from '@component/Text';
 import {LiquidGlassView} from '@component/LiquidGlassView';
 import { Colors } from '@/shared/constant/Colors';
-import { DEVICE_HEIGHT } from '@constant/normal';
-import {PADDING_HORIZONTAL} from '@constant/layout';
+import {PADDING_HORIZONTAL,DEVICE_HEIGHT} from '@constant/layout';
 import { useTranslation } from 'react-i18next';
 import { useMonthName } from '@/shared/hooks/useMonthName';
 // 메모 모달 UI

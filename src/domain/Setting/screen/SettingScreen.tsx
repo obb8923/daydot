@@ -28,7 +28,7 @@ export const SettingScreen = () => {
   const navigation = useNavigation<SettingScreenNavigationProp>();
   const { birthDate, setBirthDate } = useBirthDateStore();
   const { language } = useLanguageStore();
-  const { selectedTheme } = useThemeStore();
+  const { themeIndex } = useThemeStore();
   
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTermsAndPrivacyPolicyModal, setShowTermsAndPrivacyPolicyModal] = useState(false);
@@ -63,7 +63,7 @@ export const SettingScreen = () => {
   };
 
   const getThemeName = () => {
-    return selectedTheme?.themeName ? t(`theme.${selectedTheme.themeName}`) : t('theme.0');
+    return t(`theme.${themeIndex}`);
   };
 
   return (

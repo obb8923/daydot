@@ -61,7 +61,6 @@ export const Dot = memo(({ item, isSelected, isPast, onLayout }: DotProps) => {
             shadowRadius: 3.84,
             elevation: 3,
           }}
-          
         />
       </TouchableOpacity>
       

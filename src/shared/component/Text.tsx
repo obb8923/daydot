@@ -1,5 +1,4 @@
 import {Text as RNText, TextStyle} from 'react-native';
-import { useThemeStore } from '@store/themeStore';
 export type TypographyType = 
   | 'title1' | 'title2' | 'title3' | 'title4'
   | 'body1' | 'body2' | 'body3' 
@@ -81,13 +80,11 @@ const getTypographyStyle = (type: TypographyType): TextStyle => {
   }
 }
 export const Text = ({text, type='body2', ...props}: TextProps) => {
-  const selectedTheme = useThemeStore((state) => state.selectedTheme);
-
   return (
     <RNText 
       {...props}
-      className={props.className}
-      style={[getTypographyStyle(type), {color: selectedTheme?.text},props.style]}
+      className={`text-text ${props.className}`}
+      style={[getTypographyStyle(type),props.style]}
       numberOfLines={props.numberOfLines}>
       {text}
     </RNText>

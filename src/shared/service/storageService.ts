@@ -104,22 +104,22 @@ export const StorageService = {
     }
   },
 
-  // 색상 관련 함수들
-  getSelectedColors: async (): Promise<{ primary: string; background: string; text: string } | null> => {
+  // 테마 관련 함수들
+  getSelectedColors: async (): Promise<{ themeIndex: number } | null> => {
     try {
       const value = await AsyncStorage.getItem(SELECTED_COLORS_KEY);
       return value ? JSON.parse(value) : null;
     } catch (error) {
-      console.error('선택된 색상 읽기 오류:', error);
+      console.error('선택된 테마 읽기 오류:', error);
       return null;
     }
   },
 
-  setSelectedColors: async (colors: { primary: string; background: string; text: string }): Promise<void> => {
+  setSelectedColors: async (theme: { themeIndex: number }): Promise<void> => {
     try {
-      await AsyncStorage.setItem(SELECTED_COLORS_KEY, JSON.stringify(colors));
+      await AsyncStorage.setItem(SELECTED_COLORS_KEY, JSON.stringify(theme));
     } catch (error) {
-      console.error('선택된 색상 저장 오류:', error);
+      console.error('선택된 테마 저장 오류:', error);
       throw error;
     }
   },
