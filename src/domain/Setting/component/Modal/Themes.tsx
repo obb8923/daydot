@@ -16,21 +16,17 @@ export const T=({themeIndex,onPress}:{themeIndex:number,onPress:() => void, key:
     backgroundColor: THEMES[themeIndex].background
   }}
   >
-  <View 
-  className="flex-row gap-1 justify-center items-center mb-2" 
-  >
-    {themeIndex===0 && <T0/>}
-    {themeIndex===1 && <T1/>}
-    </View>
-    <Text text={t(`theme.${themeIndex}`)} type='body1' />
+    {themeIndex===0 && <T0 text={t(`theme.0`)}/>}
+    {themeIndex===1 && <T1 text={t(`theme.1`)}/>}
 </TouchableOpacity>
 )
 }
 // 테마 미리보기 컴포넌트
-export const T0 = () => {
+export const T0 = ({text}:{text:string}) => {
     return (
-      <>  
-        <View 
+      <>
+      <View className="flex-row gap-2 justify-center items-center mb-2">       
+         <View 
             className="w-1.5 h-1.5 rounded-full"
             style={{ backgroundColor: Colors.gray700,
               shadowColor: Colors.white,
@@ -60,13 +56,17 @@ export const T0 = () => {
               elevation: 3,
             }}
           />
-      </>
+          
+    </View>
+    <Text text={text} type='body2' className='text-white mt-2' />
+    </>
     )
   }
 
-export const T1= () => {
+export const T1= ({text}:{text:string}) => {
     return (
       <>
+      <View className="flex-row gap-2 justify-center items-center mb-2">
         <View 
             className="w-1.5 h-1.5 rounded-full"
             style={{ backgroundColor: Colors.gray700,
@@ -97,6 +97,8 @@ export const T1= () => {
               elevation: 3,
             }}
           />
+      </View>
+      <Text text={text} type='body2' className='text-[#212121] mt-2' />
       </>
     )
   }

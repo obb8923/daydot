@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import { StorageService } from '@service/storageService';
+// 테마 색상 가져오기
+import { THEMES } from '@constant/theme';
 
 interface ThemeStore {
   // 상태
@@ -92,3 +94,13 @@ export const useThemeStore = create<ThemeStore>((set, get) => ({
 export const useThemeIndex = () => useThemeStore(state => state.themeIndex);
 export const useLoadThemeIndex = () => useThemeStore(state => state.loadThemeIndex);
 export const useSetThemeIndex = () => useThemeStore(state => state.setThemeIndex);
+export const useThemeColors = () => {
+  const themeIndex = useThemeStore(state => state.themeIndex);
+  const theme = THEMES[themeIndex] || THEMES[0];
+  return {
+    primary: theme.primary,
+    background: theme.background,
+    text: theme.text,
+    caption: theme.caption,
+  };
+};

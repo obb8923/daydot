@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 import { Background } from '@component/Background';
-import { DEVICE_WIDTH} from '@constant/normal';
 import {BottomNavigation} from '@domain/App/component/BottomNavigation';
 import {LifetimeScreen} from '@domain/App/component/LifetimeScreen';
 import {YearlyScreen} from '@domain/App/component/YearlyScreen';

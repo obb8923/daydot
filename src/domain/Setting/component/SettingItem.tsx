@@ -3,7 +3,8 @@ import { TouchableOpacity, View, ViewStyle } from 'react-native'
 import { Text } from '@/shared/component/Text'
 import { BUTTON_HEIGHT } from '@/shared/constant/layout'
 import ChevronLeftIcon from '@assets/svg/ChevronLeft.svg'
-import { Colors } from '@/shared/constant/Colors'
+import { useThemeColors } from '@store/themeStore'
+
 type SettingItemProps = {
   title: string
   subtitle?: string
@@ -19,6 +20,8 @@ export const SettingItem = ({
   style,
   disabled = false
 }: SettingItemProps) => {
+  const { text } = useThemeColors();
+  
   return (
     <TouchableOpacity
       disabled={disabled}
@@ -32,14 +35,13 @@ export const SettingItem = ({
       <View className="flex-row items-center justify-between">
        
           <View className="flex-1">
-            <Text text={title} type='body2' className="text-white" />
+            <Text text={title} type='body2' className="text-text" />
             {subtitle && (
-              <Text text={subtitle} type='caption1' className="mt-1" style={{color:Colors.gray600}}/>
+              <Text text={subtitle} type='caption1' className="mt-1 text-caption"/>
             )}
-            
           </View>
        
-        <ChevronLeftIcon width={10} height={15} color={Colors.gray500} style={{transform: [{rotate: '180deg'}]}} />
+        <ChevronLeftIcon width={10} height={15} color={text} style={{transform: [{rotate: '180deg'}]}} />
         
       </View>
     </TouchableOpacity>

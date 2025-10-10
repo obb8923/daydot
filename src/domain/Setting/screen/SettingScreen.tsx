@@ -17,7 +17,7 @@ import { TermsAndPrivacyPolicyModal } from '@/domain/Setting/component/Modal/Ter
 import { LanguageSwitcher } from '@/domain/Setting/component/Modal/LanguageSwitcher';
 import { ThemeSwitcher } from '@/domain/Setting/component/Modal/ThemeSwitcher';
 import { useLanguageStore } from '@store/languageStore';
-import { useThemeStore } from '@store/themeStore';
+import { useThemeStore, useThemeColors } from '@store/themeStore';
 import { useTranslation } from 'react-i18next';
 import { useMonthName } from '@/shared/hooks/useMonthName';
 import { Colors } from '@constant/Colors';
@@ -29,6 +29,7 @@ export const SettingScreen = () => {
   const { birthDate, setBirthDate } = useBirthDateStore();
   const { language } = useLanguageStore();
   const { themeIndex } = useThemeStore();
+  const { text } = useThemeColors();
   
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTermsAndPrivacyPolicyModal, setShowTermsAndPrivacyPolicyModal] = useState(false);
@@ -74,7 +75,7 @@ export const SettingScreen = () => {
           <LiquidGlassButton 
             onPress={() => navigation.goBack()} 
             style={{width:BUTTON_HEIGHT,height:BUTTON_HEIGHT,justifyContent:'center', alignItems:'center'}}>
-            <ChevronLeftIcon width={10} height={15} color={'white'}/>
+            <ChevronLeftIcon width={10} height={15} color={text}/>
           </LiquidGlassButton>
         </View>
 

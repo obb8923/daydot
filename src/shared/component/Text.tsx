@@ -83,7 +83,7 @@ export const Text = ({text, type='body2', ...props}: TextProps) => {
   return (
     <RNText 
       {...props}
-      className={`text-text ${props.className}`}
+      className={`${props.className}`}
       style={[getTypographyStyle(type),props.style]}
       numberOfLines={props.numberOfLines}>
       {text}

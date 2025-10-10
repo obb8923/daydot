@@ -6,7 +6,8 @@ export type ThemeType = {
     primary: string;
     background: string;
     text: string;
-  };
+    caption: string;
+    };
 
 export const THEMES: ThemeType[] = [
     {
@@ -14,11 +15,13 @@ export const THEMES: ThemeType[] = [
         primary: Colors.p0,
         background: Colors.b0,
         text: Colors.t0,
+        caption: Colors.c0,
     },
     {
         themeIndex: 1,
         primary: Colors.p1,
         background: Colors.b1,
         text: Colors.t1,
+        caption: Colors.c1,
     },
 ];

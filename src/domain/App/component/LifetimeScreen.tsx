@@ -62,7 +62,7 @@ export const LifetimeScreen = () => {
           )}
         </View>
         <View className="w-full justify-center items-center">
-        <Text text={"\""+quote+"\""} type="body3" className="mt-16 text-center" style={{color: Colors.gray200}}/>
+        <Text text={"\""+quote+"\""} type="body3" className="mt-16 text-center text-text" />
         </View>
       </ScrollView>
     </View>

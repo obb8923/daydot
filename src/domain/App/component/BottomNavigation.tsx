@@ -11,6 +11,8 @@ import type { RootStackParamList } from '@nav/App';
 import { useNavigation } from '@react-navigation/native'
 import { ScreenType } from '@constant/normal';
 import {LiquidGlassButton} from '@component/LiquidGlassButton';
+import { useThemeColors } from '@store/themeStore';
+
 interface BottomNavigationProps {
   onScreenChange: (screen: ScreenType) => void;
   currentScreen: ScreenType;
@@ -20,6 +22,7 @@ type AppScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export const BottomNavigation = ({ onScreenChange, currentScreen }: BottomNavigationProps) => {
   // 네비게이션 타입 정의
 const navigation = useNavigation<AppScreenNavigationProp>();
+const { text } = useThemeColors();
 
   return (
     <LiquidGlassContainerView style={{
@@ -44,7 +47,7 @@ const navigation = useNavigation<AppScreenNavigationProp>();
         width:BOTTOM_NAVIGATION_HEIGHT,height:BOTTOM_NAVIGATION_HEIGHT,justifyContent:'center', alignItems:'center'}}
         onPress={() => navigation.navigate('SettingStack')}
       >
-        <SettingIcon width={24} height={24} color={'white'}/>
+        <SettingIcon width={24} height={24} color={text}/>
       </LiquidGlassButton>
       {/* Y,L Button */}
       <LiquidGlassView style={{
@@ -69,7 +72,7 @@ const navigation = useNavigation<AppScreenNavigationProp>();
         }}
         onPress={() => onScreenChange('yearly')}
       >
-        <CalendarIcon width={22} height={24} color={'white'}/>
+        <CalendarIcon width={22} height={24} color={text}/>
       </TouchableOpacity>
       
       {/* L 버튼 - 일생화면 */}
@@ -83,7 +86,7 @@ const navigation = useNavigation<AppScreenNavigationProp>();
         }}
         onPress={() => onScreenChange('lifetime')}
       >
-        <HourGlassIcon  width={17} height={23} color={'white'}/>
+        <HourGlassIcon  width={17} height={23} color={text}/>
       </TouchableOpacity>
     </LiquidGlassView>
     </LiquidGlassContainerView>

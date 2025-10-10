@@ -20,6 +20,7 @@ module.exports = {
         'primary': 'var(--color-primary)',
         'background': 'var(--color-background)',
         'text': 'var(--color-text)',
+        'caption': 'var(--color-caption)',
         'white': '#fafafa',
         'black': '#212121',
         'realblack': '#000000',
@@ -32,6 +33,7 @@ module.exports = {
         'gray700': '#4D4D4D',
         'gray800': '#333333',
         'gray900': '#1A1A1A',
+        'gray000': '#d9d9d9',
       },
 
     },
