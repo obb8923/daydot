@@ -3,7 +3,7 @@ import { View, Modal, ScrollView } from 'react-native'
 import { Text } from '@component/Text'
 import { privacyPolicy, termsOfService } from '@constant/normal'
 import { LiquidGlassButton } from '@component/LiquidGlassButton'
-import { useColorStore } from '@store/colorStore'
+import { useThemeStore } from '@store/themeStore'
 import { BUTTON_HEIGHT} from '@constant/layout'
 import { DEVICE_HEIGHT } from '@constant/normal'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -13,7 +13,7 @@ export const TermsAndPrivacyPolicyModal = ({type, visible, onClose}:{type:'priva
   const { t } = useTranslation()
   const text = type === 'privacy' ? privacyPolicy : termsOfService
   const title = type === 'privacy' ? t('setting.privacy') : t('setting.terms')
-  const { selectedColors } = useColorStore()
+  const { selectedTheme } = useThemeStore()
   const insets = useSafeAreaInsets()
   return (
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
@@ -22,7 +22,7 @@ export const TermsAndPrivacyPolicyModal = ({type, visible, onClose}:{type:'priva
         <View 
         className='rounded-t-3xl p-6 w-full'
         style={{
-          backgroundColor: selectedColors?.background ,
+          backgroundColor: selectedTheme?.background ,
           height: DEVICE_HEIGHT * 0.9, 
           paddingBottom: insets.bottom + 10,
 

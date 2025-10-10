@@ -3,7 +3,6 @@ import React from 'react'
 import { LiquidGlassView } from '@component/LiquidGlassView'
 import { LiquidGlassContainerView } from '@callstack/liquid-glass'
 import { PADDING_HORIZONTAL ,BOTTOM_NAVIGATION_HEIGHT} from '@constant/layout'
-import { useColorStore } from '@store/colorStore'
 import HourGlassIcon from '@assets/svg/HourGlass.svg';
 import CalendarIcon from '@assets/svg/Calendar.svg';
 import SettingIcon from '@assets/svg/Setting.svg';
@@ -19,7 +18,6 @@ interface BottomNavigationProps {
 type AppScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export const BottomNavigation = ({ onScreenChange, currentScreen }: BottomNavigationProps) => {
-  const selectedColors = useColorStore((state) => state.selectedColors);
   // 네비게이션 타입 정의
 const navigation = useNavigation<AppScreenNavigationProp>();
 

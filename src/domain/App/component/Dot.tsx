@@ -1,7 +1,6 @@
 import { View,TouchableOpacity, LayoutChangeEvent } from 'react-native';
 import React, { memo, useState, useRef } from 'react';
 import { DateMessage } from '@domain/App/component/DateMessage';
-import { useColorStore } from '@store/colorStore';
 import {Colors} from '@constant/Colors';
 import { useSelectedDateStore } from '@store/selectedDateStore';
 import { useHaptic } from '@/shared/hooks/useHaptic';
@@ -21,7 +20,6 @@ interface DotProps {
 }
 
 export const Dot = memo(({ item, isSelected, isPast, onLayout }: DotProps) => {
-  const selectedColors = useColorStore((state) => state.selectedColors);
   const setSelectedDate = useSelectedDateStore((state) => state.setSelectedDate);
   const [showDateMessage, setShowDateMessage] = useState(false);
   const { light, soft } = useHaptic();
@@ -56,8 +54,8 @@ export const Dot = memo(({ item, isSelected, isPast, onLayout }: DotProps) => {
       >
         <View 
           className="w-1.5 h-1.5 rounded-full"
-          style={{ backgroundColor: isPast ? Colors.gray700 : selectedColors?.primary,
-            shadowColor: selectedColors?.primary,
+          style={{ backgroundColor: isPast ? Colors.gray700 : Colors.white,
+            shadowColor: Colors.white,
             shadowOffset: { width: 1, height: 1 },
             shadowOpacity: 0.2,
             shadowRadius: 3.84,

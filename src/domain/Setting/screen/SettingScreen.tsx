@@ -17,7 +17,7 @@ import { TermsAndPrivacyPolicyModal } from '@/domain/Setting/component/Modal/Ter
 import { LanguageSwitcher } from '@/domain/Setting/component/Modal/LanguageSwitcher';
 import { ThemeSwitcher } from '@/domain/Setting/component/Modal/ThemeSwitcher';
 import { useLanguageStore } from '@store/languageStore';
-import { useColorStore } from '@store/colorStore';
+import { useThemeStore } from '@store/themeStore';
 import { useTranslation } from 'react-i18next';
 import { useMonthName } from '@/shared/hooks/useMonthName';
 import { Colors } from '@constant/Colors';
@@ -28,7 +28,7 @@ export const SettingScreen = () => {
   const navigation = useNavigation<SettingScreenNavigationProp>();
   const { birthDate, setBirthDate } = useBirthDateStore();
   const { language } = useLanguageStore();
-  const { selectedColors } = useColorStore();
+  const { selectedTheme } = useThemeStore();
   
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTermsAndPrivacyPolicyModal, setShowTermsAndPrivacyPolicyModal] = useState(false);
@@ -63,26 +63,7 @@ export const SettingScreen = () => {
   };
 
   const getThemeName = () => {
-    const themes = [
-      { primary: Colors.p0, background: Colors.b0, text: Colors.t0, id: '0' },
-      { primary: Colors.p1, background: Colors.b1, text: Colors.t1, id: '1' },
-      { primary: Colors.p2, background: Colors.b2, text: Colors.t2, id: '2' },
-      { primary: Colors.p3, background: Colors.b3, text: Colors.t3, id: '3' },
-      { primary: Colors.p4, background: Colors.b4, text: Colors.t4, id: '4' },
-      { primary: Colors.p5, background: Colors.b5, text: Colors.t5, id: '5' },
-      { primary: Colors.p6, background: Colors.b6, text: Colors.t6, id: '6' },
-      { primary: Colors.p7, background: Colors.b7, text: Colors.t7, id: '7' },
-      { primary: Colors.p8, background: Colors.b8, text: Colors.t8, id: '8' },
-    ];
-    
-    const currentTheme = themes.find(
-      theme => 
-        theme.primary === selectedColors?.primary &&
-        theme.background === selectedColors?.background &&
-        theme.text === selectedColors?.text
-    );
-    
-    return currentTheme ? t(`theme.${currentTheme.id}`) : t('theme.0');
+    return selectedTheme?.themeName ? t(`theme.${selectedTheme.themeName}`) : t('theme.0');
   };
 
   return (

@@ -4,7 +4,7 @@ import { Text } from '@component/Text';
 import { Colors } from '@constant/Colors';
 import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useColorStore } from '@/shared/store/colorStore';
+import { useThemeStore } from '@/shared/store/themeStore';
 
 type ThemeSwitcherProps = {
   visible: boolean;
@@ -12,24 +12,25 @@ type ThemeSwitcherProps = {
 };
 
 const THEMES = [
-  { id: '0', primary: Colors.p0, background: Colors.b0, text: Colors.t0 },
-  { id: '1', primary: Colors.p1, background: Colors.b1, text: Colors.t1 },
-  { id: '2', primary: Colors.p2, background: Colors.b2, text: Colors.t2 },
-  { id: '3', primary: Colors.p3, background: Colors.b3, text: Colors.t3 },
-  { id: '4', primary: Colors.p4, background: Colors.b4, text: Colors.t4 },
-  { id: '5', primary: Colors.p5, background: Colors.b5, text: Colors.t5 },
-  { id: '6', primary: Colors.p6, background: Colors.b6, text: Colors.t6 },
-  { id: '7', primary: Colors.p7, background: Colors.b7, text: Colors.t7 },
-  { id: '8', primary: Colors.p8, background: Colors.b8, text: Colors.t8 },
+  { id: '0', themeName: '0', primary: Colors.p0, background: Colors.b0, text: Colors.t0 },
+  { id: '1', themeName: '1', primary: Colors.p1, background: Colors.b1, text: Colors.t1 },
+  { id: '2', themeName: '2', primary: Colors.p2, background: Colors.b2, text: Colors.t2 },
+  { id: '3', themeName: '3', primary: Colors.p3, background: Colors.b3, text: Colors.t3 },
+  { id: '4', themeName: '4', primary: Colors.p4, background: Colors.b4, text: Colors.t4 },
+  { id: '5', themeName: '5', primary: Colors.p5, background: Colors.b5, text: Colors.t5 },
+  { id: '6', themeName: '6', primary: Colors.p6, background: Colors.b6, text: Colors.t6 },
+  { id: '7', themeName: '7', primary: Colors.p7, background: Colors.b7, text: Colors.t7 },
+  { id: '8', themeName: '8', primary: Colors.p8, background: Colors.b8, text: Colors.t8 },
 ];
 
 export const ThemeSwitcher = ({ visible, onClose }: ThemeSwitcherProps) => {
   const { t } = useTranslation();
-  const { selectedColors, setSelectedColors } = useColorStore();
+  const { selectedTheme, setSelectedTheme } = useThemeStore();
   const insets = useSafeAreaInsets();
 
   const handleThemeSelect = async (theme: typeof THEMES[0]) => {
-    await setSelectedColors({
+    await setSelectedTheme({
+      themeName: theme.themeName,
       primary: theme.primary,
       background: theme.background,
       text: theme.text,
@@ -38,11 +39,7 @@ export const ThemeSwitcher = ({ visible, onClose }: ThemeSwitcherProps) => {
   };
 
   const isSelectedTheme = (theme: typeof THEMES[0]) => {
-    return (
-      selectedColors?.primary === theme.primary &&
-      selectedColors?.background === theme.background &&
-      selectedColors?.text === theme.text
-    );
+    return selectedTheme?.themeName === theme.themeName;
   };
 
   return (

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLanguageStore } from '@store/languageStore';
 import { useFirstVisitStore } from '@store/firstVisitStore';
 import { useBirthDateStore } from '@store/birthDateStore';
-import { useLoadSelectedColors } from '@store/colorStore';
+import { useLoadSelectedTheme } from '@store/themeStore';
 
 /**
  * 앱 초기화 커스텀 훅
@@ -15,7 +15,7 @@ export const useAppInitialize = () => {
   const loadLanguage = useLanguageStore((state) => state.loadLanguage);
   const { checkFirstVisit } = useFirstVisitStore();
   const { loadBirthDate } = useBirthDateStore();
-  const loadSelectedColors = useLoadSelectedColors();
+  const loadSelectedTheme = useLoadSelectedTheme();
 
   useEffect(() => {
     const initializeApp = async () => {
@@ -25,7 +25,7 @@ export const useAppInitialize = () => {
           loadLanguage(),
           checkFirstVisit(),
           loadBirthDate(),
-          loadSelectedColors(),
+          loadSelectedTheme(),
         ]);
         
         setIsInitialized(true);
@@ -37,7 +37,7 @@ export const useAppInitialize = () => {
     };
 
     initializeApp();
-  }, [loadLanguage, checkFirstVisit, loadBirthDate, loadSelectedColors]);
+  }, [loadLanguage, checkFirstVisit, loadBirthDate, loadSelectedTheme]);
 
   return { isInitialized, error };
 };

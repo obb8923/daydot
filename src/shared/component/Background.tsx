@@ -1,5 +1,5 @@
 import { View, ViewStyle } from "react-native"
-import { useColorStore } from "@store/colorStore"
+import { useThemeStore } from "@store/themeStore"
 import { Colors } from "@constant/Colors"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
@@ -10,11 +10,11 @@ type BackgroundProps = {
   isBottomGap?: boolean;
 }
 export const Background = ({children,isStatusBarGap=true,isBottomGap=true,...props}: BackgroundProps) => {
-  const selectedColors = useColorStore((state) => state.selectedColors);
+  const selectedTheme = useThemeStore((state) => state.selectedTheme);
   const insets = useSafeAreaInsets();
   
   // 기본 색상 설정
-  const backgroundColor = selectedColors?.background || Colors.b0;
+  const backgroundColor = selectedTheme?.background || Colors.b0;
   
   return (
     <View 
