@@ -2,6 +2,8 @@ import React from 'react'
 import { Platform, Modal, TouchableOpacity, View } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { Text } from '@component/Text'
+import {t} from 'i18next'
+import { Colors } from '@constant/Colors'
 type DatePickerProps = {
   value: Date
   onChange: (date: Date) => void
@@ -76,7 +78,7 @@ export const DatePicker = ({
               {/* modal header buttons */}
               <View className="flex-row justify-end items-center mb-4">
                 <TouchableOpacity onPress={handleConfirmDate}>
-                  <Text text="확인" type="body2" style={{color:"#007AFF"}}/>
+                  <Text text={t('app.ok')} type="body2" style={{color:"#007AFF"}}/>
                 </TouchableOpacity>
               </View>
               {/* date picker */}
