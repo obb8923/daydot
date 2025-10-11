@@ -70,6 +70,10 @@ export const useThemeStore = create<ThemeStore>((set, get) => ({
         themeIndex: index, 
         isLoading: false 
       });
+      
+      // 위젯 업데이트
+      const { WidgetService } = require('@service/widgetService');
+      WidgetService.updateWidgetWithCurrentData(index);
     } catch (error) {
       console.error('선택된 테마 저장 중 오류:', error);
       set({ 

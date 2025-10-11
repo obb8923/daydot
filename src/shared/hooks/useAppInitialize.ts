@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { useLanguageStore } from '@store/languageStore';
 import { useFirstVisitStore } from '@store/firstVisitStore';
 import { useBirthDateStore } from '@store/birthDateStore';
-import { useLoadThemeIndex } from '@store/themeStore';
+import { useLoadThemeIndex, useThemeIndex } from '@store/themeStore';
+import { WidgetService } from '@service/widgetService';
+import { AppState } from 'react-native';
 
 /**
  * 앱 초기화 커스텀 훅
@@ -16,6 +18,7 @@ export const useAppInitialize = () => {
   const { checkFirstVisit } = useFirstVisitStore();
   const { loadBirthDate } = useBirthDateStore();
   const loadThemeIndex = useLoadThemeIndex();
+  const themeIndex = useThemeIndex();
 
   useEffect(() => {
     const initializeApp = async () => {
@@ -38,6 +41,25 @@ export const useAppInitialize = () => {
 
     initializeApp();
   }, [loadLanguage, checkFirstVisit, loadBirthDate, loadThemeIndex]);
+
+  // 위젯 데이터 업데이트
+  useEffect(() => {
+    if (isInitialized) {
+      // 앱 초기화 후 위젯 데이터 업데이트
+      WidgetService.updateWidgetWithCurrentData(themeIndex);
+
+      // 앱이 foreground로 올 때마다 위젯 데이터 업데이트
+      const subscription = AppState.addEventListener('change', (nextAppState) => {
+        if (nextAppState === 'active') {
+          WidgetService.updateWidgetWithCurrentData(themeIndex);
+        }
+      });
+
+      return () => {
+        subscription.remove();
+      };
+    }
+  }, [isInitialized, themeIndex]);
 
   return { isInitialized, error };
 };
