@@ -17,16 +17,17 @@ export const RemainingDaysHeader = React.memo(({ value }: RemainingDaysHeaderPro
       <Text
         text={t('yearlyScreen.remainingDaysPrefix', { year: currentYear })}
         type="body3"
-        style={{color: Colors.gray700}}
+        className="text-caption"
       />
       <Text
         text={t('yearlyScreen.remainingDaysCount', { days: value })}
         type="title4"
+        className="text-text"
       />
       <Text
         text={t('yearlyScreen.remainingDaysSuffix',{year: currentYear})}
         type="body3"
-        style={{color: Colors.gray700}}
+        className="text-caption"
       />
     </View>
   );

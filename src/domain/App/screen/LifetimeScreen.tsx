@@ -4,7 +4,6 @@ import {useBirthDateStore} from '@store/birthDateStore';
 import { useSelectedYear } from '@store/selectedDateStore';
 import { Dot } from '@domain/App/component/Dot';
 import { Text } from '@component/Text';
-import { Colors } from '@constant/Colors';
 import { LIFE_EXPECTANCY, generateYearsFromBirthDate } from '@constant/normal';
 import { useTranslation } from 'react-i18next';
 
@@ -34,11 +33,12 @@ export const LifetimeScreen = () => {
           <Text 
             text={t('lifetimeScreen.remainingYearsCount', { years: LIFE_EXPECTANCY - currentAge })}
             type="title4"
+            className="text-text"
           />
           <Text 
           text={t('lifetimeScreen.remainingYearsSuffix')}
           type="body3"
-          style={{color: Colors.gray700}}
+          className="text-caption"
           />
       </View>
       <ScrollView 
