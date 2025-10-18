@@ -98,12 +98,12 @@ export const SettingScreen = () => {
               subtitle={getLanguageName(language)}
               onPress={() => setShowLanguageSwitcher(true)}
             />
-            <DividingLine />
+            {/* <DividingLine />
             <SettingItem
               title={t('setting.theme')}
               subtitle={getThemeName()}
               onPress={() => setShowThemeSwitcher(true)}
-            />
+            /> */}
           </SettingGroup>
           {/* 앱 설정 그룹 */}
           <SettingGroup>
