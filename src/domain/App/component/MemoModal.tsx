@@ -46,12 +46,12 @@ export const MemoModal = ({
             <View className="w-full flex-row justify-end mt-3 gap-4">
                 <LiquidGlassView style={{ height: 'auto', borderRadius: 20}}>
                 <TouchableOpacity onPress={onClose} className="px-4 py-2">
-                  <Text text={t('app.close')} type="body3" />
+                  <Text text={t('app.close')} type="body3" className="text-text" />
                 </TouchableOpacity>
                 </LiquidGlassView>
                 <LiquidGlassView style={{ height: 'auto', borderRadius: 20}}>
                 <TouchableOpacity onPress={onSave} className="px-4 py-2">
-                  <Text text={t('app.save')} type="body3" />
+                  <Text text={t('app.save')} type="body3" className="text-text" />
                 </TouchableOpacity>
                 </LiquidGlassView>
               </View>
