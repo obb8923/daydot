@@ -226,6 +226,7 @@ struct LargeWidgetView: View {
                 .padding(.horizontal, minDimension * 0.08)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.vertical, minDimension * 0.08)
         }
     }
 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -62,7 +62,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		CE7D8F0A2EA3661E00EC0D5C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		CE7D8F0A2EA3661E00EC0D5C /* Exceptions for "YearProgressWidget" folder in "YearProgressWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -72,7 +72,18 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		CE7D8EFA2EA3661D00EC0D5C /* YearProgressWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (CE7D8F0A2EA3661E00EC0D5C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = YearProgressWidget; sourceTree = "<group>"; };
+		CE7D8EFA2EA3661D00EC0D5C /* YearProgressWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CE7D8F0A2EA3661E00EC0D5C /* Exceptions for "YearProgressWidget" folder in "YearProgressWidgetExtension" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = YearProgressWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,8 +208,6 @@
 				CE7D8EFA2EA3661D00EC0D5C /* YearProgressWidget */,
 			);
 			name = YearProgressWidgetExtension;
-			packageProductDependencies = (
-			);
 			productName = YearProgressWidgetExtension;
 			productReference = CE7D8EF52EA3661D00EC0D5C /* YearProgressWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -284,13 +293,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-daydot/Pods-daydot-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-daydot/Pods-daydot-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -327,13 +332,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-daydot/Pods-daydot-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-daydot/Pods-daydot-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
