@@ -10,7 +10,7 @@ import SwiftUI
 
 // MARK: - Localization Helper
 struct WidgetLocalization {
-    static func getLocalizedText(for percentage: Int) -> (smallTop: String, smallBottom: String, medium: String) {
+    static func getLocalizedText(for percentage: Int) -> (smallTop: String, smallBottom: String, medium: String, large: String) {
         let locale = Locale.current
         let languageCode = locale.language.languageCode?.identifier ?? "en"
         
@@ -19,14 +19,16 @@ struct WidgetLocalization {
             return (
                 smallTop: "2025년이",
                 smallBottom: "남았어요",
-                medium: "2025년이 \(percentage)% 남았어요"
+                medium: "2025년이 \(percentage)% 남았어요",
+                large: "2025년이 \(percentage)% 남았어요"
             )
         } else {
             // 영어 (기본)
             return (
                 smallTop: "2025 is",
                 smallBottom: "remaining",
-                medium: "2025 is \(percentage)% remaining"
+                medium: "There's \(percentage)% of 2025 left",
+                large: "There's \(percentage)% of 2025 left"
             )
         }
     }
@@ -179,7 +181,40 @@ struct MediumWidgetView: View {
     }
 }
 
-// MARK: - Entry View (Size에 따라 다른 뷰 표시)
+// MARK: - Large Widget View
+struct LargeWidgetView: View {
+    let entry: YearProgressEntry
+    
+    var body: some View {
+        let localizedText = WidgetLocalization.getLocalizedText(for: entry.remainingPercentage)
+        
+        VStack(spacing: 16) {
+            // 문구와 퍼센트 표시
+            Text(localizedText.large)
+                .font(.system(size: 18, weight: .medium, design: .default))
+                .foregroundColor(Color(hex: "#fafafa"))
+                .multilineTextAlignment(.center)
+            
+            // 100개 점 그리드 (10x10) - 흰색 점들이 아래쪽에 위치하도록 수정
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 2), count: 10), spacing: 16) {
+                ForEach(0..<100, id: \.self) { index in
+                    let row = index / 10
+                    let col = index % 10
+                    let dotsInColumn = entry.remainingPercentage / 10
+                    let isWhiteDot = row >= (10 - dotsInColumn)
+                    
+                    Circle()
+                        .fill(isWhiteDot ? Color(hex: "#fafafa") : Color(hex: "#4D4D4D"))
+                        .frame(width: 6, height: 6)
+                        .shadow(color: isWhiteDot ? Color(hex: "#fafafa").opacity(0.2) : Color.clear, radius: isWhiteDot ? 3.84 : 0, x: isWhiteDot ? 1 : 0, y: isWhiteDot ? 1 : 0)
+                }
+            }
+            .padding(.horizontal, 20)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.vertical, 20)
+    }
+}
 struct YearProgressWidgetEntryView : View {
     @Environment(\.widgetFamily) var family
     var entry: Provider.Entry
@@ -190,6 +225,8 @@ struct YearProgressWidgetEntryView : View {
             SmallWidgetView(entry: entry)
         case .systemMedium:
             MediumWidgetView(entry: entry)
+        case .systemLarge:
+            LargeWidgetView(entry: entry)
         default:
             SmallWidgetView(entry: entry)
         }
@@ -207,7 +244,7 @@ struct YearProgressWidget: Widget {
         }
         .configurationDisplayName("Year Progress")
         .description(WidgetLocalization.getLocalizedDescription())
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
 
@@ -247,6 +284,13 @@ extension Color {
 }
 
 #Preview(as: .systemMedium) {
+    YearProgressWidget()
+} timeline: {
+    YearProgressEntry(date: .now, progress: 0.71)
+    YearProgressEntry(date: .now, progress: 0.85)
+}
+
+#Preview(as: .systemLarge) {
     YearProgressWidget()
 } timeline: {
     YearProgressEntry(date: .now, progress: 0.71)
