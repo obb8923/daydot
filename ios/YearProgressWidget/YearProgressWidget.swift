@@ -127,20 +127,24 @@ struct SmallWidgetView: View {
     var body: some View {
         let localizedText = WidgetLocalization.getLocalizedText(for: entry.remainingPercentage)
         
-        VStack(spacing: 8) {
-            Text(localizedText.smallTop)
-                .font(.system(size: 16, weight: .medium, design: .default))
-                .foregroundColor(Color(hex: "#fafafa"))
+        GeometryReader { geometry in
+            let minDimension = min(geometry.size.width, geometry.size.height)
             
-            Text("\(entry.remainingPercentage)%")
-                .font(.system(size: 42, weight: .bold, design: .rounded))
-                .foregroundColor(Color(hex: "#fafafa"))
-            
-            Text(localizedText.smallBottom)
-                .font(.system(size: 16, weight: .medium, design: .default))
-                .foregroundColor(Color(hex: "#fafafa"))
+            VStack(spacing: minDimension * 0.05) {
+                Text(localizedText.smallTop)
+                    .font(.system(size: minDimension * 0.13, weight: .medium, design: .default))
+                    .foregroundColor(Color(hex: "#4D4D4D"))
+                
+                Text("\(entry.remainingPercentage)%")
+                    .font(.system(size: minDimension * 0.3, weight: .bold, design: .rounded))
+                    .foregroundColor(Color(hex: "#fafafa"))
+                
+                Text(localizedText.smallBottom)
+                    .font(.system(size: minDimension * 0.13, weight: .medium, design: .default))
+                    .foregroundColor(Color(hex: "#4D4D4D"))
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -151,33 +155,37 @@ struct MediumWidgetView: View {
     var body: some View {
         let localizedText = WidgetLocalization.getLocalizedText(for: entry.remainingPercentage)
         
-        VStack(spacing: 16) {
-            // 문구와 퍼센트 표시
-            Text(localizedText.medium)
-                .font(.system(size: 20, weight: .medium, design: .default))
-                .foregroundColor(Color(hex: "#fafafa"))
-                .multilineTextAlignment(.center)
+        GeometryReader { geometry in
+            let minDimension = min(geometry.size.width, geometry.size.height)
+            let dotSize = minDimension * 0.04
+            let spacingVertical = minDimension * 0.04
+            let spacingHorizontal = minDimension * 0.015
             
-            // 프로그레스 바 (남은 부분 표시)
-            GeometryReader { geometry in
-                ZStack(alignment: .leading) {
-                    // 배경 바
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(hex: "#666666"))
-                        .frame(height: 16)
-                    
-                    // 남은 부분 바 (오른쪽부터 채워짐)
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(hex: "#fafafa"))
-                        .frame(width: geometry.size.width * (1.0 - entry.progress), height: 16)
-                        .offset(x: geometry.size.width * entry.progress)
+            VStack(spacing: minDimension * 0.1) {
+                // 문구와 퍼센트 표시
+                Text(localizedText.medium)
+                    .font(.system(size: minDimension * 0.1, weight: .medium, design: .default))
+                    .foregroundColor(Color(hex: "#fafafa"))
+                    .multilineTextAlignment(.center)
+                
+                // 100개 점 그리드 (10x10) - 흰색 점들이 오른쪽에 위치하도록 수정
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacingHorizontal), count: 10), spacing: spacingVertical) {
+                    ForEach(0..<100, id: \.self) { index in
+                        let row = index / 10
+                        let col = index % 10
+                        let dotsInRow = entry.remainingPercentage / 10
+                        let isWhiteDot = col >= (10 - dotsInRow)
+                        
+                        Circle()
+                            .fill(isWhiteDot ? Color(hex: "#fafafa") : Color(hex: "#4D4D4D"))
+                            .frame(width: dotSize, height: dotSize)
+                            .shadow(color: isWhiteDot ? Color(hex: "#fafafa").opacity(0.2) : Color.clear, radius: isWhiteDot ? dotSize * 0.64 : 0, x: isWhiteDot ? dotSize * 0.17 : 0, y: isWhiteDot ? dotSize * 0.17 : 0)
+                    }
                 }
+                .padding(.horizontal, minDimension * 0.1)
             }
-            .frame(height: 16)
-            .padding(.horizontal, 20)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.vertical, 20)
     }
 }
 
@@ -188,31 +196,37 @@ struct LargeWidgetView: View {
     var body: some View {
         let localizedText = WidgetLocalization.getLocalizedText(for: entry.remainingPercentage)
         
-        VStack(spacing: 16) {
-            // 문구와 퍼센트 표시
-            Text(localizedText.large)
-                .font(.system(size: 18, weight: .medium, design: .default))
-                .foregroundColor(Color(hex: "#fafafa"))
-                .multilineTextAlignment(.center)
+        GeometryReader { geometry in
+            let minDimension = min(geometry.size.width, geometry.size.height)
+            let dotSize = minDimension * 0.018
+            let spacingVertical = minDimension * 0.06
+            let spacingHorizontal = minDimension * 0.015
             
-            // 100개 점 그리드 (10x10) - 흰색 점들이 아래쪽에 위치하도록 수정
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 2), count: 10), spacing: 16) {
-                ForEach(0..<100, id: \.self) { index in
-                    let row = index / 10
-                    let col = index % 10
-                    let dotsInColumn = entry.remainingPercentage / 10
-                    let isWhiteDot = row >= (10 - dotsInColumn)
-                    
-                    Circle()
-                        .fill(isWhiteDot ? Color(hex: "#fafafa") : Color(hex: "#4D4D4D"))
-                        .frame(width: 6, height: 6)
-                        .shadow(color: isWhiteDot ? Color(hex: "#fafafa").opacity(0.2) : Color.clear, radius: isWhiteDot ? 3.84 : 0, x: isWhiteDot ? 1 : 0, y: isWhiteDot ? 1 : 0)
+            VStack(spacing: minDimension * 0.12) {
+                // 문구와 퍼센트 표시
+                Text(localizedText.large)
+                    .font(.system(size: minDimension * 0.05, weight: .medium, design: .default))
+                    .foregroundColor(Color(hex: "#fafafa"))
+                    .multilineTextAlignment(.center)
+                
+                // 100개 점 그리드 (10x10) - 흰색 점들이 아래쪽에 위치하도록
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacingHorizontal), count: 10), spacing: spacingVertical) {
+                    ForEach(0..<100, id: \.self) { index in
+                        let row = index / 10
+                        let col = index % 10
+                        let dotsInColumn = entry.remainingPercentage / 10
+                        let isWhiteDot = row >= (10 - dotsInColumn)
+                        
+                        Circle()
+                            .fill(isWhiteDot ? Color(hex: "#fafafa") : Color(hex: "#4D4D4D"))
+                            .frame(width: dotSize, height: dotSize)
+                            .shadow(color: isWhiteDot ? Color(hex: "#fafafa").opacity(0.2) : Color.clear, radius: isWhiteDot ? dotSize * 0.64 : 0, x: isWhiteDot ? dotSize * 0.17 : 0, y: isWhiteDot ? dotSize * 0.17 : 0)
+                    }
                 }
+                .padding(.horizontal, minDimension * 0.08)
             }
-            .padding(.horizontal, 20)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.vertical, 20)
     }
 }
 struct YearProgressWidgetEntryView : View {
@@ -240,7 +254,7 @@ struct YearProgressWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             YearProgressWidgetEntryView(entry: entry)
-                .containerBackground(Color(hex: "#212121"), for: .widget)
+                .containerBackground(Color(hex: "#0F0F0F"), for: .widget)
         }
         .configurationDisplayName("Year Progress")
         .description(WidgetLocalization.getLocalizedDescription())
