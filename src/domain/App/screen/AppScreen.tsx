@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import { Background } from '@component/Background';
 import {BottomNavigation} from '@domain/App/component/BottomNavigation';
-import {LifetimeScreen} from '@domain/App/component/LifetimeScreen';
-import {YearlyScreen} from '@domain/App/component/YearlyScreen';
+import {LifetimeScreen} from '@domain/App/screen/LifetimeScreen';
+import {YearlyScreen} from '@domain/App/screen/YearlyScreen';
 import { PADDING_HORIZONTAL } from '@constant/layout';
 import { ScreenType } from '@constant/normal';
 

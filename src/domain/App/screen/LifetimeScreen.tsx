@@ -34,11 +34,12 @@ export const LifetimeScreen = () => {
           <Text 
             text={t('lifetimeScreen.remainingYearsCount', { years: LIFE_EXPECTANCY - currentAge })}
             type="title4"
+            className="text-text"
           />
           <Text 
           text={t('lifetimeScreen.remainingYearsSuffix')}
           type="body3"
-          style={{color: Colors.gray700}}
+          className="text-caption"
           />
       </View>
       <ScrollView 

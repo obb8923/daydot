@@ -10,12 +10,12 @@ import {LiquidGlassView} from '@component/LiquidGlassView';
 import { DatePicker } from '@/shared/component/DatePicker';
 import {BUTTON_HEIGHT,BUTTON_PADDING} from '@/shared/constant/layout';
 import { useTranslation } from 'react-i18next';
-
+import { useMonthName } from '@/shared/hooks/useMonthName';
 export const OnBoarding2Screen = () => {
   const { t } = useTranslation();
   const { setFirstVisitCompleted } = useFirstVisitStore();
   const { setBirthDate } = useBirthDateStore();
-  
+  const getMonthName = useMonthName();
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
 
@@ -50,7 +50,8 @@ export const OnBoarding2Screen = () => {
     return t('dateFormat.yearMonthDay', { 
       year: date.getFullYear(), 
       month: date.getMonth() + 1, 
-      day: date.getDate() 
+      day: date.getDate(),
+      monthName: getMonthName(date.getMonth() + 1)
     });
   };
 
@@ -58,16 +59,16 @@ export const OnBoarding2Screen = () => {
     <Background>      
     <View className="flex-1 justify-between items-center py-12" style={{paddingHorizontal:PADDING_HORIZONTAL}}>
       {/* text */}
-    <Text text={t('onboarding.birthDatePrompt')} type="title1" className="mt-40 text-center"/>
+    <Text text={t('onboarding.birthDatePrompt')} type="title1" className="mt-40 text-text text-center"/>
     {/* date picker */}
     <View className="w-full">
-      <Text text={t('onboarding.birthDate')} type="caption1" className="pl-4 mb-2"/>
+      <Text text={t('onboarding.birthDate')} type="caption1" className="pl-4 mb-2 text-caption"/>
     <LiquidGlassView style={{marginBottom:100,width:'100%',height:'auto',borderRadius:20,justifyContent:'center',alignItems:'center'}}> 
       <TouchableOpacity 
         className="w-full px-5 py-4 rounded-lg items-center "
         onPress={() => setShowPicker(true)}
       >
-        <Text text={formatDate(date)} type="body1" className="mb-1"/>
+        <Text text={formatDate(date)} type="body1" className="mb-1 text-text"/>
       </TouchableOpacity>
       </LiquidGlassView>
       </View>
@@ -82,7 +83,7 @@ export const OnBoarding2Screen = () => {
       />
       {/* button */}
       <LiquidGlassButton onPress={handleComplete} style={{paddingHorizontal:BUTTON_PADDING,height:BUTTON_HEIGHT,width:'auto',justifyContent:'center', alignItems:'center'}}>
-        <Text text={t('app.start')} type="body3"/>
+        <Text text={t('app.start')} type="body3" className="text-text"/>
       </LiquidGlassButton>
     </View>
     </Background>

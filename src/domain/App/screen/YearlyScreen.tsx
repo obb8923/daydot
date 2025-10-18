@@ -1,10 +1,8 @@
 import { View } from 'react-native';
 import React, { useState, useMemo } from 'react';
-import { Text } from '@component/Text';
 import { Dot } from '@domain/App/component/Dot';
-import { Colors } from '@/shared/constant/Colors';
-import { MemoButton } from '@/domain/App/component/MemoButton';
-import { currentYear, todayMonth, todayDay, getDaysLeftInYear} from '@constant/Date';
+import { MemoButton } from '@domain/App/component/MemoButton';
+import { todayMonth, todayDay, getDaysLeftInYear} from '@constant/Date';
 import { StorageService } from '@service/storageService';
 import { MemoModal } from '@domain/App/component/MemoModal';
 import {dots} from '@constant/normal';

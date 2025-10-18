@@ -22,9 +22,9 @@ export const OnBoarding1Screen = () => {
   return (
     <Background>
     <View className="flex-1 justify-between items-center py-12" style={{paddingHorizontal:PADDING_HORIZONTAL}}>
-     <Text text={t('onboarding.welcome')} type="title1" className="mt-40 text-center"/>
+     <Text text={t('onboarding.welcome')} type="title1" className="mt-40 text-text text-center"/>
       <LiquidGlassButton onPress={handleNext} style={{paddingHorizontal:BUTTON_PADDING,height:BUTTON_HEIGHT,width:'auto',justifyContent:'center', alignItems:'center'}}>
-        <Text text={t('app.next')} type="body3"/>
+        <Text text={t('app.next')} type="body3" className="text-text"/>
       </LiquidGlassButton>
     </View>
     </Background>

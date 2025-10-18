@@ -30,7 +30,7 @@ export const MemoButton = ({ onPress, date }: MemoButtonProps) => {
   return (
       <AnimatedLiquidGlassView layout={LinearTransition.springify()} style={{borderRadius: 1000, alignSelf: 'center',justifyContent: 'center',alignItems: 'center'}}>
         <TouchableOpacity onPress={onPress} className="flex-row px-4 py-2 justify-center items-center">
-          <Text text={buttonText} type="body3" className="text-center" />
+          <Text text={buttonText} type="body3" className="text-center text-text" />
           {/* <FileIcon width={14} height={16} color={'white'}/> */}
         </TouchableOpacity>
       </AnimatedLiquidGlassView>
