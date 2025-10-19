@@ -1,8 +1,14 @@
-import { TouchableOpacity, ViewStyle } from 'react-native';
+import { ViewStyle } from 'react-native';
 import { LiquidGlassView } from '@component/LiquidGlassView';
-import { PADDING_HORIZONTAL } from '@constant/layout';
-
+import { useHaptic } from '@/shared/hooks/useHaptic';
 export const LiquidGlassButton = ({children, onPress, style}: {children: React.ReactNode, onPress: () => void, style?: ViewStyle}) => {
+  const { soft } = useHaptic();
+
+  const handlePress = () => {
+    soft();
+    onPress();
+  };
+
   return (
     <LiquidGlassView 
     style={{
@@ -12,7 +18,7 @@ export const LiquidGlassButton = ({children, onPress, style}: {children: React.R
         ...style
         }}
         interactive={true}
-        onPress={onPress}
+        onPress={handlePress}
         >
        
         {children}
