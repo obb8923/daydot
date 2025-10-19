@@ -10,26 +10,15 @@ import SwiftUI
 
 // MARK: - Localization Helper
 struct WidgetLocalization {
-    static func getLocalizedText(for percentage: Int) -> (smallTop: String, smallBottom: String, medium: String, large: String) {
+    static func getLocalizedText(for percentage: Int) -> String {
         let locale = Locale.current
         let languageCode = locale.language.languageCode?.identifier ?? "en"
+        let currentYear = Calendar.current.component(.year, from: Date())
         
         if languageCode == "ko" {
-            // 한국어
-            return (
-                smallTop: "2025년이",
-                smallBottom: "남았어요",
-                medium: "2025년이 \(percentage)% 남았어요",
-                large: "2025년이 \(percentage)% 남았어요"
-            )
+            return "\(currentYear)년이 \(percentage)% 남았어요"
         } else {
-            // 영어 (기본)
-            return (
-                smallTop: "2025 is",
-                smallBottom: "remaining",
-                medium: "There's \(percentage)% of 2025 left",
-                large: "There's \(percentage)% of 2025 left"
-            )
+            return "There's \(percentage)% of \(currentYear) left"
         }
     }
     
@@ -129,19 +118,40 @@ struct SmallWidgetView: View {
         
         GeometryReader { geometry in
             let minDimension = min(geometry.size.width, geometry.size.height)
+            let dotSize = minDimension * 0.04
+            let spacingVertical = minDimension * 0.04
+            let spacingHorizontal = minDimension * 0.02
             
-            VStack(spacing: minDimension * 0.05) {
-                Text(localizedText.smallTop)
-                    .font(.system(size: minDimension * 0.13, weight: .medium, design: .default))
-                    .foregroundColor(Color(hex: "#4D4D4D"))
-                
-                Text("\(entry.remainingPercentage)%")
-                    .font(.system(size: minDimension * 0.3, weight: .bold, design: .rounded))
+            VStack(spacing: minDimension * 0.08) {
+                // 문구 표시
+                Text(localizedText)
+                    .font(.system(size: minDimension * 0.08, weight: .medium, design: .default))
                     .foregroundColor(Color(hex: "#fafafa"))
+                    .multilineTextAlignment(.center)
                 
-                Text(localizedText.smallBottom)
-                    .font(.system(size: minDimension * 0.13, weight: .medium, design: .default))
-                    .foregroundColor(Color(hex: "#4D4D4D"))
+                // 100개 점 그리드 (10x10) - 흰색 점들이 아래쪽에 위치하도록 세로 방향
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacingHorizontal), count: 10), spacing: spacingVertical) {
+                    ForEach(0..<100, id: \.self) { index in
+                        let row = index / 10
+                        let col = index % 10
+                        let totalWhiteDots = entry.remainingPercentage
+                        
+                        // 각 열마다 분배할 점의 개수 계산
+                        // 추가 점수는 오른쪽 열부터 배분하여 회색점이 왼쪽에서부터 나오도록 함
+                        let dotsPerColumn = totalWhiteDots / 10
+                        let extraDots = totalWhiteDots % 10
+                        let whiteDotsInColumn = dotsPerColumn + (col >= (10 - extraDots) && extraDots > 0 ? 1 : 0)
+                        
+                        // 아래쪽부터 채우기
+                        let isWhiteDot = row >= (10 - whiteDotsInColumn)
+                        
+                        Circle()
+                            .fill(isWhiteDot ? Color(hex: "#fafafa") : Color(hex: "#4D4D4D"))
+                            .frame(width: dotSize, height: dotSize)
+                            .shadow(color: isWhiteDot ? Color(hex: "#fafafa").opacity(0.2) : Color.clear, radius: isWhiteDot ? dotSize * 0.64 : 0, x: isWhiteDot ? dotSize * 0.17 : 0, y: isWhiteDot ? dotSize * 0.17 : 0)
+                    }
+                }
+                .padding(.horizontal, minDimension * 0.05)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
@@ -163,7 +173,7 @@ struct MediumWidgetView: View {
             
             VStack(spacing: minDimension * 0.1) {
                 // 문구와 퍼센트 표시
-                Text(localizedText.medium)
+                Text(localizedText)
                     .font(.system(size: minDimension * 0.1, weight: .medium, design: .default))
                     .foregroundColor(Color(hex: "#fafafa"))
                     .multilineTextAlignment(.center)
@@ -173,8 +183,17 @@ struct MediumWidgetView: View {
                     ForEach(0..<100, id: \.self) { index in
                         let row = index / 10
                         let col = index % 10
-                        let dotsInRow = entry.remainingPercentage / 10
-                        let isWhiteDot = col >= (10 - dotsInRow)
+                        let totalWhiteDots = entry.remainingPercentage
+                        
+                        // 각 행마다 분배할 점의 개수 계산
+                        let dotsPerRow = totalWhiteDots / 10
+                        let extraDots = totalWhiteDots % 10
+                        
+                        // 현재 행에서 하얀점의 개수 (마지막 행부터 추가 점 배분)
+                        let whiteDotsInRow = dotsPerRow + (row >= (10 - extraDots) && extraDots > 0 ? 1 : 0)
+                        
+                        // 오른쪽부터 채우기
+                        let isWhiteDot = col >= (10 - whiteDotsInRow)
                         
                         Circle()
                             .fill(isWhiteDot ? Color(hex: "#fafafa") : Color(hex: "#4D4D4D"))
@@ -204,7 +223,7 @@ struct LargeWidgetView: View {
             
             VStack(spacing: minDimension * 0.12) {
                 // 문구와 퍼센트 표시
-                Text(localizedText.large)
+                Text(localizedText)
                     .font(.system(size: minDimension * 0.05, weight: .medium, design: .default))
                     .foregroundColor(Color(hex: "#fafafa"))
                     .multilineTextAlignment(.center)
@@ -214,8 +233,16 @@ struct LargeWidgetView: View {
                     ForEach(0..<100, id: \.self) { index in
                         let row = index / 10
                         let col = index % 10
-                        let dotsInColumn = entry.remainingPercentage / 10
-                        let isWhiteDot = row >= (10 - dotsInColumn)
+                        let totalWhiteDots = entry.remainingPercentage
+                        
+                        // 각 열마다 분배할 점의 개수 계산
+                        // 추가 점수는 오른쪽 열부터 배분하여 회색점이 왼쪽에서부터 나오도록 함
+                        let dotsPerColumn = totalWhiteDots / 10
+                        let extraDots = totalWhiteDots % 10
+                        let whiteDotsInColumn = dotsPerColumn + (col >= (10 - extraDots) && extraDots > 0 ? 1 : 0)
+                        
+                        // 아래쪽부터 채우기
+                        let isWhiteDot = row >= (10 - whiteDotsInColumn)
                         
                         Circle()
                             .fill(isWhiteDot ? Color(hex: "#fafafa") : Color(hex: "#4D4D4D"))
