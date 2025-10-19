@@ -3,6 +3,7 @@
     
     <!-- Year Progress Widget -->
     <string name="widget_name">Year Progress</string>
-    <string name="widget_description">Check how much of the year is remaining</string>
+    <string name="widget_description">올해가 얼마나 남았는지 확인하세요</string>
     <string name="widget_description_small">Year Progress</string>
 </resources>
+

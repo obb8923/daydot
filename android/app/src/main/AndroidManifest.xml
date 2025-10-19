@@ -2,6 +2,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
     <application
       android:name=".MainApplication"
@@ -24,5 +25,20 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+      
+      <!-- Year Progress Widget -->
+      <receiver
+        android:name=".widget.YearProgressWidgetReceiver"
+        android:label="@string/widget_name"
+        android:exported="true">
+        <intent-filter>
+          <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        </intent-filter>
+        <meta-data
+          android:name="android.appwidget.provider"
+          android:resource="@xml/year_progress_widget_info" />
+      </receiver>
+      
+      <!-- Medium/Large 위젯 리시버 제거: 단일 위젯으로 통합 -->
     </application>
 </manifest>
