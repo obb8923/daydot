@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {Platform, View} from 'react-native';
 import { Background } from '@component/Background';
 import {BottomNavigation} from '@domain/App/component/BottomNavigation';
 import {LifetimeScreen} from '@domain/App/screen/LifetimeScreen';
 import {YearlyScreen} from '@domain/App/screen/YearlyScreen';
 import { PADDING_HORIZONTAL } from '@constant/layout';
 import { ScreenType } from '@constant/normal';
-
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const AppScreen = () => {
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('yearly');
-
+  const insets = useSafeAreaInsets();
   // 화면 전환 핸들러
   const handleScreenChange = (screen: ScreenType) => {
     setCurrentScreen(screen);
@@ -22,7 +22,8 @@ export const AppScreen = () => {
       {/* 현재 화면에 따라 다른 컴포넌트 렌더링 */}
       {currentScreen === 'lifetime' ? <LifetimeScreen /> : <YearlyScreen />}
       
-      <View className="absolute bottom-0 w-full self-center">
+      <View className="absolute w-full self-center" 
+      style={{bottom: Platform.OS === 'android' ? insets.bottom * 2 : insets.bottom / 2 }}>
         <BottomNavigation 
           onScreenChange={handleScreenChange} 
           currentScreen={currentScreen}
