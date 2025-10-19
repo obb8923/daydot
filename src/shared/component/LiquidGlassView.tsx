@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import {Platform,View,ViewStyle} from "react-native"
+import {Platform,View,ViewStyle,TouchableOpacity} from "react-native"
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { LiquidGlassView as LiquidGlassViewFromPackage ,isLiquidGlassSupported} from '@callstack/liquid-glass';
 
@@ -45,11 +45,21 @@ export const LiquidGlassView = ({children,style,effect='clear',tintColor=undefin
                 {children}
             </LiquidGlassViewFromPackage>
         ) : (
-            <Animated.View 
-            className="bg-gray400/60 border border-1 border-gray200"
-            style={[style, animatedStyle]}>
-                {children}
-            </Animated.View>
+            interactive && onPress ? (
+              <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
+                <Animated.View 
+                className="bg-gray400/60 border border-1 border-gray200"
+                style={[style, animatedStyle]}>
+                    {children}
+                </Animated.View>
+              </TouchableOpacity>
+            ) : (
+              <Animated.View 
+              className="bg-gray400/60 border border-1 border-gray200"
+              style={[style, animatedStyle]}>
+                  {children}
+              </Animated.View>
+            )
         )}
     </>
   )
