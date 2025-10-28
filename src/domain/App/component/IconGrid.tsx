@@ -7,8 +7,7 @@ import { GestureDetector } from 'react-native-gesture-handler';
 import { useGridSelection } from '@/shared/hooks/useGridSelection';
 import { useGridGesture } from '@/shared/hooks/useGridGesture';
 import { getForestIconByIndex, getOffsetByIndex } from './forestIcons';
-import { Colors } from '@/shared/constant/Colors';
-import { useThemeIndex } from '@store/themeStore';
+import { useThemeColors } from '@store/themeStore';
 
 interface IconGridProps {
   selectedMonth?: number;
@@ -17,8 +16,7 @@ interface IconGridProps {
 }
 
 export const IconGrid = React.memo(({ selectedMonth, selectedDay, onDateSelect }: IconGridProps) => {
-  const themeIndex = useThemeIndex();
-  const primary = (Colors as any)[`p${themeIndex}`] ?? Colors.p0;
+  const { primary } = useThemeColors();
   const { layoutHandlers, hitTest } = useGridSelection({
     items: dots,
     getItemKey: (dot) => dot.key,
