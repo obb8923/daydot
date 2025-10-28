@@ -13,14 +13,12 @@ import { DividingLine } from '@domain/Setting/component/DividingLine';
 import { useBirthDateStore } from '@store/birthDateStore';
 import { DatePicker } from '@component/DatePicker';
 import { MAIL_ADDRESS } from '@constant/normal';
-import { TermsAndPrivacyPolicyModal } from '@/domain/Setting/component/Modal/TermsAndPrivacyPolicyModal';
 import { LanguageSwitcher } from '@/domain/Setting/component/Modal/LanguageSwitcher';
 import { ThemeSwitcher } from '@/domain/Setting/component/Modal/ThemeSwitcher';
 import { useLanguageStore } from '@store/languageStore';
 import { useThemeStore, useThemeColors } from '@store/themeStore';
 import { useTranslation } from 'react-i18next';
 import { useMonthName } from '@/shared/hooks/useMonthName';
-import { Colors } from '@constant/Colors';
 type SettingScreenNavigationProp = NativeStackNavigationProp<SettingStackParamList>;
 
 export const SettingScreen = () => {
@@ -98,12 +96,12 @@ export const SettingScreen = () => {
               subtitle={getLanguageName(language)}
               onPress={() => setShowLanguageSwitcher(true)}
             />
-            {/* <DividingLine />
+            <DividingLine />
             <SettingItem
               title={t('setting.theme')}
               subtitle={getThemeName()}
               onPress={() => setShowThemeSwitcher(true)}
-            /> */}
+            />
           </SettingGroup>
           {/* 앱 설정 그룹 */}
           <SettingGroup>
