@@ -6,6 +6,7 @@ import { DATE_MESSAGE_DURATION } from '@/shared/constant/normal';
 import { useSelectedYear, useSelectedMonth, useSelectedDay } from '@store/selectedDateStore';
 import { useTranslation } from 'react-i18next';
 import { useMonthName } from '@/shared/hooks/useMonthName';
+import { useThemeColors } from '@store/themeStore';
 interface DateMessageProps {
   visible: boolean; // 부모에서 표시 여부 제어
 }
@@ -16,6 +17,7 @@ export const DateMessage = memo(({ visible}: DateMessageProps) => {
   const selectedYear = useSelectedYear();
   const selectedMonth = useSelectedMonth();
   const selectedDay = useSelectedDay();
+  const { text } = useThemeColors();
   
   // 표시 규칙
   // - year가 undefined: "MM월 DD일"만 표시
@@ -69,7 +71,7 @@ export const DateMessage = memo(({ visible}: DateMessageProps) => {
         <Text
           text={messageText}
           type="body3"
-          style={{ textAlign: 'center', color: 'white' }}
+          style={{ textAlign: 'center', color: text }}
         />
       </Animated.View>
     </LiquidGlassView>

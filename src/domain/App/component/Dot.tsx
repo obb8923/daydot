@@ -22,7 +22,7 @@ interface DotProps {
 export const Dot = memo(({ item, isSelected, isPast, onLayout }: DotProps) => {
   const setSelectedDate = useSelectedDateStore((state) => state.setSelectedDate);
   const [showDateMessage, setShowDateMessage] = useState(false);
-  const { light, soft } = useHaptic();
+  const { light } = useHaptic();
   const viewRef = useRef<View>(null);
 
   const handlePress = () => {

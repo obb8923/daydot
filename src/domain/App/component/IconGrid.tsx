@@ -6,7 +6,7 @@ import { dots } from '@constant/normal';
 import { GestureDetector } from 'react-native-gesture-handler';
 import { useGridSelection } from '@/shared/hooks/useGridSelection';
 import { useGridGesture } from '@/shared/hooks/useGridGesture';
-import { getForestIconByIndex, getOffsetByIndex } from './forestIcons';
+import { getForestIconByIndex, getOffsetByIndex } from '../constant/forestIcons';
 import { useThemeColors } from '@store/themeStore';
 
 interface IconGridProps {

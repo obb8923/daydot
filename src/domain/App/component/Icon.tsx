@@ -1,7 +1,8 @@
 import { View, TouchableOpacity, LayoutChangeEvent } from 'react-native';
-import React, { memo, useRef } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import { useSelectedDateStore } from '@store/selectedDateStore';
 import { useHaptic } from '@/shared/hooks/useHaptic';
+import { DateMessage } from '@domain/App/component/DateMessage';
 import { Colors } from '@constant/Colors';
 
 interface IconProps {
@@ -24,10 +25,12 @@ export const Icon = memo(({ item, isSelected, isPast, onLayout, iconComponent: I
   const setSelectedDate = useSelectedDateStore((state) => state.setSelectedDate);
   const { light } = useHaptic();
   const viewRef = useRef<View>(null);
+  const [showDateMessage, setShowDateMessage] = useState(false);
 
   const handlePress = () => {
     light();
     setSelectedDate(item.year, item.month, item.day);
+    setShowDateMessage(true);
   };
 
   const handleLayout = (e: LayoutChangeEvent) => {
@@ -56,6 +59,12 @@ export const Icon = memo(({ item, isSelected, isPast, onLayout, iconComponent: I
           <View className="w-1 h-1 rounded-full bg-primary"/>
         )}
       </TouchableOpacity>
+
+      {(isSelected && showDateMessage) && (
+        <DateMessage
+          visible={isSelected && showDateMessage}
+        />
+      )}
     </View>
   );
 });
