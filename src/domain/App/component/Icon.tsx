@@ -2,6 +2,7 @@ import { View, TouchableOpacity, LayoutChangeEvent } from 'react-native';
 import React, { memo, useRef } from 'react';
 import { useSelectedDateStore } from '@store/selectedDateStore';
 import { useHaptic } from '@/shared/hooks/useHaptic';
+import { Colors } from '@constant/Colors';
 
 interface IconProps {
   item: {
@@ -14,10 +15,12 @@ interface IconProps {
   isSelected?: boolean;
   isPast?: boolean;
   onLayout?: (layout: { width: number; height: number; absoluteX?: number; absoluteY?: number }) => void;
-  iconComponent: React.ComponentType<{ width?: number; height?: number }>;
+  iconComponent: React.ComponentType<{ width?: number; height?: number; style?: any }>;
+  offset?: { dx: number; dy: number };
+  iconStyle?: any;
 }
 
-export const Icon = memo(({ item, isSelected, isPast, onLayout, iconComponent: IconComponent }: IconProps) => {
+export const Icon = memo(({ item, isSelected, isPast, onLayout, iconComponent: IconComponent, offset, iconStyle }: IconProps) => {
   const setSelectedDate = useSelectedDateStore((state) => state.setSelectedDate);
   const { light } = useHaptic();
   const viewRef = useRef<View>(null);
@@ -35,16 +38,23 @@ export const Icon = memo(({ item, isSelected, isPast, onLayout, iconComponent: I
     });
   };
 
+  const translateStyle = offset ? { transform: [{ translateX: offset.dx }, { translateY: offset.dy }] } : undefined;
+
   return (
     <View
       ref={viewRef}
       key={item.key}
-      className="relative overflow-visible"
+      className="relative overflow-visible "
       onLayout={handleLayout}
       collapsable={false}
+      style={translateStyle}
     >
-      <TouchableOpacity onPress={handlePress} className="w-6 h-6 items-center justify-center bg-red-500">
-        <IconComponent width={15} height={15} />
+      <TouchableOpacity onPress={handlePress} className="w-6 h-6 items-center justify-center">
+        {isPast ? (
+          <IconComponent width={20} height={20} style={iconStyle} />
+        ) : (
+          <View className="w-1 h-1 rounded-full bg-primary"/>
+        )}
       </TouchableOpacity>
     </View>
   );

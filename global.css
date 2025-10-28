@@ -4,15 +4,15 @@
 
 
 .theme-0 {
-    --color-primary: #fafafa;
-    --color-background: #0f0f0f;
-    --color-text: #fafafa;
-    --color-caption: #666666;
-  }
+  --color-primary: #fafafa;
+  --color-background: #0f0f0f;
+  --color-text: #fafafa;
+  --color-caption: #666666;
+}
   
-  .theme-1 {
-    --color-primary: #014421;
-    --color-background: #D9d9d9;
-    --color-text: #212121;
-    --color-caption: #808080;
-  }
+.theme-1 {
+  --color-primary: #014421;
+  --color-background: #D9d9d9;
+  --color-text: #212121;
+  --color-caption: #808080;
+}

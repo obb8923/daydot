@@ -22,7 +22,7 @@
     "today": "Today",
     "memoPlaceholder": "Enter note for {{monthName}} {{day}}",
     "memoButtonToday": "Today's note",
-    "memoButton": "Your note for {{monthName}} {{day}}"
+    "memoButton": "Note for {{monthName}} {{day}}"
   },
   "lifetimeScreen": {
     "remainingYears": "{{years}} years remaining.",

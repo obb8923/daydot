@@ -6,7 +6,9 @@ import { dots } from '@constant/normal';
 import { GestureDetector } from 'react-native-gesture-handler';
 import { useGridSelection } from '@/shared/hooks/useGridSelection';
 import { useGridGesture } from '@/shared/hooks/useGridGesture';
-import { getForestIconByIndex } from './forestIcons';
+import { getForestIconByIndex, getOffsetByIndex } from './forestIcons';
+import { Colors } from '@/shared/constant/Colors';
+import { useThemeIndex } from '@store/themeStore';
 
 interface IconGridProps {
   selectedMonth?: number;
@@ -15,6 +17,8 @@ interface IconGridProps {
 }
 
 export const IconGrid = React.memo(({ selectedMonth, selectedDay, onDateSelect }: IconGridProps) => {
+  const themeIndex = useThemeIndex();
+  const primary = (Colors as any)[`p${themeIndex}`] ?? Colors.p0;
   const { layoutHandlers, hitTest } = useGridSelection({
     items: dots,
     getItemKey: (dot) => dot.key,
@@ -38,6 +42,7 @@ export const IconGrid = React.memo(({ selectedMonth, selectedDay, onDateSelect }
           const isSelected = selectedMonth === dot.month && selectedDay === dot.day;
           const isPast = dot.month < todayMonth || (dot.month === todayMonth && dot.day < todayDay);
           const IconComponent = getForestIconByIndex(index);
+          const { dx, dy } = getOffsetByIndex(index);
 
           return (
             <Icon
@@ -47,6 +52,8 @@ export const IconGrid = React.memo(({ selectedMonth, selectedDay, onDateSelect }
               isPast={isPast}
               onLayout={layoutHandlers.get(dot.key)}
               iconComponent={IconComponent}
+              offset={{ dx, dy }}
+              iconStyle={{ color: primary }}
             />
           );
         })}

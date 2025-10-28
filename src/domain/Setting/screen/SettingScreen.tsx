@@ -30,10 +30,10 @@ export const SettingScreen = () => {
   const { text } = useThemeColors();
   
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showTermsAndPrivacyPolicyModal, setShowTermsAndPrivacyPolicyModal] = useState(false);
+  // const [showTermsAndPrivacyPolicyModal, setShowTermsAndPrivacyPolicyModal] = useState(false);
   const [showLanguageSwitcher, setShowLanguageSwitcher] = useState(false);
   const [showThemeSwitcher, setShowThemeSwitcher] = useState(false);
-  const [modalType, setModalType] = useState<'privacy' | 'terms'>('terms');
+  // const [modalType, setModalType] = useState<'privacy' | 'terms'>('terms');
   const getMonthName = useMonthName();
   const handleDateConfirm = async (confirmedDate: Date) => {
     try {
