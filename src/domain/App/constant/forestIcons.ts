@@ -221,6 +221,26 @@ import Icon_220 from '@assets/svg/forest/220.svg';
 import Icon_221 from '@assets/svg/forest/221.svg';
 import Icon_222 from '@assets/svg/forest/222.svg';
 import Icon_223 from '@assets/svg/forest/223.svg';
+import Icon_224 from '@assets/svg/forest/224.svg';
+import Icon_225 from '@assets/svg/forest/225.svg';
+import Icon_226 from '@assets/svg/forest/226.svg';
+import Icon_227 from '@assets/svg/forest/227.svg';
+import Icon_228 from '@assets/svg/forest/228.svg';
+import Icon_229 from '@assets/svg/forest/229.svg';
+import Icon_230 from '@assets/svg/forest/230.svg';
+import Icon_231 from '@assets/svg/forest/231.svg';
+import Icon_232 from '@assets/svg/forest/232.svg';
+import Icon_233 from '@assets/svg/forest/233.svg';
+import Icon_234 from '@assets/svg/forest/234.svg';
+import Icon_235 from '@assets/svg/forest/235.svg';
+import Icon_236 from '@assets/svg/forest/236.svg';
+import Icon_237 from '@assets/svg/forest/237.svg';
+import Icon_238 from '@assets/svg/forest/238.svg';
+import Icon_239 from '@assets/svg/forest/239.svg';
+import Icon_240 from '@assets/svg/forest/240.svg';
+import Icon_241 from '@assets/svg/forest/241.svg';
+import Icon_242 from '@assets/svg/forest/242.svg';
+
 // export const FOREST_ICONS = [
 //   Icon_1, Icon_2, Icon_3, Icon_4, Icon_5, Icon_6, Icon_7, Icon_8, Icon_9, Icon_10,
 //   Icon_11, Icon_12, Icon_13, Icon_14, Icon_15, Icon_16, Icon_17, Icon_18, Icon_19, Icon_20,
@@ -268,6 +288,7 @@ export const FOREST_ICONS = [
   Icon_141, Icon_146, Icon_86, Icon_123, Icon_103, Icon_162, Icon_138, Icon_182, Icon_135, Icon_55,
   Icon_193, Icon_194, Icon_195, Icon_196, Icon_197, Icon_198, Icon_199, Icon_200, Icon_201, Icon_202, Icon_203, Icon_204, Icon_205, Icon_206, Icon_207,
   Icon_208, Icon_209, Icon_210, Icon_211, Icon_212, Icon_213, Icon_214, Icon_215, Icon_216, Icon_217, Icon_218, Icon_219, Icon_220, Icon_221, Icon_222, Icon_223,
+  Icon_224, Icon_225, Icon_226, Icon_227, Icon_228, Icon_229, Icon_230, Icon_231, Icon_232, Icon_233, Icon_234, Icon_235, Icon_236, Icon_237, Icon_238, Icon_239, Icon_240, Icon_241, Icon_242,
 ] as const;
 
 export const getForestIconByIndex = (index: number) => {
